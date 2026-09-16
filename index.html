@@ -3,10 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>오늘의 포켓몬은 뭘까요</title>
+<title>30주년 로고 아이콘 갤러리</title>
 <link id="favico" rel="icon" type="image/x-icon" href="favicon.ico">
 <style>
-  :root { --bg:#1a1c24; --card:#252834; --accent:#ffcb05; --text:#fff; --sub:#8a8fa3; }
+  :root {
+    /* 30th 리뉴얼 팔레트(5색): 흰색/노란색/검은색/빨간색/옅은회색 */
+    --p-white:#FFFFFF; --p-yellow:#FFCF0F; --p-black:#000000; --p-red:#E70011; --p-gray:#EFEFEF;
+    --bg:#FFFFFF; --card:#252834; --accent:#ffcb05; --text:#000000; --sub:#8a8fa3;
+  }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html{overscroll-behavior-y:none}
   body{background:var(--bg);color:var(--text);font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;overflow-x:hidden;overscroll-behavior-y:none}
@@ -24,7 +28,7 @@
   #wrap{max-width:520px;margin:0 auto;min-height:100dvh}
   #mtitle{position:sticky;top:0;z-index:2;flex:none;display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800;padding:16px 36px 12px 16px;background:var(--card)}
   #mtitle img{width:24px;height:24px}
-  #topbar{position:sticky;top:0;z-index:10;background:rgba(26,28,36,.97);backdrop-filter:blur(8px);padding:10px 12px 8px;border-bottom:1px solid #3a3e50}
+  #topbar{position:sticky;top:0;z-index:10;background:var(--p-yellow);padding:10px 12px 8px;border-bottom:none}
   #row1{display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-right:36px}
   #progresswrap{flex:1}
   #ptextrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
@@ -37,6 +41,9 @@
   #pbar{height:6px;background:#3a3e50;border-radius:3px;overflow:hidden;width:100%}
   #pfill{height:100%;width:0%;background:var(--accent);border-radius:3px;transition:width .3s}
   #typerow .tic.on{visibility:visible}
+  #progresswrap,#answerWrap{display:none}
+  #pagetitle{flex:1;display:flex;align-items:center;font-size:17px;font-weight:800;color:var(--p-black);padding:4px 0}
+  #pagetitle .t30{color:var(--p-red)}
   #menubtn{position:fixed;top:11px;right:calc(max(0px, (100vw - 520px) / 2) + 8px);z-index:35;width:34px;height:34px;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0;transition:transform .35s cubic-bezier(.4,0,.2,1)}
   #menubtn span{display:block;width:19px;height:3px;border-radius:2px;background:var(--text);transform-origin:center;transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .2s cubic-bezier(.4,0,.2,1)}
   #menubtn.open span:nth-child(1){transform:translateY(8px) rotate(45deg)}
@@ -149,6 +156,7 @@
 <div id="wrap">
   <div id="topbar">
     <div id="row1">
+      <div id="pagetitle"><span class="t30">30</span>주년 로고 아이콘 갤러리</div>
       <div id="progresswrap">
         <div id="ptextrow">
           <div id="ptext"><b id="pnum">0</b><span class="sl"> / </span><span id="ptotal">0</span></div>
@@ -171,14 +179,10 @@
 <div id="menu"></div><div id="mpanel">
   <div id="mtitle"><img id="ptimg" alt="">오늘의 포켓몬은 뭘까요</div>
   <div id="mbody">
-  <div class="msec" data-key="dex"><h3>도감별<span class="car">▾</span></h3><div class="chips" id="dexchips"></div></div>
-  <div class="msec" data-key="box"><h3>세대별<span class="car">▾</span></h3><div class="chips" id="boxchips"></div></div>
-  <div class="msec" data-key="typ"><h3>타입별<span class="car">▾</span></h3><div class="chips" id="typechips"></div></div>
-  <div class="msec" data-key="fnd"><h3>발견 / 미발견<span class="car">▾</span></h3><div class="chips" id="fndchips"></div></div>
+    <div class="msec" data-key="box"><h3>세대별<span class="car">▾</span></h3><div class="chips" id="boxchips"></div></div>
+    <div class="msec" data-key="fnd"><h3>발견 / 미발견<span class="car">▾</span></h3><div class="chips" id="fndchips"></div></div>
   <div class="msec" data-key="view"><h3>보기<span class="car">▾</span></h3><div class="chips" id="viewchips"></div></div>
-  <div class="msec" data-key="set"><h3>설정<span class="car">▾</span></h3><div class="chips" id="setchips"></div></div>
-  <div class="msec" data-key="fill"><h3>채우기 순서<span class="car">▾</span></h3><div class="chips" id="fillchips"></div></div>
-  <div id="greetmsg"></div>
+      <div id="greetmsg"></div>
   <div class="mrow"><button class="mbig" id="recordBtn">기록 보기</button><button class="mbig warn" id="resetbtn">처음부터 하기</button></div>
   <div class="mrow"><button class="mbig" id="hubBtn">Pokélab 메인으로</button><button class="mbig" id="loginBtn">로그인</button></div>
   </div>
