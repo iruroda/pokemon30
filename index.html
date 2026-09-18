@@ -29,7 +29,7 @@
   #mtitle{position:sticky;top:0;z-index:2;flex:none;display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800;padding:16px 36px 12px 16px;background:var(--p-white)}
   #mtitle img{width:24px;height:24px}
   #topbar{position:sticky;top:0;z-index:10;background:var(--p-yellow);padding:10px 12px 8px;border-bottom:none}
-  #row1{display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-right:150px}
+  #row1{display:flex;align-items:center;gap:8px;height:34px;margin-bottom:8px;padding-right:150px}
   #progresswrap{flex:1}
   #ptextrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
   #ptext{font-size:12px;color:var(--sub);white-space:nowrap;flex:none}
@@ -42,9 +42,11 @@
   #pfill{height:100%;width:0%;background:var(--accent);border-radius:3px;transition:width .3s}
   #typerow .tic.on{visibility:visible}
   #progresswrap,#answerWrap{display:none}
-  #pagetitle{flex:1;display:flex;align-items:center;font-size:17px;font-weight:800;color:var(--p-black);padding:4px 0}
+  #pagetitle{flex:1;min-width:0;display:flex;align-items:center;gap:6px;font-size:17px;line-height:20px;font-weight:800;color:var(--p-black);padding:4px 0}
   #pagetitle .t30{color:var(--p-red)}
-  #menubtn{position:fixed;top:11px;right:calc(max(0px, (100vw - 520px) / 2) + 8px);z-index:35;width:34px;height:34px;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0;transition:transform .35s cubic-bezier(.4,0,.2,1)}
+  #pagetitle img{width:20px;height:20px;flex:none}
+  #ptitletext{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #menubtn{position:fixed;top:10px;right:calc(max(0px, (100vw - 520px) / 2) + 8px);z-index:35;width:34px;height:34px;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0;transition:transform .35s cubic-bezier(.4,0,.2,1)}
   #menubtn span{display:block;width:19px;height:3px;border-radius:2px;background:var(--text);transform-origin:center;transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .2s cubic-bezier(.4,0,.2,1)}
   #menubtn.open span:nth-child(1){transform:translateY(8px) rotate(45deg)}
   #menubtn.open span:nth-child(2){opacity:0;transform:scaleX(0)}
@@ -71,7 +73,7 @@
   .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 10px}
   .cell{position:relative;text-align:center}
   .cell img{display:block;width:100%;height:auto;object-fit:contain;image-rendering:pixelated;pointer-events:none;-webkit-user-drag:none}
-  #wrap[data-cols="1"] .sgrid{grid-template-columns:repeat(1,1fr);gap:14px;padding:0 20px}
+  #wrap[data-cols="1"] .sgrid{grid-template-columns:repeat(1,1fr);gap:14px;padding:0 10px}
   #pad{height:24px}
   #menu{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:20;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility 0s linear .18s}
   #menu.on{opacity:1;visibility:visible;transition:opacity .18s ease}
@@ -85,16 +87,15 @@
   .msec.collapsed .car{transform:rotate(-90deg)}
   .msec.collapsed .chips{display:none}
   .chips{display:flex;flex-wrap:wrap;gap:6px}
-  .chip{background:var(--p-gray);border:1px solid rgba(0,0,0,.15);color:var(--text);border-radius:16px;padding:6px 12px;font-size:12px;cursor:pointer}
-  .chip.on{border-color:var(--accent);color:var(--accent)}
-  .mbig{width:100%;background:var(--card);border:1px solid #3a3e50;color:var(--text);border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;margin:14px 0 0}
-  .mbig.warn{color:#d98a9a}
+  .chip{background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);color:var(--p-black);border-radius:16px;padding:6px 12px;font-size:12px;cursor:pointer}
+  .chip.on{background:var(--p-yellow);border-color:var(--p-yellow);color:var(--p-white)}
+  .mbig{width:100%;background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);color:var(--p-black);border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;margin:14px 0 0}
+  .mbig.warn{color:var(--p-red);border-color:var(--p-red)}
   #overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:30;align-items:center;justify-content:center;padding:24px}
   #overlay .box{background:var(--card);border-radius:20px;padding:32px 28px;text-align:center;max-width:320px;width:100%}
   #overlay h2{color:var(--accent);font-size:22px;margin-bottom:12px}
   #overlay p{font-size:15px;line-height:1.6}
   #overlay button{margin-top:20px;background:var(--accent);border:none;border-radius:12px;padding:12px 28px;font-size:15px;font-weight:700;color:#1a1c24;cursor:pointer}
-  #helptext{font-size:10px;color:var(--sub);text-align:center;margin:10px auto 0;padding:0 16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   #disclaimer{font-size:7.5px;line-height:1.5;color:var(--sub);text-align:center;margin:10px auto 0;padding:0 16px;opacity:.6}
   #greetmsg{display:none;margin:18px 0 0;font-size:13px;font-weight:600;color:var(--text)}
   #greetmsg.show{display:block}
@@ -104,14 +105,14 @@
   .mrow + .mrow{margin-top:8px}
   .mrow .mbig{margin:0;flex:1;height:38px;padding:0 10px;font-size:12px;display:flex;align-items:center;justify-content:center;box-sizing:border-box}
   .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:40;align-items:center;justify-content:center;padding:24px}
-  .modal .box{background:var(--card);border-radius:20px;padding:28px 24px;text-align:center;max-width:320px;width:100%}
-  .modal h2{color:var(--accent);font-size:18px;margin-bottom:14px}
-  .modal input{width:100%;background:#1a1c24;border:1.5px solid #3a3e50;border-radius:10px;color:var(--text);font-size:15px;padding:10px 12px;margin-bottom:10px;outline:none}
-  .modal input:focus{border-color:var(--accent)}
+  .modal .box{background:var(--p-white);border-radius:20px;padding:28px 24px;text-align:center;max-width:320px;width:100%}
+  .modal h2{color:var(--p-red);font-size:18px;margin-bottom:14px}
+  .modal input{width:100%;box-sizing:border-box;background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);border-radius:10px;color:var(--text);font-size:15px;padding:10px 12px;margin-bottom:10px;outline:none}
+  .modal input:focus{border-color:var(--p-red)}
   .modal p{font-size:14px;color:var(--text);line-height:1.55;margin:0 0 18px}
   #confirmMsg.danger{color:#d98a9a}
-  .modal button{margin-top:6px;background:var(--accent);border:none;border-radius:12px;padding:10px 24px;font-size:14px;font-weight:700;color:#1a1c24;cursor:pointer;width:100%}
-  .modal button.secondary{background:transparent;color:var(--sub);margin-top:8px}
+  .modal button{margin-top:6px;background:var(--p-yellow);border:none;border-radius:12px;padding:10px 24px;font-size:14px;font-weight:700;color:var(--p-white);cursor:pointer;width:100%}
+  .modal button.secondary{background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);color:var(--p-black);margin-top:8px}
   .confirmBtns{display:flex;gap:10px}
   .confirmBtns button{width:auto;flex:1;margin-top:0;border:1.5px solid transparent}
   .confirmBtns button.secondary{margin-top:0;border-color:#3a3e50}
@@ -126,12 +127,19 @@
   #recordList .rec .s{color:var(--sub);font-size:11px;margin-top:2px}
   #recordList .empty{color:var(--sub);padding:16px 0;text-align:center}
 
-  #toolicons{position:fixed;top:11px;right:calc(max(0px, (100vw - 520px) / 2) + 50px);z-index:35;display:flex;align-items:center;gap:10px}
-  #toolicons .ticon{width:26px;height:26px;background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
-  #toolicons .ticon svg{width:22px;height:22px;display:block}
+  #toolicons{position:fixed;top:10px;right:calc(max(0px, (100vw - 520px) / 2) + 58px);z-index:35;display:flex;align-items:center;gap:10px;transition:opacity .15s ease}
+  #toolicons.hide{opacity:0;pointer-events:none}
+  #toolicons .ticon{width:34px;height:34px;background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  #toolicons .ticon svg{width:26px;height:26px;display:block}
   #searchBar{max-height:0;overflow:hidden;transition:max-height .3s ease}
   #wrap.searchOpen #searchBar{max-height:60px}
-  #searchBar input{width:100%;box-sizing:border-box;margin-top:8px;background:var(--p-white);border:1.5px solid #3a3e50;border-radius:12px;color:var(--text);font-size:15px;padding:10px 12px;outline:none}
+  #searchInputWrap{position:relative;margin-top:8px}
+  #searchBar input{width:100%;box-sizing:border-box;background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);border-radius:12px;color:var(--text);font-size:15px;padding:10px 36px 10px 12px;outline:none}
+  #searchClearBtn{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;background:none;border:none;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
+  #searchClearBtn:active{opacity:.55}
+  #searchClearBtn span{position:absolute;width:14px;height:2px;border-radius:1px;background:var(--sub)}
+  #searchClearBtn span:nth-child(1){transform:rotate(45deg)}
+  #searchClearBtn span:nth-child(2){transform:rotate(-45deg)}
   .mydesignAdd{margin:14px 10px;height:64px;background:var(--p-gray);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer}
   .mydesignAdd svg{width:26px;height:26px}
 </style>
@@ -140,7 +148,7 @@
 <div id="wrap">
   <div id="topbar">
     <div id="row1">
-      <div id="pagetitle"><span class="t30">30</span>주년 로고 아이콘 갤러리</div>
+      <div id="pagetitle"><img id="headicon" alt=""><span id="ptitletext"><span class="t30">30</span>주년 로고 아이콘 갤러리</span></div>
       <div id="progresswrap">
         <div id="ptextrow">
           <div id="ptext"><b id="pnum">0</b><span class="sl"> / </span><span id="ptotal">0</span></div>
@@ -153,21 +161,20 @@
       <input id="answer" type="search" name="pokemon-answer" placeholder="포켓몬 이름 입력" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       <button id="answerClearBtn" type="button" aria-label="입력 지우기"><span></span><span></span></button>
     </div>
-    <div id="searchBar"><input id="searchInput" type="search" placeholder="검색" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
+    <div id="searchBar"><div id="searchInputWrap"><input id="searchInput" type="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"><button id="searchClearBtn" type="button" aria-label="검색어 지우기"><span></span><span></span></button></div></div>
   </div>
   <div id="sections"></div>
-  <div id="helptext">· 두 번 누르기: 힌트 보기(한 글자씩 보여짐), 길게 누르기: 이름 보기 / 감추기</div>
   <div id="disclaimer">본 사이트는 팬이 만든 비공식 사이트로, 닌텐도, 게임프리크, 주식회사 포켓몬과는 어떠한 관계도 없습니다. Pokemon은 닌텐도 / Creatures Inc. / Game Freak Inc.의 상표입니다. 모든 게임 콘텐츠, 이미지, 상표는 각 권리자에게 귀속됩니다.</div>
   <div id="pad"></div>
 </div>
 <div id="toolicons">
-  <button id="gachaBtn" class="ticon" type="button" aria-label="뽑기"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="6" y1="18" x2="16" y2="6"/><circle cx="10.5" cy="13.3" r="2" fill="#000" stroke="none"/></svg></button>
-  <button id="searchBtn" class="ticon" type="button" aria-label="검색"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="20" y2="20"/></svg></button>
+  <button id="gachaBtn" class="ticon" type="button" aria-label="뽑기"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/><circle cx="12" cy="12" r="2.6" fill="#fff"/></svg></button>
+  <button id="searchBtn" class="ticon" type="button" aria-label="검색"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.3" y1="15.3" x2="20" y2="20"/></svg></button>
   <button id="viewBtn" class="ticon" type="button" aria-label="보기 전환"></button>
 </div>
 <button id="menubtn" type="button" aria-label="메뉴 열기/닫기"><span></span><span></span><span></span></button>
 <div id="menu"></div><div id="mpanel">
-  <div id="mtitle"><img id="ptimg" alt="">오늘의 포켓몬은 뭘까요</div>
+  <div id="mtitle"><img id="ptimg" alt="">30주년 로고 아이콘 갤러리</div>
   <div id="mbody">
     <div class="msec" data-key="box"><h3>세대별<span class="car">▾</span></h3><div class="chips" id="boxchips"></div></div>
     <div class="msec" data-key="fnd"><h3>발견 / 미발견<span class="car">▾</span></h3><div class="chips" id="fndchips"></div></div>
@@ -721,8 +728,8 @@ $("sections").addEventListener("click",function(ev){
 function alignPanel(){var wr=$("wrap").getBoundingClientRect();var mb=$("menubtn");mb.style.left=(wr.right-mb.offsetWidth-8)+"px";mb.style.right="auto";var mp=$("mpanel");if(mp.offsetWidth){mp.style.left=(wr.right-mp.offsetWidth)+"px";mp.style.right="auto"}}
 window.addEventListener("resize",alignPanel);
 alignPanel();
-function closeMenu(){$("menu").classList.remove("on");$("mpanel").classList.remove("on");document.body.style.overflow="";$("menubtn").classList.remove("open")}
-function openMenu(){$("menu").classList.add("on");$("mpanel").classList.add("on");document.body.style.overflow="hidden";alignPanel();$("menubtn").classList.add("open")}
+function closeMenu(){$("menu").classList.remove("on");$("mpanel").classList.remove("on");document.body.style.overflow="";$("menubtn").classList.remove("open");$("toolicons").classList.remove("hide")}
+function openMenu(){$("menu").classList.add("on");$("mpanel").classList.add("on");document.body.style.overflow="hidden";alignPanel();$("menubtn").classList.add("open");$("toolicons").classList.add("hide")}
 $("menubtn").onclick=function(){if($("menu").classList.contains("on"))closeMenu();else openMenu()};
 $("menu").onclick=function(e){if(e.target===$("menu"))closeMenu()};
 Array.prototype.forEach.call(document.querySelectorAll("#mpanel .msec"),function(sec){
@@ -920,7 +927,7 @@ $("recordModal").onclick=function(e){if(e.target===$("recordModal"))$("recordMod
 // ---- 보기 전환(1줄/3줄/마이 디자인) 아이콘 ----
 function viewIconSVG(){
   if(cfg.mode==="my"){
-    return '<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3" fill="none" stroke="#000" stroke-width="2"/><text x="12" y="15.5" font-size="8" font-weight="700" text-anchor="middle" font-family="sans-serif">My</text></svg>';
+    return '<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="4" fill="#000"/><text x="12" y="16" font-size="9" font-weight="800" text-anchor="middle" fill="#fff" font-family="sans-serif">My</text></svg>';
   }
   if(cfg.cols===1){
     return '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" fill="#000"/></svg>';
@@ -944,6 +951,11 @@ $("searchBtn").onclick=function(){
   var open=$("wrap").classList.toggle("searchOpen");
   if(open)setTimeout(function(){$("searchInput").focus()},300);
 };
+$("searchClearBtn").addEventListener("click",function(){
+  var inp=$("searchInput");
+  inp.value="";
+  inp.focus();
+});
 
 // ---- 뽑기 팝업 ----
 $("gachaBtn").onclick=function(){$("gachaModal").style.display="flex"};
@@ -1029,6 +1041,7 @@ applySil();
 applyCols();
 applyVariants();
 $("ptimg").src=document.getElementById("favico").href;
+$("headicon").src=document.getElementById("favico").href;
 render();buildMenu();
 </script>
 </body>
