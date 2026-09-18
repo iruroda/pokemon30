@@ -68,35 +68,10 @@
   .dvbtn{background:var(--card);border:1px solid #3a3e50;color:var(--sub);border-radius:10px;padding:2px 8px;font-size:11px;font-weight:400;cursor:pointer;line-height:1.3}
   .dvbtn.on{border-color:var(--accent);color:var(--accent);font-weight:700}
   .novar{margin:18px 14px;padding:14px 12px;border:2px solid #b3122a;background:#ffd9e4;color:#b3122a;border-radius:10px;font-size:13px;font-weight:600;text-align:center;line-height:1.5}
-  .sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 10px}
-  .cell{position:relative;background:var(--card);border-radius:10px;padding:4px 2px 2px;text-align:center;user-select:none;-webkit-user-select:none}
-  .cell .sp{display:block;width:100%;max-width:72px;aspect-ratio:68/56;visibility:hidden;margin:0 auto}
-  .cell img{position:absolute;left:2px;right:2px;margin:0 auto;max-width:72px;aspect-ratio:68/56;object-fit:contain;image-rendering:pixelated;pointer-events:none;-webkit-user-drag:none;top:4px}
-  .cell:not(.done) img{top:50%;transform:translateY(-50%)}
-  body.shadow .cell:not(.done) img{filter:brightness(0) invert(.85)}
-  .cell .nm{display:block;width:100%;font-size:9px;color:transparent;height:12px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-  .cell .fi{position:absolute;top:2px;right:4px;font-size:9px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.7);pointer-events:none;line-height:1}
-  .cell .dn{position:absolute;top:2px;left:4px;font-size:9px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.7);pointer-events:none;line-height:1}
-  .cell.done img{filter:none;animation:pop .35s}
-  .cell.target{box-shadow:0 0 0 3px var(--accent) inset}
-  .cell.done .nm{color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.7)}
-  @keyframes pop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
-  #wrap[data-cols="3"] .sgrid{grid-template-columns:repeat(3,1fr);gap:8px}
-  #wrap[data-cols="3"] .cell{padding:0 4px 2px}
-  #wrap[data-cols="3"] .cell .sp,#wrap[data-cols="3"] .cell img{max-width:150px}
-  #wrap[data-cols="3"] .cell .nm{font-size:13px;height:16px;line-height:16px}
-  #wrap[data-cols="3"] .cell .fi,#wrap[data-cols="3"] .cell .dn{font-size:12px}
-  #wrap[data-cols="3"] .cell.done img{transform:scale(1.5);transform-origin:top}
-  #wrap[data-cols="5"] .sgrid{grid-template-columns:repeat(5,1fr);gap:5px}
-  #wrap[data-cols="5"] .cell{padding:3px 2px 2px}
-  #wrap[data-cols="5"] .cell .sp,#wrap[data-cols="5"] .cell img{max-width:64px}
-  #wrap[data-cols="5"] .cell .nm{font-size:8px;height:11px}
-  #wrap[data-cols="5"] .cell .fi,#wrap[data-cols="5"] .cell .dn{font-size:8px}
-  #wrap[data-cols="6"] .sgrid{grid-template-columns:repeat(6,1fr);gap:4px}
-  #wrap[data-cols="6"] .cell{padding:2px 1px 1px}
-  #wrap[data-cols="6"] .cell .sp,#wrap[data-cols="6"] .cell img{max-width:54px}
-  #wrap[data-cols="6"] .cell .nm{font-size:7px;height:10px}
-  #wrap[data-cols="6"] .cell .fi,#wrap[data-cols="6"] .cell .dn{font-size:7px}
+  .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 10px}
+  .cell{position:relative;text-align:center}
+  .cell img{display:block;width:100%;height:auto;object-fit:contain;image-rendering:pixelated;pointer-events:none;-webkit-user-drag:none}
+  #wrap[data-cols="1"] .sgrid{grid-template-columns:repeat(1,1fr);gap:14px;padding:0 20px}
   #pad{height:24px}
   #menu{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:20;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility 0s linear .18s}
   #menu.on{opacity:1;visibility:visible;transition:opacity .18s ease}
@@ -275,8 +250,8 @@ var MEGA_DEXNO={};MEGA_DEXNAMES.forEach(function(n,i){MEGA_DEXNO[n]=i+1});
 function countKey(e){return cfg.dexIdx===19?e[1]+"|"+e[0]:e[1]}
 function norm(s){return s.replace(/[\s:·.\-'()]/g,"").toLowerCase()}
 var $=function(id){return document.getElementById(id)};
-var found=new Set(JSON.parse(localStorage.getItem("psq2")||"[]"));
-var celebrated=localStorage.getItem("psq2cel")==="1";
+var found=new Set(JSON.parse(localStorage.getItem("p30psq2")||"[]"));
+var celebrated=localStorage.getItem("p30psq2cel")==="1";
 // ---- 로그인/기록: Firebase Auth + Firestore ----
 var fbAuth=null,fbDb=null,fbUid=null;
 try{
@@ -288,8 +263,8 @@ function idToEmail(id){
   for(var i=0;i<b.length;i++){var h=b.charCodeAt(i).toString(16);hex+=(h.length<2?"0":"")+h}
   return "u"+hex+"@todayspokemon.app";
 }
-var curUser=localStorage.getItem("psq2curuser")||null;
-function statsKey(){return "psq2stats_"+(curUser||"guest")}
+var curUser=localStorage.getItem("p30psq2curuser")||null;
+function statsKey(){return "p30psq2stats_"+(curUser||"guest")}
 function loadStats(){
   var raw;try{raw=JSON.parse(localStorage.getItem(statsKey())||"null")}catch(e){raw=null}
   if(!raw||typeof raw!=="object")raw={};
@@ -303,12 +278,12 @@ function pushToServer(){
   if(!fbUid||!fbDb)return;
   clearTimeout(pushTimer);
   pushTimer=setTimeout(function(){
-    fbDb.collection("users").doc(fbUid).set({name:curUser,found:Array.from(found),stats:{sil:!!stats.sil,typ:!!stats.typ,hint:stats.hint||0,longpress:stats.longpress||0,records:stats.records||[]}},{merge:true}).catch(function(e){console.warn("서버 저장 실패",e)});
+    fbDb.collection("users").doc(fbUid).set({name:curUser,p30:{found:Array.from(found),stats:{sil:!!stats.sil,typ:!!stats.typ,hint:stats.hint||0,longpress:stats.longpress||0,records:stats.records||[]}}},{merge:true}).catch(function(e){console.warn("서버 저장 실패",e)});
   },800);
 }
 var stats=loadStats();
-var cfg;try{cfg=JSON.parse(localStorage.getItem("psq2cfg")||"{}")}catch(e){cfg={}}
-cfg.sil=!!cfg.sil;cfg.typ=!!cfg.typ;cfg.fc=("fc" in cfg)?!!cfg.fc:true;cfg.cols=[3,4,5,6].indexOf(cfg.cols)>=0?cfg.cols:4;
+var cfg;try{cfg=JSON.parse(localStorage.getItem("p30psq2cfg")||"{}")}catch(e){cfg={}}
+cfg.sil=!!cfg.sil;cfg.typ=!!cfg.typ;cfg.fc=("fc" in cfg)?!!cfg.fc:true;cfg.cols=[1,3].indexOf(cfg.cols)>=0?cfg.cols:3;
 cfg.gmax=!!cfg.gmax;cfg.regional=!!cfg.regional;cfg.mega=!!cfg.mega;
 cfg.dexIdx=(typeof cfg.dexIdx==="number"&&cfg.dexIdx>=0&&cfg.dexIdx<20)?cfg.dexIdx:0;if(cfg.dexIdx===7||cfg.dexIdx===8)cfg.dexIdx=6;
 cfg.fillOrder=(cfg.fillOrder===1||cfg.fillOrder===2)?cfg.fillOrder:0;
@@ -370,7 +345,7 @@ var VARIDX={};
     BASEVAR[baseIdx]={gmax:gmaxF,regional:regF,mega:megaF};
   });
 })();
-function saveCfg(){localStorage.setItem("psq2cfg",JSON.stringify({sil:cfg.sil,typ:cfg.typ,fc:cfg.fc,cols:cfg.cols,gmax:cfg.gmax,regional:cfg.regional,mega:cfg.mega,dexIdx:cfg.dexIdx,fillOrder:cfg.fillOrder,collapsed:cfg.collapsed,b:Array.from(selB),t:Array.from(selT),f:selF}))}
+function saveCfg(){localStorage.setItem("p30psq2cfg",JSON.stringify({sil:cfg.sil,typ:cfg.typ,fc:cfg.fc,cols:cfg.cols,gmax:cfg.gmax,regional:cfg.regional,mega:cfg.mega,dexIdx:cfg.dexIdx,fillOrder:cfg.fillOrder,collapsed:cfg.collapsed,b:Array.from(selB),t:Array.from(selT),f:selF}))}
 var lookup={};
 DATA.forEach(function(e,i){
   var b=e[1];
@@ -430,130 +405,55 @@ function srcFor(c){
   if(c.classList.contains("done")||cfg.sil)return SPR[e[5][curFrame(c)]];
   return BALL;
 }
-function makeCell(e,i){
-  var cell=document.createElement("div");cell.className="cell";
-  var sp=document.createElement("span");sp.className="sp";
-  var img=document.createElement("img");img.loading="lazy";img.alt="?";
-  var nm=document.createElement("span");nm.className="nm";nm.textContent=e[0];
-  var fi=document.createElement("span");fi.className="fi";
-  var dn=document.createElement("span");dn.className="dn";
-  if(cfg.dexIdx===19){if(MEGA_DEXNO[e[0]])dn.textContent=String(MEGA_DEXNO[e[0]]).padStart(4,"0");}else if(!isMegaOrGmax(e)&&dexNumMap[e[1]]!==undefined)dn.textContent=String(dexNumMap[e[1]]).padStart(4,"0");
-  cell.appendChild(sp);cell.appendChild(img);cell.appendChild(nm);cell.appendChild(fi);cell.appendChild(dn);
-  cell._e=e; cell._img=img; cell._fi=fi; cell._frame=0;
-  if(found.has(e[1])){cell.classList.add("done");cell.style.background=typeBg(cell);}
-  else if(cfg.typ){cell.style.background=typeBg(cell);}
-  img.src=srcFor(cell);
-  if(e[5].length>1)updateFI(cell);
-  (cellsByBase[e[1]]=cellsByBase[e[1]]||[]).push(cell);
+var IMG30=["img/30th_0001_01.png","img/30th_0002_01.png","img/30th_0003_01.png","img/30th_0003_02.png","img/30th_0003_03.png","img/30th_0004_01.png","img/30th_0005_01.png","img/30th_0006_01.png","img/30th_0006_02.png","img/30th_0006_03.png","img/30th_0006_04.png","img/30th_0007_01.png","img/30th_0008_01.png","img/30th_0009_01.png","img/30th_0009_02.png","img/30th_0009_03.png","img/30th_0010_01.png","img/30th_0011_01.png","img/30th_0012_01.png","img/30th_0012_02.png","img/30th_0013_01.png","img/30th_0014_01.png","img/30th_0015_01.png","img/30th_0015_02.png","img/30th_0016_01.png","img/30th_0017_01.png","img/30th_0018_01.png","img/30th_0018_02.png","img/30th_0019_01.png","img/30th_0019_02.png","img/30th_0020_01.png","img/30th_0020_02.png","img/30th_0021_01.png","img/30th_0022_01.png","img/30th_0023_01.png","img/30th_0024_01.png","img/30th_0025_01.png","img/30th_0025_02.png","img/30th_0026_01.png","img/30th_0026_02.png","img/30th_0026_03.png","img/30th_0026_04.png","img/30th_0027_01.png","img/30th_0027_02.png","img/30th_0028_01.png","img/30th_0028_02.png","img/30th_0029_01.png","img/30th_0030_01.png","img/30th_0031_01.png","img/30th_0032_01.png","img/30th_0033_01.png","img/30th_0034_01.png","img/30th_0035_01.png","img/30th_0036_01.png","img/30th_0036_02.png","img/30th_0037_01.png","img/30th_0037_02.png","img/30th_0038_01.png","img/30th_0038_02.png","img/30th_0039_01.png","img/30th_0040_01.png","img/30th_0041_01.png","img/30th_0042_01.png","img/30th_0043_01.png","img/30th_0044_01.png","img/30th_0045_01.png","img/30th_0046_01.png","img/30th_0047_01.png","img/30th_0048_01.png","img/30th_0049_01.png","img/30th_0050_01.png","img/30th_0050_02.png","img/30th_0051_01.png","img/30th_0051_02.png","img/30th_0052_01.png","img/30th_0052_02.png","img/30th_0052_03.png","img/30th_0052_04.png","img/30th_0053_01.png","img/30th_0053_02.png","img/30th_0054_01.png","img/30th_0055_01.png","img/30th_0056_01.png","img/30th_0057_01.png","img/30th_0058_01.png","img/30th_0058_02.png","img/30th_0059_01.png","img/30th_0059_02.png","img/30th_0060_01.png","img/30th_0061_01.png","img/30th_0062_01.png","img/30th_0063_01.png","img/30th_0064_01.png","img/30th_0065_01.png","img/30th_0065_02.png","img/30th_0066_01.png","img/30th_0067_01.png","img/30th_0068_01.png","img/30th_0068_02.png","img/30th_0069_01.png","img/30th_0070_01.png","img/30th_0071_01.png","img/30th_0071_02.png","img/30th_0072_01.png","img/30th_0073_01.png","img/30th_0074_01.png","img/30th_0074_02.png","img/30th_0075_01.png","img/30th_0075_02.png","img/30th_0076_01.png","img/30th_0076_02.png","img/30th_0077_01.png","img/30th_0077_02.png","img/30th_0078_01.png","img/30th_0078_02.png","img/30th_0079_01.png","img/30th_0079_02.png","img/30th_0080_01.png","img/30th_0080_02.png","img/30th_0080_03.png","img/30th_0081_01.png","img/30th_0082_01.png","img/30th_0083_01.png","img/30th_0083_02.png","img/30th_0084_01.png","img/30th_0085_01.png","img/30th_0086_01.png","img/30th_0087_01.png","img/30th_0088_01.png","img/30th_0088_02.png","img/30th_0089_01.png","img/30th_0089_02.png","img/30th_0090_01.png","img/30th_0091_01.png","img/30th_0092_01.png","img/30th_0093_01.png","img/30th_0094_01.png","img/30th_0094_02.png","img/30th_0094_03.png","img/30th_0095_01.png","img/30th_0096_01.png","img/30th_0097_01.png","img/30th_0098_01.png","img/30th_0099_01.png","img/30th_0099_02.png","img/30th_0100_01.png","img/30th_0100_02.png","img/30th_0101_01.png","img/30th_0101_02.png","img/30th_0102_01.png","img/30th_0103_01.png","img/30th_0103_02.png","img/30th_0104_01.png","img/30th_0105_01.png","img/30th_0105_02.png","img/30th_0106_01.png","img/30th_0107_01.png","img/30th_0108_01.png","img/30th_0109_01.png","img/30th_0110_01.png","img/30th_0110_02.png","img/30th_0111_01.png","img/30th_0112_01.png","img/30th_0113_01.png","img/30th_0114_01.png","img/30th_0115_01.png","img/30th_0115_02.png","img/30th_0116_01.png","img/30th_0117_01.png","img/30th_0118_01.png","img/30th_0119_01.png","img/30th_0120_01.png","img/30th_0121_01.png","img/30th_0121_02.png","img/30th_0122_01.png","img/30th_0122_02.png","img/30th_0123_01.png","img/30th_0124_01.png","img/30th_0125_01.png","img/30th_0126_01.png","img/30th_0127_01.png","img/30th_0127_02.png","img/30th_0128_01.png","img/30th_0128_02.png","img/30th_0128_03.png","img/30th_0128_04.png","img/30th_0129_01.png","img/30th_0130_01.png","img/30th_0130_02.png","img/30th_0131_01.png","img/30th_0131_02.png","img/30th_0132_01.png","img/30th_0133_01.png","img/30th_0133_02.png","img/30th_0134_01.png","img/30th_0135_01.png","img/30th_0136_01.png","img/30th_0137_01.png","img/30th_0138_01.png","img/30th_0139_01.png","img/30th_0140_01.png","img/30th_0141_01.png","img/30th_0142_01.png","img/30th_0142_02.png","img/30th_0143_01.png","img/30th_0143_02.png","img/30th_0144_01.png","img/30th_0144_02.png","img/30th_0145_01.png","img/30th_0145_02.png","img/30th_0146_01.png","img/30th_0146_02.png","img/30th_0147_01.png","img/30th_0148_01.png","img/30th_0149_01.png","img/30th_0149_02.png","img/30th_0150_01.png","img/30th_0150_02.png","img/30th_0150_03.png","img/30th_0151_01.png","img/30th_0152_01.png","img/30th_0153_01.png","img/30th_0154_01.png","img/30th_0154_02.png","img/30th_0155_01.png","img/30th_0156_01.png","img/30th_0157_01.png","img/30th_0157_02.png","img/30th_0158_01.png","img/30th_0159_01.png","img/30th_0160_01.png","img/30th_0160_02.png","img/30th_0161_01.png","img/30th_0162_01.png","img/30th_0163_01.png","img/30th_0164_01.png","img/30th_0165_01.png","img/30th_0166_01.png","img/30th_0167_01.png","img/30th_0168_01.png","img/30th_0169_01.png","img/30th_0170_01.png","img/30th_0171_01.png","img/30th_0172_01.png","img/30th_0173_01.png","img/30th_0174_01.png","img/30th_0175_01.png","img/30th_0176_01.png","img/30th_0177_01.png","img/30th_0178_01.png","img/30th_0179_01.png","img/30th_0180_01.png","img/30th_0181_01.png","img/30th_0181_02.png","img/30th_0182_01.png","img/30th_0183_01.png","img/30th_0184_01.png","img/30th_0185_01.png","img/30th_0186_01.png","img/30th_0187_01.png","img/30th_0188_01.png","img/30th_0189_01.png","img/30th_0190_01.png","img/30th_0191_01.png","img/30th_0192_01.png","img/30th_0193_01.png","img/30th_0194_01.png","img/30th_0194_02.png","img/30th_0195_01.png","img/30th_0196_01.png","img/30th_0197_01.png","img/30th_0198_01.png","img/30th_0199_01.png","img/30th_0199_02.png","img/30th_0200_01.png","img/30th_0201_01.png","img/30th_0202_01.png","img/30th_0203_01.png","img/30th_0204_01.png","img/30th_0205_01.png","img/30th_0206_01.png","img/30th_0207_01.png","img/30th_0208_01.png","img/30th_0208_02.png","img/30th_0209_01.png","img/30th_0210_01.png","img/30th_0211_01.png","img/30th_0211_02.png","img/30th_0212_01.png","img/30th_0212_02.png","img/30th_0213_01.png","img/30th_0214_01.png","img/30th_0214_02.png","img/30th_0215_01.png","img/30th_0215_02.png","img/30th_0216_01.png","img/30th_0217_01.png","img/30th_0218_01.png","img/30th_0219_01.png","img/30th_0220_01.png","img/30th_0221_01.png","img/30th_0222_01.png","img/30th_0222_02.png","img/30th_0223_01.png","img/30th_0224_01.png","img/30th_0225_01.png","img/30th_0226_01.png","img/30th_0227_01.png","img/30th_0227_02.png","img/30th_0228_01.png","img/30th_0229_01.png","img/30th_0229_02.png","img/30th_0230_01.png","img/30th_0231_01.png","img/30th_0232_01.png","img/30th_0233_01.png","img/30th_0234_01.png","img/30th_0235_01.png","img/30th_0236_01.png","img/30th_0237_01.png","img/30th_0238_01.png","img/30th_0239_01.png","img/30th_0240_01.png","img/30th_0241_01.png","img/30th_0242_01.png","img/30th_0243_01.png","img/30th_0244_01.png","img/30th_0245_01.png","img/30th_0246_01.png","img/30th_0247_01.png","img/30th_0248_01.png","img/30th_0248_02.png","img/30th_0249_01.png","img/30th_0250_01.png","img/30th_0251_01.png","img/30th_0252_01.png","img/30th_0253_01.png","img/30th_0254_01.png","img/30th_0254_02.png","img/30th_0255_01.png","img/30th_0256_01.png","img/30th_0257_01.png","img/30th_0257_02.png","img/30th_0258_01.png","img/30th_0259_01.png","img/30th_0260_01.png","img/30th_0260_02.png","img/30th_0261_01.png","img/30th_0262_01.png","img/30th_0263_01.png","img/30th_0263_02.png","img/30th_0264_01.png","img/30th_0264_02.png","img/30th_0265_01.png","img/30th_0266_01.png","img/30th_0267_01.png","img/30th_0268_01.png","img/30th_0269_01.png","img/30th_0270_01.png","img/30th_0271_01.png","img/30th_0272_01.png","img/30th_0273_01.png","img/30th_0274_01.png","img/30th_0275_01.png","img/30th_0276_01.png","img/30th_0277_01.png","img/30th_0278_01.png","img/30th_0279_01.png","img/30th_0280_01.png","img/30th_0281_01.png","img/30th_0282_01.png","img/30th_0282_02.png","img/30th_0283_01.png","img/30th_0284_01.png","img/30th_0285_01.png","img/30th_0286_01.png","img/30th_0287_01.png","img/30th_0288_01.png","img/30th_0289_01.png","img/30th_0290_01.png","img/30th_0291_01.png","img/30th_0292_01.png","img/30th_0293_01.png","img/30th_0294_01.png","img/30th_0295_01.png","img/30th_0296_01.png","img/30th_0297_01.png","img/30th_0298_01.png","img/30th_0299_01.png","img/30th_0300_01.png","img/30th_0301_01.png","img/30th_0302_01.png","img/30th_0302_02.png","img/30th_0303_01.png","img/30th_0303_02.png","img/30th_0304_01.png","img/30th_0305_01.png","img/30th_0306_01.png","img/30th_0306_02.png","img/30th_0307_01.png","img/30th_0308_01.png","img/30th_0308_02.png","img/30th_0309_01.png","img/30th_0310_01.png","img/30th_0310_02.png","img/30th_0311_01.png","img/30th_0312_01.png","img/30th_0313_01.png","img/30th_0314_01.png","img/30th_0315_01.png","img/30th_0316_01.png","img/30th_0317_01.png","img/30th_0318_01.png","img/30th_0319_01.png","img/30th_0319_02.png","img/30th_0320_01.png","img/30th_0321_01.png","img/30th_0322_01.png","img/30th_0323_01.png","img/30th_0323_02.png","img/30th_0324_01.png","img/30th_0325_01.png","img/30th_0326_01.png","img/30th_0327_01.png","img/30th_0328_01.png","img/30th_0329_01.png","img/30th_0330_01.png","img/30th_0331_01.png","img/30th_0332_01.png","img/30th_0333_01.png","img/30th_0334_01.png","img/30th_0334_02.png","img/30th_0335_01.png","img/30th_0336_01.png","img/30th_0337_01.png","img/30th_0338_01.png","img/30th_0339_01.png","img/30th_0340_01.png","img/30th_0341_01.png","img/30th_0342_01.png","img/30th_0343_01.png","img/30th_0344_01.png","img/30th_0345_01.png","img/30th_0346_01.png","img/30th_0347_01.png","img/30th_0348_01.png","img/30th_0349_01.png","img/30th_0350_01.png","img/30th_0351_01.png","img/30th_0351_02.png","img/30th_0351_03.png","img/30th_0351_04.png","img/30th_0352_01.png","img/30th_0353_01.png","img/30th_0354_01.png","img/30th_0354_02.png","img/30th_0355_01.png","img/30th_0356_01.png","img/30th_0357_01.png","img/30th_0358_01.png","img/30th_0358_02.png","img/30th_0359_01.png","img/30th_0359_02.png","img/30th_0359_03.png","img/30th_0360_01.png","img/30th_0361_01.png","img/30th_0362_01.png","img/30th_0362_02.png","img/30th_0363_01.png","img/30th_0364_01.png","img/30th_0365_01.png","img/30th_0366_01.png","img/30th_0367_01.png","img/30th_0368_01.png","img/30th_0369_01.png","img/30th_0370_01.png","img/30th_0371_01.png","img/30th_0372_01.png","img/30th_0373_01.png","img/30th_0373_02.png","img/30th_0374_01.png","img/30th_0375_01.png","img/30th_0376_01.png","img/30th_0376_02.png","img/30th_0377_01.png","img/30th_0378_01.png","img/30th_0379_01.png","img/30th_0380_01.png","img/30th_0380_02.png","img/30th_0381_01.png","img/30th_0381_02.png","img/30th_0382_01.png","img/30th_0382_02.png","img/30th_0383_01.png","img/30th_0383_02.png","img/30th_0384_01.png","img/30th_0384_02.png","img/30th_0385_01.png","img/30th_0386_01.png","img/30th_0386_02.png","img/30th_0386_03.png","img/30th_0386_04.png","img/30th_0387_01.png","img/30th_0388_01.png","img/30th_0389_01.png","img/30th_0390_01.png","img/30th_0391_01.png","img/30th_0392_01.png","img/30th_0393_01.png","img/30th_0394_01.png","img/30th_0395_01.png","img/30th_0396_01.png","img/30th_0397_01.png","img/30th_0398_01.png","img/30th_0398_02.png","img/30th_0399_01.png","img/30th_0400_01.png","img/30th_0401_01.png","img/30th_0402_01.png","img/30th_0403_01.png","img/30th_0404_01.png","img/30th_0405_01.png","img/30th_0406_01.png","img/30th_0407_01.png","img/30th_0408_01.png","img/30th_0409_01.png","img/30th_0410_01.png","img/30th_0411_01.png","img/30th_0412_01.png","img/30th_0412_02.png","img/30th_0412_03.png","img/30th_0413_01.png","img/30th_0413_02.png","img/30th_0413_03.png","img/30th_0414_01.png","img/30th_0415_01.png","img/30th_0416_01.png","img/30th_0417_01.png","img/30th_0418_01.png","img/30th_0419_01.png","img/30th_0420_01.png","img/30th_0421_01.png","img/30th_0421_02.png","img/30th_0422_01.png","img/30th_0422_02.png","img/30th_0423_01.png","img/30th_0423_02.png","img/30th_0424_01.png","img/30th_0425_01.png","img/30th_0426_01.png","img/30th_0427_01.png","img/30th_0428_01.png","img/30th_0428_02.png","img/30th_0429_01.png","img/30th_0430_01.png","img/30th_0431_01.png","img/30th_0432_01.png","img/30th_0433_01.png","img/30th_0434_01.png","img/30th_0435_01.png","img/30th_0436_01.png","img/30th_0437_01.png","img/30th_0438_01.png","img/30th_0439_01.png","img/30th_0440_01.png","img/30th_0441_01.png","img/30th_0442_01.png","img/30th_0443_01.png","img/30th_0444_01.png","img/30th_0445_01.png","img/30th_0445_02.png","img/30th_0445_03.png","img/30th_0446_01.png","img/30th_0447_01.png","img/30th_0448_01.png","img/30th_0448_02.png","img/30th_0448_03.png","img/30th_0449_01.png","img/30th_0450_01.png","img/30th_0451_01.png","img/30th_0452_01.png","img/30th_0453_01.png","img/30th_0454_01.png","img/30th_0455_01.png","img/30th_0456_01.png","img/30th_0457_01.png","img/30th_0458_01.png","img/30th_0459_01.png","img/30th_0460_01.png","img/30th_0460_02.png","img/30th_0461_01.png","img/30th_0462_01.png","img/30th_0463_01.png","img/30th_0464_01.png","img/30th_0465_01.png","img/30th_0466_01.png","img/30th_0467_01.png","img/30th_0468_01.png","img/30th_0469_01.png","img/30th_0470_01.png","img/30th_0471_01.png","img/30th_0472_01.png","img/30th_0473_01.png","img/30th_0474_01.png","img/30th_0475_01.png","img/30th_0475_02.png","img/30th_0476_01.png","img/30th_0477_01.png","img/30th_0478_01.png","img/30th_0478_02.png","img/30th_0479_01.png","img/30th_0479_02.png","img/30th_0479_03.png","img/30th_0479_04.png","img/30th_0479_05.png","img/30th_0479_06.png","img/30th_0480_01.png","img/30th_0481_01.png","img/30th_0482_01.png","img/30th_0483_01.png","img/30th_0483_02.png","img/30th_0484_01.png","img/30th_0484_02.png","img/30th_0485_01.png","img/30th_0485_02.png","img/30th_0486_01.png","img/30th_0487_01.png","img/30th_0487_02.png","img/30th_0488_01.png","img/30th_0489_01.png","img/30th_0490_01.png","img/30th_0491_01.png","img/30th_0491_02.png","img/30th_0492_01.png","img/30th_0492_02.png","img/30th_0493_01.png","img/30th_0494_01.png","img/30th_0495_01.png","img/30th_0496_01.png","img/30th_0497_01.png","img/30th_0498_01.png","img/30th_0499_01.png","img/30th_0500_01.png","img/30th_0500_02.png","img/30th_0501_01.png","img/30th_0502_01.png","img/30th_0503_01.png","img/30th_0503_02.png","img/30th_0504_01.png","img/30th_0505_01.png","img/30th_0506_01.png","img/30th_0507_01.png","img/30th_0508_01.png","img/30th_0509_01.png","img/30th_0510_01.png","img/30th_0511_01.png","img/30th_0512_01.png","img/30th_0513_01.png","img/30th_0514_01.png","img/30th_0515_01.png","img/30th_0516_01.png","img/30th_0517_01.png","img/30th_0518_01.png","img/30th_0519_01.png","img/30th_0520_01.png","img/30th_0521_01.png","img/30th_0521_02.png","img/30th_0522_01.png","img/30th_0523_01.png","img/30th_0524_01.png","img/30th_0525_01.png","img/30th_0526_01.png","img/30th_0527_01.png","img/30th_0528_01.png","img/30th_0529_01.png","img/30th_0530_01.png","img/30th_0530_02.png","img/30th_0531_01.png","img/30th_0531_02.png","img/30th_0532_01.png","img/30th_0533_01.png","img/30th_0534_01.png","img/30th_0535_01.png","img/30th_0536_01.png","img/30th_0537_01.png","img/30th_0538_01.png","img/30th_0539_01.png","img/30th_0540_01.png","img/30th_0541_01.png","img/30th_0542_01.png","img/30th_0543_01.png","img/30th_0544_01.png","img/30th_0545_01.png","img/30th_0545_02.png","img/30th_0546_01.png","img/30th_0547_01.png","img/30th_0548_01.png","img/30th_0549_01.png","img/30th_0549_02.png","img/30th_0550_01.png","img/30th_0550_02.png","img/30th_0550_03.png","img/30th_0551_01.png","img/30th_0552_01.png","img/30th_0553_01.png","img/30th_0554_01.png","img/30th_0554_02.png","img/30th_0555_01.png","img/30th_0555_02.png","img/30th_0555_03.png","img/30th_0555_04.png","img/30th_0556_01.png","img/30th_0557_01.png","img/30th_0558_01.png","img/30th_0559_01.png","img/30th_0560_01.png","img/30th_0560_02.png","img/30th_0561_01.png","img/30th_0562_01.png","img/30th_0562_02.png","img/30th_0563_01.png","img/30th_0564_01.png","img/30th_0565_01.png","img/30th_0566_01.png","img/30th_0567_01.png","img/30th_0568_01.png","img/30th_0569_01.png","img/30th_0569_02.png","img/30th_0570_01.png","img/30th_0570_02.png","img/30th_0571_01.png","img/30th_0571_02.png","img/30th_0572_01.png","img/30th_0573_01.png","img/30th_0574_01.png","img/30th_0575_01.png","img/30th_0576_01.png","img/30th_0577_01.png","img/30th_0578_01.png","img/30th_0579_01.png","img/30th_0580_01.png","img/30th_0581_01.png","img/30th_0582_01.png","img/30th_0583_01.png","img/30th_0584_01.png","img/30th_0585_01.png","img/30th_0585_02.png","img/30th_0585_03.png","img/30th_0585_04.png","img/30th_0586_01.png","img/30th_0586_02.png","img/30th_0586_03.png","img/30th_0586_04.png","img/30th_0587_01.png","img/30th_0588_01.png","img/30th_0589_01.png","img/30th_0590_01.png","img/30th_0591_01.png","img/30th_0592_01.png","img/30th_0592_02.png","img/30th_0593_01.png","img/30th_0593_02.png","img/30th_0594_01.png","img/30th_0595_01.png","img/30th_0596_01.png","img/30th_0597_01.png","img/30th_0598_01.png","img/30th_0599_01.png","img/30th_0600_01.png","img/30th_0601_01.png","img/30th_0602_01.png","img/30th_0603_01.png","img/30th_0604_01.png","img/30th_0604_02.png","img/30th_0605_01.png","img/30th_0606_01.png","img/30th_0607_01.png","img/30th_0608_01.png","img/30th_0609_01.png","img/30th_0609_02.png","img/30th_0610_01.png","img/30th_0611_01.png","img/30th_0612_01.png","img/30th_0613_01.png","img/30th_0614_01.png","img/30th_0615_01.png","img/30th_0616_01.png","img/30th_0617_01.png","img/30th_0618_01.png","img/30th_0618_02.png","img/30th_0619_01.png","img/30th_0620_01.png","img/30th_0621_01.png","img/30th_0622_01.png","img/30th_0623_01.png","img/30th_0623_02.png","img/30th_0624_01.png","img/30th_0625_01.png","img/30th_0626_01.png","img/30th_0627_01.png","img/30th_0628_01.png","img/30th_0628_02.png","img/30th_0629_01.png","img/30th_0630_01.png","img/30th_0631_01.png","img/30th_0632_01.png","img/30th_0633_01.png","img/30th_0634_01.png","img/30th_0635_01.png","img/30th_0636_01.png","img/30th_0637_01.png","img/30th_0638_01.png","img/30th_0639_01.png","img/30th_0640_01.png","img/30th_0641_01.png","img/30th_0642_01.png","img/30th_0643_01.png","img/30th_0644_01.png","img/30th_0645_01.png","img/30th_0646_01.png","img/30th_0646_02.png","img/30th_0646_03.png","img/30th_0647_01.png","img/30th_0647_02.png","img/30th_0648_01.png","img/30th_0648_02.png","img/30th_0649_01.png","img/30th_0650_01.png","img/30th_0651_01.png","img/30th_0652_01.png","img/30th_0652_02.png","img/30th_0653_01.png","img/30th_0654_01.png","img/30th_0655_01.png","img/30th_0655_02.png","img/30th_0656_01.png","img/30th_0657_01.png","img/30th_0658_01.png","img/30th_0658_02.png","img/30th_0659_01.png","img/30th_0660_01.png","img/30th_0661_01.png","img/30th_0662_01.png","img/30th_0663_01.png","img/30th_0664_01.png","img/30th_0665_01.png","img/30th_0666_01.png","img/30th_0666_02.png","img/30th_0666_03.png","img/30th_0666_04.png","img/30th_0666_05.png","img/30th_0666_06.png","img/30th_0666_07.png","img/30th_0666_08.png","img/30th_0666_09.png","img/30th_0666_10.png","img/30th_0666_11.png","img/30th_0666_12.png","img/30th_0666_13.png","img/30th_0666_14.png","img/30th_0666_15.png","img/30th_0666_16.png","img/30th_0666_17.png","img/30th_0666_18.png","img/30th_0666_19.png","img/30th_0666_20.png","img/30th_0667_01.png","img/30th_0668_01.png","img/30th_0668_02.png","img/30th_0668_03.png","img/30th_0669_01.png","img/30th_0670_01.png","img/30th_0670_02.png","img/30th_0670_03.png","img/30th_0671_01.png","img/30th_0672_01.png","img/30th_0673_01.png","img/30th_0674_01.png","img/30th_0675_01.png","img/30th_0676_01.png","img/30th_0676_02.png","img/30th_0676_03.png","img/30th_0676_04.png","img/30th_0676_05.png","img/30th_0676_06.png","img/30th_0676_07.png","img/30th_0676_08.png","img/30th_0676_09.png","img/30th_0676_10.png","img/30th_0677_01.png","img/30th_0678_01.png","img/30th_0678_02.png","img/30th_0678_03.png","img/30th_0679_01.png","img/30th_0680_01.png","img/30th_0681_01.png","img/30th_0681_02.png","img/30th_0682_01.png","img/30th_0683_01.png","img/30th_0684_01.png","img/30th_0685_01.png","img/30th_0686_01.png","img/30th_0687_01.png","img/30th_0687_02.png","img/30th_0688_01.png","img/30th_0689_01.png","img/30th_0689_02.png","img/30th_0690_01.png","img/30th_0691_01.png","img/30th_0691_02.png","img/30th_0692_01.png","img/30th_0693_01.png","img/30th_0694_01.png","img/30th_0695_01.png","img/30th_0696_01.png","img/30th_0697_01.png","img/30th_0698_01.png","img/30th_0699_01.png","img/30th_0700_01.png","img/30th_0701_01.png","img/30th_0701_02.png","img/30th_0702_01.png","img/30th_0703_01.png","img/30th_0704_01.png","img/30th_0705_01.png","img/30th_0705_02.png","img/30th_0706_01.png","img/30th_0706_02.png","img/30th_0707_01.png","img/30th_0708_01.png","img/30th_0709_01.png","img/30th_0710_01.png","img/30th_0711_01.png","img/30th_0712_01.png","img/30th_0713_01.png","img/30th_0713_02.png","img/30th_0714_01.png","img/30th_0715_01.png","img/30th_0716_01.png","img/30th_0717_01.png","img/30th_0718_01.png","img/30th_0718_02.png","img/30th_0718_03.png","img/30th_0718_04.png","img/30th_0719_01.png","img/30th_0719_02.png","img/30th_0720_01.png","img/30th_0720_02.png","img/30th_0721_01.png","img/30th_0722_01.png","img/30th_0723_01.png","img/30th_0724_01.png","img/30th_0724_02.png","img/30th_0725_01.png","img/30th_0726_01.png","img/30th_0727_01.png","img/30th_0728_01.png","img/30th_0729_01.png","img/30th_0730_01.png","img/30th_0731_01.png","img/30th_0732_01.png","img/30th_0733_01.png","img/30th_0734_01.png","img/30th_0735_01.png","img/30th_0736_01.png","img/30th_0737_01.png","img/30th_0738_01.png","img/30th_0739_01.png","img/30th_0740_01.png","img/30th_0740_02.png","img/30th_0741_01.png","img/30th_0741_02.png","img/30th_0741_03.png","img/30th_0741_04.png","img/30th_0742_01.png","img/30th_0743_01.png","img/30th_0744_01.png","img/30th_0745_01.png","img/30th_0745_02.png","img/30th_0745_03.png","img/30th_0746_01.png","img/30th_0746_02.png","img/30th_0747_01.png","img/30th_0748_01.png","img/30th_0749_01.png","img/30th_0750_01.png","img/30th_0751_01.png","img/30th_0752_01.png","img/30th_0753_01.png","img/30th_0754_01.png","img/30th_0755_01.png","img/30th_0756_01.png","img/30th_0757_01.png","img/30th_0758_01.png","img/30th_0759_01.png","img/30th_0760_01.png","img/30th_0761_01.png","img/30th_0762_01.png","img/30th_0763_01.png","img/30th_0764_01.png","img/30th_0765_01.png","img/30th_0766_01.png","img/30th_0767_01.png","img/30th_0768_01.png","img/30th_0768_02.png","img/30th_0769_01.png","img/30th_0770_01.png","img/30th_0771_01.png","img/30th_0772_01.png","img/30th_0773_01.png","img/30th_0774_01.png","img/30th_0774_02.png","img/30th_0775_01.png","img/30th_0776_01.png","img/30th_0777_01.png","img/30th_0778_01.png","img/30th_0779_01.png","img/30th_0780_01.png","img/30th_0780_02.png","img/30th_0781_01.png","img/30th_0782_01.png","img/30th_0783_01.png","img/30th_0784_01.png","img/30th_0785_01.png","img/30th_0786_01.png","img/30th_0787_01.png","img/30th_0788_01.png","img/30th_0789_01.png","img/30th_0790_01.png","img/30th_0791_01.png","img/30th_0792_01.png","img/30th_0793_01.png","img/30th_0794_01.png","img/30th_0795_01.png","img/30th_0796_01.png","img/30th_0797_01.png","img/30th_0798_01.png","img/30th_0799_01.png","img/30th_0800_01.png","img/30th_0800_02.png","img/30th_0800_03.png","img/30th_0800_04.png","img/30th_0801_01.png","img/30th_0801_02.png","img/30th_0802_01.png","img/30th_0803_01.png","img/30th_0804_01.png","img/30th_0805_01.png","img/30th_0806_01.png","img/30th_0807_01.png","img/30th_0807_02.png","img/30th_0808_01.png","img/30th_0809_01.png","img/30th_0809_02.png","img/30th_0810_01.png","img/30th_0811_01.png","img/30th_0812_01.png","img/30th_0812_02.png","img/30th_0813_01.png","img/30th_0814_01.png","img/30th_0815_01.png","img/30th_0815_02.png","img/30th_0816_01.png","img/30th_0817_01.png","img/30th_0818_01.png","img/30th_0818_02.png","img/30th_0819_01.png","img/30th_0820_01.png","img/30th_0821_01.png","img/30th_0822_01.png","img/30th_0823_01.png","img/30th_0823_02.png","img/30th_0824_01.png","img/30th_0825_01.png","img/30th_0826_01.png","img/30th_0826_02.png","img/30th_0827_01.png","img/30th_0828_01.png","img/30th_0829_01.png","img/30th_0830_01.png","img/30th_0831_01.png","img/30th_0832_01.png","img/30th_0833_01.png","img/30th_0834_01.png","img/30th_0834_02.png","img/30th_0835_01.png","img/30th_0836_01.png","img/30th_0837_01.png","img/30th_0838_01.png","img/30th_0839_01.png","img/30th_0839_02.png","img/30th_0840_01.png","img/30th_0841_01.png","img/30th_0841_02.png","img/30th_0842_01.png","img/30th_0842_02.png","img/30th_0843_01.png","img/30th_0844_01.png","img/30th_0844_02.png","img/30th_0845_01.png","img/30th_0846_01.png","img/30th_0847_01.png","img/30th_0848_01.png","img/30th_0849_01.png","img/30th_0849_02.png","img/30th_0849_03.png","img/30th_0849_04.png","img/30th_0850_01.png","img/30th_0851_01.png","img/30th_0851_02.png","img/30th_0852_01.png","img/30th_0853_01.png","img/30th_0854_01.png","img/30th_0855_01.png","img/30th_0856_01.png","img/30th_0857_01.png","img/30th_0858_01.png","img/30th_0858_02.png","img/30th_0859_01.png","img/30th_0860_01.png","img/30th_0861_01.png","img/30th_0861_02.png","img/30th_0862_01.png","img/30th_0863_01.png","img/30th_0864_01.png","img/30th_0865_01.png","img/30th_0866_01.png","img/30th_0867_01.png","img/30th_0868_01.png","img/30th_0869_01.png","img/30th_0869_02.png","img/30th_0870_01.png","img/30th_0870_02.png","img/30th_0871_01.png","img/30th_0872_01.png","img/30th_0873_01.png","img/30th_0874_01.png","img/30th_0875_01.png","img/30th_0875_02.png","img/30th_0876_01.png","img/30th_0876_02.png","img/30th_0877_01.png","img/30th_0877_02.png","img/30th_0878_01.png","img/30th_0879_01.png","img/30th_0879_02.png","img/30th_0880_01.png","img/30th_0881_01.png","img/30th_0882_01.png","img/30th_0883_01.png","img/30th_0884_01.png","img/30th_0884_02.png","img/30th_0885_01.png","img/30th_0886_01.png","img/30th_0887_01.png","img/30th_0888_01.png","img/30th_0888_02.png","img/30th_0889_01.png","img/30th_0889_02.png","img/30th_0890_01.png","img/30th_0890_02.png","img/30th_0891_01.png","img/30th_0892_01.png","img/30th_0892_02.png","img/30th_0892_03.png","img/30th_0892_04.png","img/30th_0893_01.png","img/30th_0894_01.png","img/30th_0895_01.png","img/30th_0896_01.png","img/30th_0897_01.png","img/30th_0898_01.png","img/30th_0898_02.png","img/30th_0898_03.png","img/30th_0899_01.png","img/30th_0900_01.png","img/30th_0901_01.png","img/30th_0901_02.png","img/30th_0902_01.png","img/30th_0902_02.png","img/30th_0903_01.png","img/30th_0904_01.png","img/30th_0905_01.png","img/30th_0906_01.png","img/30th_0907_01.png","img/30th_0908_01.png","img/30th_0909_01.png","img/30th_0910_01.png","img/30th_0911_01.png","img/30th_0912_01.png","img/30th_0913_01.png","img/30th_0914_01.png","img/30th_0915_01.png","img/30th_0916_01.png","img/30th_0916_02.png","img/30th_0917_01.png","img/30th_0918_01.png","img/30th_0919_01.png","img/30th_0920_01.png","img/30th_0921_01.png","img/30th_0922_01.png","img/30th_0923_01.png","img/30th_0924_01.png","img/30th_0925_01.png","img/30th_0925_02.png","img/30th_0926_01.png","img/30th_0927_01.png","img/30th_0928_01.png","img/30th_0929_01.png","img/30th_0930_01.png","img/30th_0931_01.png","img/30th_0931_02.png","img/30th_0931_03.png","img/30th_0931_04.png","img/30th_0932_01.png","img/30th_0933_01.png","img/30th_0934_01.png","img/30th_0935_01.png","img/30th_0936_01.png","img/30th_0937_01.png","img/30th_0938_01.png","img/30th_0939_01.png","img/30th_0940_01.png","img/30th_0941_01.png","img/30th_0942_01.png","img/30th_0943_01.png","img/30th_0944_01.png","img/30th_0945_01.png","img/30th_0946_01.png","img/30th_0947_01.png","img/30th_0948_01.png","img/30th_0949_01.png","img/30th_0950_01.png","img/30th_0951_01.png","img/30th_0952_01.png","img/30th_0952_02.png","img/30th_0953_01.png","img/30th_0954_01.png","img/30th_0955_01.png","img/30th_0956_01.png","img/30th_0957_01.png","img/30th_0958_01.png","img/30th_0959_01.png","img/30th_0960_01.png","img/30th_0961_01.png","img/30th_0962_01.png","img/30th_0963_01.png","img/30th_0964_01.png","img/30th_0964_02.png","img/30th_0965_01.png","img/30th_0966_01.png","img/30th_0967_01.png","img/30th_0968_01.png","img/30th_0969_01.png","img/30th_0970_01.png","img/30th_0970_02.png","img/30th_0971_01.png","img/30th_0972_01.png","img/30th_0973_01.png","img/30th_0974_01.png","img/30th_0975_01.png","img/30th_0976_01.png","img/30th_0977_01.png","img/30th_0978_01.png","img/30th_0978_02.png","img/30th_0978_03.png","img/30th_0978_04.png","img/30th_0978_05.png","img/30th_0978_06.png","img/30th_0979_01.png","img/30th_0980_01.png","img/30th_0981_01.png","img/30th_0982_01.png","img/30th_0982_02.png","img/30th_0983_01.png","img/30th_0984_01.png","img/30th_0985_01.png","img/30th_0986_01.png","img/30th_0987_01.png","img/30th_0988_01.png","img/30th_0989_01.png","img/30th_0990_01.png","img/30th_0991_01.png","img/30th_0992_01.png","img/30th_0993_01.png","img/30th_0994_01.png","img/30th_0995_01.png","img/30th_0996_01.png","img/30th_0997_01.png","img/30th_0998_01.png","img/30th_0998_02.png","img/30th_0999_01.png","img/30th_0999_02.png","img/30th_1000_01.png","img/30th_1001_01.png","img/30th_1002_01.png","img/30th_1003_01.png","img/30th_1004_01.png","img/30th_1005_01.png","img/30th_1006_01.png","img/30th_1007_01.png","img/30th_1008_01.png","img/30th_1009_01.png","img/30th_1010_01.png","img/30th_1011_01.png","img/30th_1012_01.png","img/30th_1013_01.png","img/30th_1014_01.png","img/30th_1015_01.png","img/30th_1016_01.png","img/30th_1017_01.png","img/30th_1017_02.png","img/30th_1017_03.png","img/30th_1017_04.png","img/30th_1018_01.png","img/30th_1019_01.png","img/30th_1020_01.png","img/30th_1021_01.png","img/30th_1022_01.png","img/30th_1023_01.png","img/30th_1024_01.png","img/30th_1024_02.png","img/30th_1024_03.png","img/30th_1025_01.png"];
+var BOXES30=[["kanto","1세대"],["johto","2세대"],["hoenn","3세대"],["sinnoh","4세대"],["unova","5세대"],["kalos","6세대"],["alola","7세대"],["galar","8세대"],["hisui","8세대(레전드 아르세우스)"],["paldea","9세대"]];
+var IMG30_RANGES=[[1,151,0],[152,251,1],[252,386,2],[387,493,3],[494,649,4],[650,721,5],[722,809,6],[810,898,7],[899,905,8],[906,1025,9]];
+function img30Box(dex){for(var i=0;i<IMG30_RANGES.length;i++){var r=IMG30_RANGES[i];if(dex>=r[0]&&dex<=r[1])return r[2];}return 0;}
+var IMG30META=IMG30.map(function(p,i){
+  var m=/30th_(\d{4})_(\d{2})\.png$/.exec(p);
+  var dex=m?+m[1]:0,form=m?+m[2]:1;
+  return {path:p,idx:i,dex:dex,form:form,box:img30Box(dex),key:dex*100+form};
+});
+var p30ImgFound=new Set(IMG30META.map(function(m){return m.key}));
+function makeCell30(m){
+  var cell=document.createElement("div");cell.className="cell done";
+  var img=document.createElement("img");img.loading="lazy";img.alt="";img.src=m.path;
+  cell.appendChild(img);
+  cell._m=m;
   allCells.push(cell);
-  if(e[5].length>1)visCells.push(cell);
   return cell;
 }
+
 function render(){
-  var root=$("sections");root.innerHTML="";cellsByBase={};visCells=[];allCells=[];
-  buildDexNumMap();
-  var groups=[];
-  var order=DEXORDER[cfg.dexIdx];
-  if(cfg.dexIdx===19){
-    var mlist=DATA.map(function(e,i){return [e,i]}).filter(function(p){
-      var e=p[0];
-      if(!MEGA_DEXNO[e[0]])return false;
-      if(selB.size&&!selB.has(mb(e[4])))return false;
-      if(selT.size&&!(selT.has(e[2])||(e[3]>=0&&selT.has(e[3]))))return false;
-      if(selF===1&&!found.has(e[1]))return false;
-      if(selF===2&&found.has(e[1]))return false;
-      return true;
-    });
-    mlist.sort(function(a,b){return MEGA_DEXNO[a[0][0]]-MEGA_DEXNO[b[0][0]]});
-    if(mlist.length)groups.push([DEXDEF[19][0],mlist]);
-  }else if(cfg.dexIdx===6){
-    [[6,"센트럴칼로스도감"],[7,"코스트칼로스도감"],[8,"마운틴칼로스도감"]].forEach(function(ks){
-      var opos={};DEXORDER[ks[0]].forEach(function(dn,idx){opos[dn]=idx});
-      var list=DATA.map(function(e,i){return [e,i]}).filter(function(p){
-        var e=p[0],i=p[1];
-        if(VARIDX[i]&&!cfg[VARIDX[i].cat])return false;
-        if(!(e[1] in opos))return false;
-        if(selB.size&&!selB.has(mb(e[4])))return false;
-        if(selT.size&&!(selT.has(e[2])||(e[3]>=0&&selT.has(e[3]))))return false;
-        if(selF===1&&!found.has(e[1]))return false;
-        if(selF===2&&found.has(e[1]))return false;
-        return true;
-      });
-      list.sort(function(a,b){return opos[a[0][1]]-opos[b[0][1]]});
-      if(list.length)groups.push([ks[1],list]);
-    });
-  }else if(order){
-    var opos={};verOrder(order).forEach(function(dn,idx){opos[dn]=idx});
-    var list=DATA.map(function(e,i){return [e,i]}).filter(function(p){
-      var e=p[0],i=p[1];
-      if(VARIDX[i]&&!cfg[VARIDX[i].cat])return false;
-      if(!DEXDEF[cfg.dexIdx][1](e))return false;
-      if(!(e[1] in opos))return false;
-      if(selB.size&&!selB.has(mb(e[4])))return false;
-      if(selT.size&&!(selT.has(e[2])||(e[3]>=0&&selT.has(e[3]))))return false;
-      if(selF===1&&!found.has(e[1]))return false;
-      if(selF===2&&found.has(e[1]))return false;
-      return true;
-    });
-    list.sort(function(a,b){return opos[a[0][1]]-opos[b[0][1]]});
-    if(list.length)groups.push([DEXDEF[cfg.dexIdx][0],list]);
-  }else{
-    DISP.forEach(function(db){
-      if(selB.size&&!selB.has(db))return;
-      var list=DATA.map(function(e,i){return [e,i]}).filter(function(p){
-        var e=p[0],i=p[1];
-        if(mb(e[4])!==db)return false;
-        if(VARIDX[i]&&!cfg[VARIDX[i].cat])return false;
-        if(cfg.dexIdx&&!DEXDEF[cfg.dexIdx][1](e))return false;
-        if(selT.size&&!(selT.has(e[2])||(e[3]>=0&&selT.has(e[3]))))return false;
-        if(selF===1&&!found.has(e[1]))return false;
-        if(selF===2&&found.has(e[1]))return false;
-        return true;
-      });
-      list.sort(function(a,b){return a[0][1]-b[0][1]||a[1]-b[1]});
-      if(list.length)groups.push([cfg.dexIdx===1?DEXDEF[cfg.dexIdx][0]:BOXES[db][1],list]);
-    });
-  }
-  var tot=0,fnd=0,SP={},SPF={};
-  curDexMode=!!order;
-  groups.forEach(function(g){
-    var got=g[1].filter(function(p){return found.has(p[0][1])}).length,totg=g[1].length;
-    g[1].forEach(function(p){var k=countKey(p[0]);SP[k]=1;if(found.has(p[0][1]))SPF[k]=1});
-    if(curDexMode){
-      var sp={},spf={};
-      g[1].forEach(function(p){sp[p[0][1]]=1;if(found.has(p[0][1]))spf[p[0][1]]=1});
-      got=Object.keys(spf).length;totg=Object.keys(sp).length;
-    }
-    var h=document.createElement("div");h.className="shead";
-    h.innerHTML="<span>"+g[0]+"</span><small>"+got+" / "+totg+"</small>";
-    if(DEXVERS[cfg.dexIdx]){
-      var vh='<span class="dexver">';
-      DEXVERS[cfg.dexIdx].forEach(function(nm,vi){vh+='<button type="button" class="dvbtn'+(dexVer===vi?' on':'')+'">'+nm+'</button>'});
-      h.querySelector("span").insertAdjacentHTML("beforeend",vh+'</span>');
-      h.querySelectorAll(".dvbtn").forEach(function(b,vi){b.onclick=function(){if(dexVer===vi)return;dexVer=vi;render()}});
-    }
-    var gr=document.createElement("div");gr.className="sgrid";
-    g[1].forEach(function(p){gr.appendChild(makeCell(p[0],p[1]))});
-    root.appendChild(h);root.appendChild(gr);
+  var root=$("sections");root.innerHTML="";allCells=[];
+  var list=IMG30META.filter(function(m){
+    if(selB.size&&!selB.has(m.box))return false;
+    if(selF===1&&!p30ImgFound.has(m.key))return false;
+    if(selF===2&&p30ImgFound.has(m.key))return false;
+    return true;
   });
-  tot=Object.keys(SP).length;fnd=Object.keys(SPF).length;
-  if(allCells.length===0&&selB.size&&cfg.dexIdx!==19){
-    var vbox={6:1,7:1,15:1,11:1};
-    var onlyVar=Array.from(selB).every(function(b){return vbox[b]});
-    var megaCause=[6,7,15].some(function(b){return selB.has(b)})&&!cfg.mega;
-    var gmaxCause=selB.has(11)&&!cfg.gmax;
-    if(onlyVar&&(megaCause||gmaxCause)){
-      var w=megaCause&&gmaxCause?"거다이맥스(메가진화)":(gmaxCause?"거다이맥스":"메가진화");
-      var nv=document.createElement("div");nv.className="novar";
-      nv.textContent=w+" 따로 보기 토글이 꺼진 상태에서는 "+w+" 포켓몬만 볼 수 없습니다.";
-      root.appendChild(nv);
-    }
+  var tot=IMG30META.length,fnd=p30ImgFound.size;
+  if(selB.size===0){
+    var gr=document.createElement("div");gr.className="sgrid";
+    list.forEach(function(m){gr.appendChild(makeCell30(m))});
+    root.appendChild(gr);
+  }else{
+    BOXES30.forEach(function(b,bi){
+      if(!selB.has(bi))return;
+      var glist=list.filter(function(m){return m.box===bi});
+      if(!glist.length)return;
+      var h=document.createElement("div");h.className="shead";
+      h.innerHTML="<span>"+b[1]+"</span>";
+      var gr=document.createElement("div");gr.className="sgrid";
+      glist.forEach(function(m){gr.appendChild(makeCell30(m))});
+      root.appendChild(h);root.appendChild(gr);
+    });
   }
   curTotal=tot;
   $("pnum").textContent=fnd;$("ptotal").textContent=tot;
   $("pfill").style.width=(tot?fnd/tot*100:0)+"%";
-  updateFillHighlight();
 }
+
 function computeFillCandidates(){
   var seen={},list=[];
   allCells.forEach(function(c){
@@ -586,7 +486,7 @@ function updateFillHighlight(){
     scrollToCell(targetCell);
   }
 }
-function save(){localStorage.setItem("psq2",JSON.stringify(Array.from(found)));pushToServer()}
+function save(){localStorage.setItem("p30psq2",JSON.stringify(Array.from(found)));pushToServer()}
 function refreshImgs(){allCells.forEach(function(c){c._img.src=srcFor(c)});visCells.forEach(updateFI)}
 function refreshBgs(){allCells.forEach(function(c){if(c.classList.contains("done"))c.style.background=typeBg(c);else c.style.background=cfg.typ?typeBg(c):""})}
 function applySil(){document.body.classList.toggle("shadow",cfg.sil);refreshImgs();if(cfg.sil){stats.sil=true;saveStats()}}
@@ -634,7 +534,7 @@ function checkInput(){
     updateFillHighlight();
     var allsp=new Set(DATA.map(function(e){return e[1]})).size;
     if(found.size===allsp&&!celebrated){
-      celebrated=true;localStorage.setItem("psq2cel","1");
+      celebrated=true;localStorage.setItem("p30psq2cel","1");
       stats.records.unshift({ts:Date.now(),sil:stats.sil,typ:stats.typ,hint:stats.hint,longpress:stats.longpress});
       if(stats.records.length>20)stats.records.length=20;
       stats.sil=false;stats.typ=false;stats.hint=0;stats.longpress=0;
@@ -795,7 +695,7 @@ $("hubBtn").onclick=function(){location.href="https://iruroda.github.io/pokelab"
 $("loginBtn").onclick=function(){
   if(curUser){
     if(fbAuth)fbAuth.signOut();
-    fbUid=null;curUser=null;localStorage.removeItem("psq2curuser");
+    fbUid=null;curUser=null;localStorage.removeItem("p30psq2curuser");
     stats=loadStats();
     updateAuthUI();
   }else{
@@ -893,7 +793,7 @@ $("loginSubmit").onclick=function(){
   fbAuth.signInWithEmailAndPassword(email,pw)
     .then(function(cred){
       fbUid=cred.user.uid;
-      curUser=id;localStorage.setItem("psq2curuser",id);
+      curUser=id;localStorage.setItem("p30psq2curuser",id);
       $("loginModal").style.display="none";
       btn.disabled=false;btn.textContent="확인";
       return syncFromServer();
@@ -908,10 +808,11 @@ function syncFromServer(){
   if(!fbUid||!fbDb)return Promise.resolve();
   return fbDb.collection("users").doc(fbUid).get().then(function(snap){
     var d=snap.exists?snap.data():{};
-    if(!curUser&&d.name){curUser=d.name;localStorage.setItem("psq2curuser",d.name)}
-    found=new Set();(Array.isArray(d.found)?d.found:[]).forEach(function(n){if(typeof n==="number")found.add(n)});
-    localStorage.setItem("psq2",JSON.stringify(Array.from(found)));
-    var s=(d.stats&&typeof d.stats==="object")?d.stats:null;
+    var d30=(d.p30&&typeof d.p30==="object")?d.p30:{};
+    if(!curUser&&d.name){curUser=d.name;localStorage.setItem("p30psq2curuser",d.name)}
+    found=new Set();(Array.isArray(d30.found)?d30.found:[]).forEach(function(n){if(typeof n==="number")found.add(n)});
+    localStorage.setItem("p30psq2",JSON.stringify(Array.from(found)));
+    var s=(d30.stats&&typeof d30.stats==="object")?d30.stats:null;
     if(s){
       stats={sil:!!s.sil,typ:!!s.typ,hint:s.hint||0,longpress:s.longpress||0,records:Array.isArray(s.records)?s.records:[]};
       localStorage.setItem(statsKey(),JSON.stringify(stats));
@@ -935,12 +836,12 @@ if(fbAuth)fbAuth.onAuthStateChanged(function(u){
   if(u){fbUid=u.uid;syncFromServer();}
   else{
     fbUid=null;
-    if(curUser){curUser=null;localStorage.removeItem("psq2curuser");stats=loadStats();updateAuthUI();}
+    if(curUser){curUser=null;localStorage.removeItem("p30psq2curuser");stats=loadStats();updateAuthUI();}
   }
 });
 $("resetbtn").onclick=function(){
   showConfirm("지금까지 발견한 포켓몬의 기록을 전부 지웁니다.",function(){
-    found=new Set();save();celebrated=false;localStorage.setItem("psq2cel","0");
+    found=new Set();save();celebrated=false;localStorage.setItem("p30psq2cel","0");
     cfg.dexIdx=0;selB.clear();selT.clear();selF=0;
     cfg.cols=4;cfg.sil=false;cfg.typ=false;cfg.fc=true;cfg.gmax=false;cfg.regional=false;cfg.mega=false;cfg.fillOrder=0;fillTarget=null;
     stats.sil=false;stats.typ=false;stats.hint=0;stats.longpress=0;saveStats();
@@ -965,55 +866,24 @@ function buildTypeRow(){
 function buildMenu(){
   buildTypeRow();
   var vc=$("viewchips");vc.innerHTML="";
-  [3,4,5,6].forEach(function(n){
-    chip(n+"칸",cfg.cols===n,function(){cfg.cols=n;saveCfg();applyCols();buildMenu()},vc);
-  });
-  var flc=$("fillchips");flc.innerHTML="";
-  ["설정 안 함","오름차순","무작위"].forEach(function(lbl,fi){
-    chip(lbl,cfg.fillOrder===fi,function(){cfg.fillOrder=fi;saveCfg();fillTarget=null;updateFillHighlight();buildMenu()},flc);
-  });
-  var sc=$("setchips");sc.innerHTML="";
-  chip("실루엣 보기",cfg.sil,function(){
-    if(!cfg.sil&&!stats.sil){showConfirm("실루엣 보기 설정은 기록에 영향을 줍니다.",function(){cfg.sil=!cfg.sil;saveCfg();applySil();buildMenu()});return;}
-    cfg.sil=!cfg.sil;saveCfg();applySil();buildMenu();
-  },sc);
-  chip("타입 미리 보기",cfg.typ,function(){
-    if(!cfg.typ&&!stats.typ){showConfirm("타입 미리 보기 설정은 기록에 영향을 줍니다.",function(){cfg.typ=!cfg.typ;saveCfg();applyTyp();buildMenu()});return;}
-    cfg.typ=!cfg.typ;saveCfg();applyTyp();buildMenu();
-  },sc);
-  chip("모습 자동 전환",cfg.fc,function(){cfg.fc=!cfg.fc;saveCfg();refreshImgs();refreshBgs();buildMenu()},sc);
-  chip("거다이맥스 따로 보기",cfg.gmax,function(){cfg.gmax=!cfg.gmax;saveCfg();applyVariants();render();buildMenu()},sc);
-  chip("리전폼 따로 보기",cfg.regional,function(){cfg.regional=!cfg.regional;saveCfg();applyVariants();render();buildMenu()},sc);
-  chip("메가진화 따로 보기",cfg.mega,function(){cfg.mega=!cfg.mega;saveCfg();applyVariants();render();buildMenu()},sc);
-  var dc=$("dexchips");dc.innerHTML="";
-  DEXDEF.forEach(function(d,di){
-    if(di===7||di===8)return;
-    chip(d[0],cfg.dexIdx===di,function(){cfg.dexIdx=di;dexVer=0;saveCfg();render();buildMenu()},dc);
+  [[1,"1줄보기"],[3,"3줄보기"]].forEach(function(o){
+    chip(o[1],cfg.cols===o[0],function(){cfg.cols=o[0];saveCfg();applyCols();buildMenu()},vc);
   });
   var bc=$("boxchips");bc.innerHTML="";
   chip("전체",selB.size===0,function(){selB.clear();saveCfg();render();buildMenu()},bc);
-  var seen={};
-  DISP.forEach(function(db){
-    if(seen[db])return;seen[db]=1;
-    if(!DATA.some(function(e){return mb(e[4])===db}))return;
-    chip(BOXES[db][1],selB.has(db),function(){
-      if(selB.has(db))selB.delete(db);else selB.add(db);
+  BOXES30.forEach(function(b,bi){
+    if(!IMG30META.some(function(m){return m.box===bi}))return;
+    chip(b[1],selB.has(bi),function(){
+      if(selB.has(bi))selB.delete(bi);else selB.add(bi);
       saveCfg();render();buildMenu();
     },bc);
-  });
-  var tc=$("typechips");tc.innerHTML="";
-  chip("전체",selT.size===0,function(){selT.clear();saveCfg();render();buildMenu()},tc);
-  TYPES.forEach(function(t,ti){
-    chip(t[1],selT.has(ti),function(){
-      if(selT.has(ti))selT.delete(ti);else selT.add(ti);
-      saveCfg();render();buildMenu();
-    },tc);
   });
   var fdc=$("fndchips");fdc.innerHTML="";
   [["전체",0],["발견한 포켓몬",1],["미발견 포켓몬",2]].forEach(function(o){
     chip(o[0],selF===o[1],function(){selF=o[1];saveCfg();render();buildMenu()},fdc);
   });
 }
+
 $("ovbtn").onclick=function(){$("overlay").style.display="none"};
 $("overlay").onclick=function(e){if(e.target===$("overlay"))$("overlay").style.display="none"};
 setInterval(function(){
