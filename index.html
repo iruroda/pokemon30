@@ -26,10 +26,10 @@
     html.scrolling,#mpanel.scrolling{scrollbar-color:rgba(232,234,240,.28) transparent}
   }
   #wrap{max-width:520px;margin:0 auto;min-height:100dvh}
-  #mtitle{position:sticky;top:0;z-index:2;flex:none;display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800;padding:16px 36px 12px 16px;background:var(--card)}
+  #mtitle{position:sticky;top:0;z-index:2;flex:none;display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800;padding:16px 36px 12px 16px;background:var(--p-white)}
   #mtitle img{width:24px;height:24px}
   #topbar{position:sticky;top:0;z-index:10;background:var(--p-yellow);padding:10px 12px 8px;border-bottom:none}
-  #row1{display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-right:36px}
+  #row1{display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-right:150px}
   #progresswrap{flex:1}
   #ptextrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
   #ptext{font-size:12px;color:var(--sub);white-space:nowrap;flex:none}
@@ -75,7 +75,7 @@
   #pad{height:24px}
   #menu{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:20;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility 0s linear .18s}
   #menu.on{opacity:1;visibility:visible;transition:opacity .18s ease}
-  #mpanel{position:fixed;top:0;right:calc(max(0px, (100vw - 520px) / 2));width:min(320px,88vw);height:100%;background:var(--card);padding:0;overflow-y:auto;display:flex;flex-direction:column;overscroll-behavior:contain;z-index:21;opacity:0;visibility:hidden;transform:scale(.96);transform-origin:top right;transition:opacity .15s ease,transform .15s ease,visibility 0s linear .15s}
+  #mpanel{position:fixed;top:0;right:calc(max(0px, (100vw - 520px) / 2));width:min(320px,88vw);height:100%;background:var(--p-white);padding:0;overflow-y:auto;display:flex;flex-direction:column;overscroll-behavior:contain;z-index:21;opacity:0;visibility:hidden;transform:scale(.96);transform-origin:top right;transition:opacity .15s ease,transform .15s ease,visibility 0s linear .15s}
   #mpanel.on{opacity:1;visibility:visible;transform:scale(1);transition:opacity .15s ease,transform .15s ease}
   #mbody{padding:0 16px 28px}
   .msec h3{font-size:12px;color:var(--sub);margin:18px 0 8px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;-webkit-user-select:none}
@@ -85,7 +85,7 @@
   .msec.collapsed .car{transform:rotate(-90deg)}
   .msec.collapsed .chips{display:none}
   .chips{display:flex;flex-wrap:wrap;gap:6px}
-  .chip{background:var(--card);border:1px solid #3a3e50;color:var(--text);border-radius:16px;padding:6px 12px;font-size:12px;cursor:pointer}
+  .chip{background:var(--p-gray);border:1px solid rgba(0,0,0,.15);color:var(--text);border-radius:16px;padding:6px 12px;font-size:12px;cursor:pointer}
   .chip.on{border-color:var(--accent);color:var(--accent)}
   .mbig{width:100%;background:var(--card);border:1px solid #3a3e50;color:var(--text);border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;margin:14px 0 0}
   .mbig.warn{color:#d98a9a}
@@ -125,6 +125,15 @@
   #recordList .rec .t{color:var(--accent);font-weight:700;font-size:12px}
   #recordList .rec .s{color:var(--sub);font-size:11px;margin-top:2px}
   #recordList .empty{color:var(--sub);padding:16px 0;text-align:center}
+
+  #toolicons{position:fixed;top:11px;right:calc(max(0px, (100vw - 520px) / 2) + 50px);z-index:35;display:flex;align-items:center;gap:10px}
+  #toolicons .ticon{width:26px;height:26px;background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  #toolicons .ticon svg{width:22px;height:22px;display:block}
+  #searchBar{max-height:0;overflow:hidden;transition:max-height .3s ease}
+  #wrap.searchOpen #searchBar{max-height:60px}
+  #searchBar input{width:100%;box-sizing:border-box;margin-top:8px;background:var(--p-white);border:1.5px solid #3a3e50;border-radius:12px;color:var(--text);font-size:15px;padding:10px 12px;outline:none}
+  .mydesignAdd{margin:14px 10px;height:64px;background:var(--p-gray);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .mydesignAdd svg{width:26px;height:26px}
 </style>
 </head>
 <body>
@@ -144,11 +153,17 @@
       <input id="answer" type="search" name="pokemon-answer" placeholder="포켓몬 이름 입력" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       <button id="answerClearBtn" type="button" aria-label="입력 지우기"><span></span><span></span></button>
     </div>
+    <div id="searchBar"><input id="searchInput" type="search" placeholder="검색" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
   </div>
   <div id="sections"></div>
   <div id="helptext">· 두 번 누르기: 힌트 보기(한 글자씩 보여짐), 길게 누르기: 이름 보기 / 감추기</div>
   <div id="disclaimer">본 사이트는 팬이 만든 비공식 사이트로, 닌텐도, 게임프리크, 주식회사 포켓몬과는 어떠한 관계도 없습니다. Pokemon은 닌텐도 / Creatures Inc. / Game Freak Inc.의 상표입니다. 모든 게임 콘텐츠, 이미지, 상표는 각 권리자에게 귀속됩니다.</div>
   <div id="pad"></div>
+</div>
+<div id="toolicons">
+  <button id="gachaBtn" class="ticon" type="button" aria-label="뽑기"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="6" y1="18" x2="16" y2="6"/><circle cx="10.5" cy="13.3" r="2" fill="#000" stroke="none"/></svg></button>
+  <button id="searchBtn" class="ticon" type="button" aria-label="검색"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="20" y2="20"/></svg></button>
+  <button id="viewBtn" class="ticon" type="button" aria-label="보기 전환"></button>
 </div>
 <button id="menubtn" type="button" aria-label="메뉴 열기/닫기"><span></span><span></span><span></span></button>
 <div id="menu"></div><div id="mpanel">
@@ -179,6 +194,13 @@
   <h2 id="confirmTitle" hidden></h2>
   <p id="confirmMsg"></p>
   <div class="confirmBtns"><button id="confirmOk"><span class="lbl">확인</span></button><button class="secondary" id="confirmCancel">취소</button></div>
+</div></div>
+<div id="gachaModal" class="modal"><div class="box">
+  <h2>뽑기</h2>
+  <p>30주년 코인을 사용하여 로고 아이콘을 뽑습니다.</p>
+  <button id="gachaAll">한 번에 모두 뽑기</button>
+  <button id="gachaOne">한 개만 뽑기</button>
+  <button class="secondary" id="gachaCancel">취소</button>
 </div></div>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
@@ -281,7 +303,7 @@ function pushToServer(){
     fbDb.collection("users").doc(fbUid).set({name:curUser,coin30:coin30,p30:{
       found:Array.from(found),
       stats:{sil:!!stats.sil,typ:!!stats.typ,hint:stats.hint||0,longpress:stats.longpress||0,records:stats.records||[]},
-      cfg:{sil:cfg.sil,typ:cfg.typ,fc:cfg.fc,cols:cfg.cols,gmax:cfg.gmax,regional:cfg.regional,mega:cfg.mega,dexIdx:cfg.dexIdx,fillOrder:cfg.fillOrder,collapsed:cfg.collapsed,b:Array.from(selB),t:Array.from(selT),f:selF},
+      cfg:{sil:cfg.sil,typ:cfg.typ,fc:cfg.fc,cols:cfg.cols,mode:cfg.mode,myDesign:cfg.myDesign,gmax:cfg.gmax,regional:cfg.regional,mega:cfg.mega,dexIdx:cfg.dexIdx,fillOrder:cfg.fillOrder,collapsed:cfg.collapsed,b:Array.from(selB),t:Array.from(selT),f:selF},
       imgFound:Array.from(p30ImgFound)
     }},{merge:true}).catch(function(e){console.warn("서버 저장 실패",e)});
   },800);
@@ -293,6 +315,8 @@ cfg.gmax=!!cfg.gmax;cfg.regional=!!cfg.regional;cfg.mega=!!cfg.mega;
 cfg.dexIdx=(typeof cfg.dexIdx==="number"&&cfg.dexIdx>=0&&cfg.dexIdx<20)?cfg.dexIdx:0;if(cfg.dexIdx===7||cfg.dexIdx===8)cfg.dexIdx=6;
 cfg.fillOrder=(cfg.fillOrder===1||cfg.fillOrder===2)?cfg.fillOrder:0;
 cfg.collapsed=(cfg.collapsed&&typeof cfg.collapsed==="object")?cfg.collapsed:{};
+cfg.mode=(cfg.mode==="my")?"my":"grid";
+cfg.myDesign=Array.isArray(cfg.myDesign)?cfg.myDesign:[];
 var selB=new Set(cfg.b||[]),selT=new Set(cfg.t||[]),selF=cfg.f||0;
 var tick=0;
 var BALL="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="33" fill="none" stroke="#8a8fa3" stroke-width="9"/><path d="M17 50h22M61 50h22" stroke="#8a8fa3" stroke-width="9" fill="none"/><circle cx="50" cy="50" r="12" fill="none" stroke="#8a8fa3" stroke-width="8"/></svg>');
@@ -350,7 +374,7 @@ var VARIDX={};
     BASEVAR[baseIdx]={gmax:gmaxF,regional:regF,mega:megaF};
   });
 })();
-function saveCfg(){localStorage.setItem("p30psq2cfg",JSON.stringify({sil:cfg.sil,typ:cfg.typ,fc:cfg.fc,cols:cfg.cols,gmax:cfg.gmax,regional:cfg.regional,mega:cfg.mega,dexIdx:cfg.dexIdx,fillOrder:cfg.fillOrder,collapsed:cfg.collapsed,b:Array.from(selB),t:Array.from(selT),f:selF}));pushToServer();}
+function saveCfg(){localStorage.setItem("p30psq2cfg",JSON.stringify({sil:cfg.sil,typ:cfg.typ,fc:cfg.fc,cols:cfg.cols,mode:cfg.mode,myDesign:cfg.myDesign,gmax:cfg.gmax,regional:cfg.regional,mega:cfg.mega,dexIdx:cfg.dexIdx,fillOrder:cfg.fillOrder,collapsed:cfg.collapsed,b:Array.from(selB),t:Array.from(selT),f:selF}));pushToServer();}
 var lookup={};
 DATA.forEach(function(e,i){
   var b=e[1];
@@ -454,7 +478,16 @@ function makeCell30(m){
   return cell;
 }
 
+function renderMyDesign(){
+  var root=$("sections");root.innerHTML="";allCells=[];
+  var add=document.createElement("div");add.className="mydesignAdd";
+  add.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><line x1="12" y1="4" x2="12" y2="20"/><line x1="4" y1="12" x2="20" y2="12"/></svg>';
+  root.appendChild(add);
+  $("pnum").textContent=0;$("ptotal").textContent=0;
+  $("pfill").style.width="0%";
+}
 function render(){
+  if(cfg.mode==="my"){renderMyDesign();return;}
   var root=$("sections");root.innerHTML="";allCells=[];
   var list=IMG30META.filter(function(m){
     if(selB.size&&!selB.has(m.box))return false;
@@ -857,11 +890,14 @@ function syncFromServer(){
       cfg.dexIdx=(typeof c.dexIdx==="number"&&c.dexIdx>=0&&c.dexIdx<20)?c.dexIdx:0;
       cfg.fillOrder=(c.fillOrder===1||c.fillOrder===2)?c.fillOrder:0;
       cfg.collapsed=(c.collapsed&&typeof c.collapsed==="object")?c.collapsed:{};
+      cfg.mode=(c.mode==="my")?"my":"grid";
+      cfg.myDesign=Array.isArray(c.myDesign)?c.myDesign:[];
       selB=new Set(Array.isArray(c.b)?c.b:[]);
       selT=new Set(Array.isArray(c.t)?c.t:[]);
       selF=(c.f===1||c.f===2)?c.f:0;
       localStorage.setItem("p30psq2cfg",JSON.stringify(c));
       applyCols();
+      updateViewIcon();
     }
     p30ImgFound=Array.isArray(d30.imgFound)?new Set(d30.imgFound):new Set(P30_ALL_IMG_KEYS);
     localStorage.setItem("p30imgfound",JSON.stringify(Array.from(p30ImgFound)));
@@ -880,6 +916,47 @@ function syncFromServer(){
 $("recordBtn").onclick=function(){renderRecords();$("recordModal").style.display="flex"};
 $("recordClose").onclick=function(){$("recordModal").style.display="none"};
 $("recordModal").onclick=function(e){if(e.target===$("recordModal"))$("recordModal").style.display="none"};
+
+// ---- 보기 전환(1줄/3줄/마이 디자인) 아이콘 ----
+function viewIconSVG(){
+  if(cfg.mode==="my"){
+    return '<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3" fill="none" stroke="#000" stroke-width="2"/><text x="12" y="15.5" font-size="8" font-weight="700" text-anchor="middle" font-family="sans-serif">My</text></svg>';
+  }
+  if(cfg.cols===1){
+    return '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" fill="#000"/></svg>';
+  }
+  return '<svg viewBox="0 0 24 24">'
+    +[0,1,2].map(function(r){return [0,1,2].map(function(c){var x=2+c*7.5,y=2+r*7.5;return '<rect x="'+x+'" y="'+y+'" width="5" height="5" rx="1" fill="#000"/>'}).join('')}).join('')
+    +'</svg>';
+}
+function updateViewIcon(){$("viewBtn").innerHTML=viewIconSVG();}
+function cycleViewMode(){
+  if(cfg.mode==="my"){cfg.mode="grid";cfg.cols=1;}
+  else if(cfg.cols===1){cfg.cols=3;}
+  else{cfg.mode="my";}
+  saveCfg();applyCols();updateViewIcon();render();buildMenu();
+}
+$("viewBtn").onclick=cycleViewMode;
+updateViewIcon();
+
+// ---- 검색(헤더 아래로 펼쳐지는 검색창) ----
+$("searchBtn").onclick=function(){
+  var open=$("wrap").classList.toggle("searchOpen");
+  if(open)setTimeout(function(){$("searchInput").focus()},300);
+};
+
+// ---- 뽑기 팝업 ----
+$("gachaBtn").onclick=function(){$("gachaModal").style.display="flex"};
+$("gachaCancel").onclick=function(){$("gachaModal").style.display="none"};
+$("gachaModal").onclick=function(e){if(e.target===$("gachaModal"))$("gachaModal").style.display="none"};
+$("gachaAll").onclick=function(){
+  // TODO: 30주년 코인으로 로고 아이콘 한 번에 모두 뽑기 로직 연결
+  $("gachaModal").style.display="none";
+};
+$("gachaOne").onclick=function(){
+  // TODO: 30주년 코인으로 로고 아이콘 한 개 뽑기 로직 연결
+  $("gachaModal").style.display="none";
+};
 updateAuthUI();
 if(fbAuth)fbAuth.onAuthStateChanged(function(u){
   if(u){fbUid=u.uid;syncFromServer();}
