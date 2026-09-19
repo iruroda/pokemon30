@@ -223,9 +223,9 @@
   #searchClearBtn span:nth-child(1){transform:rotate(45deg)}
   #searchClearBtn span:nth-child(2){transform:rotate(-45deg)}
   .mydesignAdd{position:relative;overflow:hidden;margin:14px 10px;height:64px;background:var(--p-gray);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer}
-  .mdPlusBadge{width:34px;height:34px;border-radius:50%;background:var(--p-white);display:flex;align-items:center;justify-content:center;transition:opacity .18s ease,transform .18s ease;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  .mdPlusBadge{width:34px;height:34px;border-radius:50%;background:var(--p-white);border:2px solid var(--p-gray);box-sizing:border-box;display:flex;align-items:center;justify-content:center;transition:opacity .18s ease,transform .18s ease}
   .mdPlusBadge svg{width:16px;height:16px}
-  .mdPlusBadge svg line{stroke:#9a9a9a;stroke-width:2.6;stroke-linecap:round}
+  .mdPlusBadge svg line{stroke:var(--p-gray);stroke-width:3.4;stroke-linecap:round}
   .mydesignAdd.open .mdPlusBadge{opacity:0;transform:scale(.4)}
   .mdShapeBtns{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:10px;opacity:0;pointer-events:none;transition:opacity .18s ease}
   .mydesignAdd.open .mdShapeBtns{opacity:1;pointer-events:auto}
@@ -237,23 +237,28 @@
   .mydesignAdd.open .mdShapeBtn[data-t="3"]{transition-delay:.06s}
   .mdShapeGrid{display:grid;width:100%}
   .mdShapeGrid.t0{aspect-ratio:1}
-  .mdShapeGrid.t1,.mdShapeGrid.t2{aspect-ratio:248/157}
+  .mdShapeGrid.t1,.mdShapeGrid.t2{aspect-ratio:239/157}
   .mdShapeGrid.t3{aspect-ratio:125/34}
   .mdShapeBtn .mdShapeGrid{width:30px}
   .mdShapeBtn .mdPc{background:#9a9a9a;border-radius:1px}
   .mdRow{position:relative;margin:14px 10px;overflow:hidden;border-radius:12px}
   .mdRowInner{position:relative;background:var(--p-white);transition:transform .22s ease;touch-action:pan-y}
-  .mdRow.swiped .mdRowInner{transform:translateX(-64px)}
-  .mdRowDel{position:absolute;top:0;right:0;bottom:0;width:64px;display:flex;align-items:center;justify-content:center}
-  .mdRowDel .circ{width:34px;height:34px;border-radius:50%;background:var(--p-gray);display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .mdRow[data-swipe="right"] .mdRowInner{transform:translateX(-64px)}
+  .mdRow[data-swipe="left"] .mdRowInner{transform:translateX(64px)}
+  .mdRowDel{position:absolute;top:0;bottom:0;width:64px;display:flex;align-items:center;justify-content:center}
+  .mdRowDel.right{right:0}
+  .mdRowDel.left{left:0}
+  .mdRowDel .circ{width:34px;height:34px;border-radius:50%;background:var(--p-white);border:2px solid var(--p-gray);box-sizing:border-box;display:flex;align-items:center;justify-content:center;cursor:pointer}
   .mdRowDel .circ svg{width:16px;height:16px}
-  .mdRowDel .circ svg line{stroke:var(--p-white);stroke-width:2.6;stroke-linecap:round}
+  .mdRowDel .circ svg line{stroke:var(--p-gray);stroke-width:3.4;stroke-linecap:round}
   .mdCell{position:relative}
   .mdCell img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none}
-  .mdCell.empty{border:2px solid var(--p-gray);border-radius:10px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;padding:12%;cursor:pointer}
+  .mdCell.empty{border:2px solid var(--p-gray);border-radius:10px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .mdCell.empty img{width:36px;height:36px;flex:none}
   .mdCell.filled{cursor:default}
-  .mdTrash{position:absolute;top:2px;right:2px;width:20px;height:20px;padding:0;background:var(--p-white);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.25)}
-  .mdTrash svg{width:12px;height:12px}
+  .mdTrash{position:absolute;top:2px;right:2px;width:26px;height:26px;padding:0;background:none;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .mdTrash svg{width:20px;height:20px}
+  .mdTrash svg path{stroke:var(--p-gray)}
   #mdPickerBackdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:31}
   #mdPickerBackdrop.on{display:block}
   #mdPicker{display:none;position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:520px;background:var(--p-white);border-top:1px solid rgba(0,0,0,.12);padding:12px 10px calc(12px + env(safe-area-inset-bottom));z-index:32;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
@@ -473,8 +478,8 @@ cfg.mode=(cfg.mode==="my")?"my":"grid";
 // cols/rows는 실측 픽셀비를 그대로 fr단위로 사용(큰:작은≈157:67, 칸사이 간격≈23~24) → 화면 폭이 달라져도 정확히 같은 비율의 정사각형 칸 유지.
 var MD_SHAPES=[
   {cls:"t0",n:1,cols:"1fr",rows:"1fr",areas:[{c:"1",r:"1"}]},
-  {cls:"t1",n:3,cols:"157fr 24fr 67fr",rows:"67fr 23fr 67fr",areas:[{c:"1",r:"1 / 4"},{c:"3",r:"1"},{c:"3",r:"3"}]},
-  {cls:"t2",n:3,cols:"67fr 24fr 157fr",rows:"67fr 23fr 67fr",areas:[{c:"1",r:"1"},{c:"1",r:"3"},{c:"3",r:"1 / 4"}]},
+  {cls:"t1",n:3,cols:"157fr 7fr 75fr",rows:"75fr 7fr 75fr",areas:[{c:"1",r:"1 / 4"},{c:"3",r:"1"},{c:"3",r:"3"}]},
+  {cls:"t2",n:3,cols:"75fr 7fr 157fr",rows:"75fr 7fr 75fr",areas:[{c:"1",r:"1"},{c:"1",r:"3"},{c:"3",r:"1 / 4"}]},
   {cls:"t3",n:3,cols:"34fr 11.5fr 34fr 11.5fr 34fr",rows:"1fr",areas:[
     {c:"1",r:"1"},{c:"3",r:"1"},{c:"5",r:"1"}
   ]}
@@ -748,10 +753,16 @@ function buildShapeGrid(type,cellBuilder){
   return g;
 }
 var mdPickerTarget=null;
+function mdUsedKeys(){
+  var s=new Set();
+  cfg.myDesign.forEach(function(r){r.cells.forEach(function(k){if(k)s.add(k);});});
+  return s;
+}
 function mdOpenPicker(rowIdx,cellIdx){
   mdPickerTarget={rowIdx:rowIdx,cellIdx:cellIdx};
   var row=$("mdPickerRow");row.innerHTML="";
-  var list=mdAcquiredList();
+  var used=mdUsedKeys();
+  var list=mdAcquiredList().filter(function(m){return !used.has(m.key);});
   if(!list.length){
     var e=document.createElement("div");e.className="mdPickEmpty";e.textContent="아직 획득한 로고 아이콘이 없습니다.";
     row.appendChild(e);
@@ -790,7 +801,7 @@ function mdMakeCell(rowIdx,cellIdx,key){
     cell.appendChild(img);
     var trash=document.createElement("button");
     trash.type="button";trash.className="mdTrash";trash.setAttribute("aria-label","삭제");
-    trash.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="#E70011" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/></svg>';
+    trash.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/></svg>';
     trash.addEventListener("click",function(e){
       e.stopPropagation();
       cfg.myDesign[rowIdx].cells[cellIdx]=null;
@@ -806,13 +817,14 @@ function mdMakeCell(rowIdx,cellIdx,key){
   }
   return cell;
 }
+// 줄을 왼쪽으로 밀면 오른쪽에, 오른쪽으로 밀면 왼쪽에 삭제(마이너스) 버튼이 드러남(양방향).
 function mdAttachSwipe(rowEl,innerEl){
-  var startX=0,startY=0,dragging=false,moved=false,wasOpen=false;
+  var startX=0,startY=0,dragging=false,moved=false,wasSwipe="";
   var DEL_W=64;
   innerEl.addEventListener("pointerdown",function(e){
     if(e.pointerType==="mouse"&&e.button!==0)return;
     startX=e.clientX;startY=e.clientY;
-    wasOpen=rowEl.classList.contains("swiped");
+    wasSwipe=rowEl.getAttribute("data-swipe")||"";
     dragging=true;moved=false;
     innerEl.style.transition="none";
   });
@@ -824,8 +836,8 @@ function mdAttachSwipe(rowEl,innerEl){
       if(Math.abs(dy)>Math.abs(dx)){dragging=false;innerEl.style.transition="";return;}
       moved=true;
     }
-    var base=wasOpen?-DEL_W:0;
-    var nx=Math.min(0,Math.max(-DEL_W,base+dx));
+    var base=wasSwipe==="right"?-DEL_W:(wasSwipe==="left"?DEL_W:0);
+    var nx=Math.min(DEL_W,Math.max(-DEL_W,base+dx));
     innerEl.style.transform="translateX("+nx+"px)";
     innerEl._nx=nx;
   });
@@ -834,15 +846,17 @@ function mdAttachSwipe(rowEl,innerEl){
     dragging=false;
     innerEl.style.transition="";
     if(moved){
-      var nx=typeof innerEl._nx==="number"?innerEl._nx:(wasOpen?-DEL_W:0);
-      var open=nx<-DEL_W/2;
-      rowEl.classList.toggle("swiped",open);
+      var nx=typeof innerEl._nx==="number"?innerEl._nx:(wasSwipe==="right"?-DEL_W:(wasSwipe==="left"?DEL_W:0));
+      var state="";
+      if(nx<=-DEL_W/2)state="right";
+      else if(nx>=DEL_W/2)state="left";
+      if(state)rowEl.setAttribute("data-swipe",state);else rowEl.removeAttribute("data-swipe");
       innerEl.style.transform="";
       innerEl._nx=undefined;
       var blocker=function(ev){ev.stopPropagation();ev.preventDefault();};
       innerEl.addEventListener("click",blocker,{capture:true,once:true});
-    }else if(wasOpen){
-      rowEl.classList.remove("swiped");
+    }else if(wasSwipe){
+      rowEl.removeAttribute("data-swipe");
       innerEl.style.transform="";
       var blocker2=function(ev){ev.stopPropagation();ev.preventDefault();};
       innerEl.addEventListener("click",blocker2,{capture:true,once:true});
@@ -852,18 +866,23 @@ function mdAttachSwipe(rowEl,innerEl){
   innerEl.addEventListener("pointerup",finish);
   innerEl.addEventListener("pointercancel",finish);
 }
+function mdMakeRowDelBtn(side,rowIdx){
+  var del=document.createElement("div");del.className="mdRowDel "+side;
+  del.innerHTML='<div class="circ" role="button" aria-label="줄 삭제"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></div>';
+  del.querySelector(".circ").addEventListener("click",function(){
+    cfg.myDesign.splice(rowIdx,1);saveCfg();render();
+  });
+  return del;
+}
 function mdRenderRow(row,rowIdx,root){
   var wrap=document.createElement("div");wrap.className="mdRow";
   var inner=document.createElement("div");inner.className="mdRowInner";
   var grid=buildShapeGrid(row.type,function(i){return mdMakeCell(rowIdx,i,row.cells[i]);});
   inner.appendChild(grid);
-  var del=document.createElement("div");del.className="mdRowDel";
-  del.innerHTML='<div class="circ" role="button" aria-label="줄 삭제"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></div>';
-  del.querySelector(".circ").addEventListener("click",function(){
-    cfg.myDesign.splice(rowIdx,1);saveCfg();render();
-  });
   mdAttachSwipe(wrap,inner);
-  wrap.appendChild(del);wrap.appendChild(inner);
+  wrap.appendChild(mdMakeRowDelBtn("left",rowIdx));
+  wrap.appendChild(mdMakeRowDelBtn("right",rowIdx));
+  wrap.appendChild(inner);
   root.appendChild(wrap);
 }
 var mdAddOpen=false;
