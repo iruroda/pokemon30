@@ -11,7 +11,9 @@
     --p-white:#FFFFFF; --p-yellow:#FFCF0F; --p-black:#000000; --p-red:#E70011; --p-gray:#EFEFEF;
     --bg:#FFFFFF; --card:#252834; --accent:#ffcb05; --text:#000000; --sub:#8a8fa3;
   }
-  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none}
+  input,textarea{-webkit-user-select:text;-moz-user-select:text;user-select:text}
+  img{-webkit-user-drag:none;user-drag:none}
   html{overscroll-behavior-y:none}
   body{background:var(--bg);color:var(--text);font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;overflow-x:hidden;overscroll-behavior-y:none}
   @media (hover:hover) and (pointer:fine){
@@ -121,13 +123,13 @@
   #gachaBallWrap{position:absolute;inset:0;opacity:0;transform:translateY(-35px);cursor:pointer}
   #gachaBallWrap.drop{animation:gachaDrop .55s cubic-bezier(.34,1.15,.64,1) forwards}
   #gachaBallWrap.settled{opacity:1;transform:translateY(0)}
-  #gachaBallWrap.settled.opening{transition:opacity .3s ease .7s;opacity:0}
+  #gachaBallWrap.settled.opening{transition:opacity .15s ease;opacity:0}
   #gachaBall,#gachaBallWhite{position:absolute;width:60px;height:60px;top:50%;left:50%;margin:-30px 0 0 -30px;object-fit:contain;transform-origin:50% 82%}
   #gachaBall.wiggle{animation:gachaWiggle .5s ease-in-out}
   #gachaBall.condense,#gachaBallWhite.condense{transform-origin:50% 100%;animation:gachaCondense .5s cubic-bezier(.36,.07,.4,1) forwards}
   #gachaBallWhite{filter:brightness(0) invert(1);opacity:0;pointer-events:none}
-  #gachaBallWrap.opening #gachaBall{transition:opacity .65s ease;opacity:0}
-  #gachaBallWrap.opening #gachaBallWhite{transition:opacity .65s ease;opacity:1}
+  #gachaBallWrap.whitening #gachaBall{transition:opacity .65s ease;opacity:0}
+  #gachaBallWrap.whitening #gachaBallWhite{transition:opacity .65s ease;opacity:1}
   #gachaResult{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(.15);filter:brightness(6);pointer-events:none}
   #gachaResult.reveal{transition:transform .5s cubic-bezier(.34,1.4,.64,1),filter .45s ease .05s,opacity .15s ease;opacity:1;transform:scale(1);filter:brightness(1)}
   @keyframes gachaDrop{0%{opacity:0;transform:translateY(-35px)}55%{opacity:1}100%{opacity:1;transform:translateY(0)}}
@@ -730,7 +732,13 @@ $("sections").addEventListener("mouseup",endPress);
 $("sections").addEventListener("mouseleave",endPress);
 $("sections").addEventListener("touchend",endPress);
 $("sections").addEventListener("touchcancel",endPress);
-$("sections").addEventListener("contextmenu",function(ev){ev.preventDefault()});
+document.addEventListener("contextmenu",function(ev){ev.preventDefault()});
+document.addEventListener("dragstart",function(ev){ev.preventDefault()});
+document.addEventListener("selectstart",function(ev){
+  var t=ev.target;
+  if(t&&(t.tagName==="INPUT"||t.tagName==="TEXTAREA"))return;
+  ev.preventDefault();
+});
 $("sections").addEventListener("click",function(ev){
   if(longPressFired){longPressFired=false;return;}
   var t=ev.target,cell=null;
@@ -1047,14 +1055,17 @@ function startGachaOne(){
     white.classList.add("condense");
     shadow.classList.add("condense");
     setTimeout(function(){
-      wrap.classList.add("opening");
+      wrap.classList.add("whitening");
       shadow.classList.add("fadeout");
-      var pick=IMG30META[Math.floor(Math.random()*IMG30META.length)];
-      var res=$("gachaResult");
-      res.src=pick.path;
-      requestAnimationFrame(function(){
-        requestAnimationFrame(function(){res.classList.add("reveal")});
-      });
+      setTimeout(function(){
+        wrap.classList.add("opening");
+        var pick=IMG30META[Math.floor(Math.random()*IMG30META.length)];
+        var res=$("gachaResult");
+        res.src=pick.path;
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){res.classList.add("reveal")});
+        });
+      },650);
     },280);
   };
 }
