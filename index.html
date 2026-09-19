@@ -236,8 +236,9 @@
   .mydesignAdd.open .mdShapeBtn[data-t="2"]{transition-delay:.03s}
   .mydesignAdd.open .mdShapeBtn[data-t="3"]{transition-delay:.06s}
   .mdShapeGrid{display:grid;width:100%}
-  .mdShapeGrid.t0,.mdShapeGrid.t3{aspect-ratio:1}
+  .mdShapeGrid.t0{aspect-ratio:1}
   .mdShapeGrid.t1,.mdShapeGrid.t2{aspect-ratio:248/157}
+  .mdShapeGrid.t3{aspect-ratio:125/34}
   .mdShapeBtn .mdShapeGrid{width:30px}
   .mdShapeBtn .mdPc{background:#9a9a9a;border-radius:1px}
   .mdRow{position:relative;margin:14px 10px;overflow:hidden;border-radius:12px}
@@ -474,10 +475,8 @@ var MD_SHAPES=[
   {cls:"t0",n:1,cols:"1fr",rows:"1fr",areas:[{c:"1",r:"1"}]},
   {cls:"t1",n:3,cols:"157fr 24fr 67fr",rows:"67fr 23fr 67fr",areas:[{c:"1",r:"1 / 4"},{c:"3",r:"1"},{c:"3",r:"3"}]},
   {cls:"t2",n:3,cols:"67fr 24fr 157fr",rows:"67fr 23fr 67fr",areas:[{c:"1",r:"1"},{c:"1",r:"3"},{c:"3",r:"1 / 4"}]},
-  {cls:"t3",n:9,cols:"67fr 23.5fr 67fr 23.5fr 67fr",rows:"67fr 23.5fr 67fr 23.5fr 67fr",areas:[
-    {c:"1",r:"1"},{c:"3",r:"1"},{c:"5",r:"1"},
-    {c:"1",r:"3"},{c:"3",r:"3"},{c:"5",r:"3"},
-    {c:"1",r:"5"},{c:"3",r:"5"},{c:"5",r:"5"}
+  {cls:"t3",n:3,cols:"34fr 11.5fr 34fr 11.5fr 34fr",rows:"1fr",areas:[
+    {c:"1",r:"1"},{c:"3",r:"1"},{c:"5",r:"1"}
   ]}
 ];
 function sanitizeMyDesign(arr){
