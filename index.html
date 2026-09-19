@@ -94,7 +94,7 @@
   .msec.collapsed .chips{display:none}
   .chips{display:flex;flex-wrap:wrap;gap:6px}
   .chip{background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);color:var(--p-black);border-radius:16px;padding:6px 12px;font-size:12px;cursor:pointer}
-  .chip.on{background:var(--p-yellow);border-color:var(--p-yellow);color:var(--p-white)}
+  .chip.on{background:var(--p-yellow);border-color:var(--p-yellow);color:var(--p-black)}
   .mbig{width:100%;background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);color:var(--p-black);border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;margin:14px 0 0}
   .mbig.warn{color:var(--p-red);border-color:var(--p-red)}
   #overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:30;align-items:center;justify-content:center;padding:24px}
@@ -117,7 +117,7 @@
   .modal input:focus{border-color:var(--p-red)}
   .modal p{font-size:14px;color:var(--text);line-height:1.55;margin:0 0 18px}
   #confirmMsg.danger{color:#d98a9a}
-  .modal button{margin-top:6px;background:var(--p-yellow);border:none;border-radius:12px;padding:10px 24px;font-size:14px;font-weight:700;color:var(--p-white);cursor:pointer;width:100%}
+  .modal button{margin-top:6px;background:var(--p-yellow);border:none;border-radius:12px;padding:10px 24px;font-size:14px;font-weight:700;color:var(--p-black);cursor:pointer;width:100%}
   .modal button.secondary{background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);color:var(--p-black);margin-top:8px}
   #gachaStage{display:none;position:relative;width:120px;height:120px;margin:4px auto 18px}
   #gachaShadow{position:absolute;left:50%;top:90px;width:42px;height:11px;background:#A19E9E;border-radius:50%;opacity:0;transform:translate(-50%,-50%) scale(0);transform-origin:center;pointer-events:none}
@@ -128,10 +128,12 @@
   #gachaBallWrap.drop{animation:gachaDrop .55s cubic-bezier(.34,1.15,.64,1) forwards}
   #gachaBallWrap.settled{opacity:1;transform:translateY(0)}
   #gachaBallWrap.settled.opening{transition:opacity .15s ease;opacity:0}
-  #gachaBall{position:absolute;width:60px;height:60px;top:50%;left:50%;margin:-30px 0 0 -30px;object-fit:contain;transform-origin:50% 82%}
+  #gachaBall,#gachaBallWhite{position:absolute;width:60px;height:60px;top:50%;left:50%;margin:-30px 0 0 -30px;object-fit:contain;transform-origin:50% 82%}
   #gachaBall.wiggle{animation:gachaWiggle .5s ease-in-out}
-  #gachaBall.condense{transform-origin:50% 100%;animation:gachaCondense .5s cubic-bezier(.36,.07,.4,1) forwards}
+  #gachaBall.condense,#gachaBallWhite.condense{transform-origin:50% 100%;animation:gachaCondense .5s cubic-bezier(.36,.07,.4,1) forwards}
+  #gachaBallWhite{filter:brightness(0) invert(1);opacity:0;pointer-events:none}
   #gachaBallWrap.closing #gachaBall{transition:opacity .4s ease;opacity:0}
+  #gachaBallWrap.closing #gachaBallWhite{transition:opacity .4s ease;opacity:1}
   #gachaResult,#gachaResultWhite{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(.15);pointer-events:none}
   #gachaResultWhite{filter:brightness(0) invert(1)}
   #gachaResult.reveal,#gachaResultWhite.reveal{transition:transform .5s cubic-bezier(.34,1.4,.64,1),opacity .15s ease;opacity:1;transform:scale(1)}
@@ -140,15 +142,15 @@
   @keyframes gachaWiggle{0%,100%{transform:rotate(0deg)}20%{transform:rotate(-10deg)}40%{transform:rotate(8deg)}60%{transform:rotate(-5deg)}80%{transform:rotate(3deg)}}
   @keyframes gachaCondense{
     0%{transform:scale(1) translate(0,0)}
-    12%{transform:scale(.985) translate(-2.5px,1.5px)}
-    24%{transform:scale(.965) translate(2.5px,-1.5px)}
-    36%{transform:scale(.945) translate(-2px,-2px)}
-    48%{transform:scale(.93) translate(2px,1.5px)}
-    60%{transform:scale(.918) translate(-1.5px,1.5px)}
-    72%{transform:scale(.91) translate(1.5px,-1px)}
-    84%{transform:scale(.905) translate(-1px,1px)}
-    92%{transform:scale(.902) translate(.6px,-.6px)}
-    100%{transform:scale(.9) translate(0,0)}
+    12%{transform:scale(.9925) translate(-2.5px,1.5px)}
+    24%{transform:scale(.9825) translate(2.5px,-1.5px)}
+    36%{transform:scale(.9725) translate(-2px,-2px)}
+    48%{transform:scale(.965) translate(2px,1.5px)}
+    60%{transform:scale(.959) translate(-1.5px,1.5px)}
+    72%{transform:scale(.955) translate(1.5px,-1px)}
+    84%{transform:scale(.9525) translate(-1px,1px)}
+    92%{transform:scale(.951) translate(.6px,-.6px)}
+    100%{transform:scale(.95) translate(0,0)}
   }
   #gachaGrid{display:none;grid-template-columns:repeat(3,1fr);gap:8px;max-height:280px;overflow-y:auto;margin:4px 0 18px;padding:2px}
   .gStage{position:relative;width:100%;aspect-ratio:1/1;--gs:86px}
@@ -160,10 +162,12 @@
   .gBallWrap.drop{animation:gGridDrop .55s cubic-bezier(.34,1.15,.64,1) forwards}
   .gBallWrap.settled{opacity:1;transform:translateY(0)}
   .gBallWrap.settled.opening{transition:opacity .15s ease;opacity:0}
-  .gBall{position:absolute;width:calc(var(--gs) * .5);height:calc(var(--gs) * .5);top:50%;left:50%;margin:calc(var(--gs) * -.25) 0 0 calc(var(--gs) * -.25);object-fit:contain;transform-origin:50% 82%}
+  .gBall,.gBallWhite{position:absolute;width:calc(var(--gs) * .5);height:calc(var(--gs) * .5);top:50%;left:50%;margin:calc(var(--gs) * -.25) 0 0 calc(var(--gs) * -.25);object-fit:contain;transform-origin:50% 82%}
   .gBall.wiggle{animation:gachaWiggle .5s ease-in-out}
-  .gBall.condense{transform-origin:50% 100%;animation:gGridCondense .5s cubic-bezier(.36,.07,.4,1) forwards}
+  .gBall.condense,.gBallWhite.condense{transform-origin:50% 100%;animation:gGridCondense .5s cubic-bezier(.36,.07,.4,1) forwards}
+  .gBallWhite{filter:brightness(0) invert(1);opacity:0;pointer-events:none}
   .gBallWrap.closing .gBall{transition:opacity .4s ease;opacity:0}
+  .gBallWrap.closing .gBallWhite{transition:opacity .4s ease;opacity:1}
   .gResult,.gResultWhite{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(.15);pointer-events:none}
   .gResultWhite{filter:brightness(0) invert(1)}
   .gResult.reveal,.gResultWhite.reveal{transition:transform .5s cubic-bezier(.34,1.4,.64,1),opacity .15s ease;opacity:1;transform:scale(1)}
@@ -171,22 +175,22 @@
   @keyframes gGridDrop{0%{opacity:0;transform:translateY(calc(var(--gs) * -.292))}55%{opacity:1}100%{opacity:1;transform:translateY(0)}}
   @keyframes gGridCondense{
     0%{transform:scale(1) translate(0,0)}
-    12%{transform:scale(.985) translate(calc(var(--gs) * -.0208),calc(var(--gs) * .0125))}
-    24%{transform:scale(.965) translate(calc(var(--gs) * .0208),calc(var(--gs) * -.0125))}
-    36%{transform:scale(.945) translate(calc(var(--gs) * -.0167),calc(var(--gs) * -.0167))}
-    48%{transform:scale(.93) translate(calc(var(--gs) * .0167),calc(var(--gs) * .0125))}
-    60%{transform:scale(.918) translate(calc(var(--gs) * -.0125),calc(var(--gs) * .0125))}
-    72%{transform:scale(.91) translate(calc(var(--gs) * .0125),calc(var(--gs) * -.0083))}
-    84%{transform:scale(.905) translate(calc(var(--gs) * -.0083),calc(var(--gs) * .0083))}
-    92%{transform:scale(.902) translate(calc(var(--gs) * .005),calc(var(--gs) * -.005))}
-    100%{transform:scale(.9) translate(0,0)}
+    12%{transform:scale(.9925) translate(calc(var(--gs) * -.0208),calc(var(--gs) * .0125))}
+    24%{transform:scale(.9825) translate(calc(var(--gs) * .0208),calc(var(--gs) * -.0125))}
+    36%{transform:scale(.9725) translate(calc(var(--gs) * -.0167),calc(var(--gs) * -.0167))}
+    48%{transform:scale(.965) translate(calc(var(--gs) * .0167),calc(var(--gs) * .0125))}
+    60%{transform:scale(.959) translate(calc(var(--gs) * -.0125),calc(var(--gs) * .0125))}
+    72%{transform:scale(.955) translate(calc(var(--gs) * .0125),calc(var(--gs) * -.0083))}
+    84%{transform:scale(.9525) translate(calc(var(--gs) * -.0083),calc(var(--gs) * .0083))}
+    92%{transform:scale(.951) translate(calc(var(--gs) * .005),calc(var(--gs) * -.005))}
+    100%{transform:scale(.95) translate(0,0)}
   }
   @keyframes p30cellSpin{0%{transform:scaleX(1)}50%{transform:scaleX(.06)}100%{transform:scaleX(1)}}
   .cell img.spin30{animation:p30cellSpin .6s ease-in-out}
-  #iconModal .box{max-width:280px}
+  #iconModal .box{max-width:380px}
   #iconPopImg{width:140px;height:140px;object-fit:contain;margin:0 auto 10px;display:block}
   #iconPopNameRow{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:18px}
-  #iconPopName{font-size:16px;font-weight:800;color:var(--p-black)}
+  #iconPopName{font-size:16px;font-weight:800;color:var(--p-black);white-space:nowrap}
   #iconPopFav{width:30px;height:30px;flex:none;background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;margin:0}
   #iconPopFav svg{width:18px;height:18px;display:block}
   #iconPopFav svg path{fill:none;stroke:#000;stroke-width:1.5;stroke-linejoin:round}
@@ -218,8 +222,45 @@
   #searchClearBtn span{position:absolute;width:14px;height:2px;border-radius:1px;background:var(--p-black)}
   #searchClearBtn span:nth-child(1){transform:rotate(45deg)}
   #searchClearBtn span:nth-child(2){transform:rotate(-45deg)}
-  .mydesignAdd{margin:14px 10px;height:64px;background:var(--p-gray);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer}
-  .mydesignAdd svg{width:26px;height:26px}
+  .mydesignAdd{position:relative;overflow:hidden;margin:14px 10px;height:64px;background:var(--p-gray);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .mdPlusBadge{width:34px;height:34px;border-radius:50%;background:var(--p-white);display:flex;align-items:center;justify-content:center;transition:opacity .18s ease,transform .18s ease;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  .mdPlusBadge svg{width:16px;height:16px}
+  .mdPlusBadge svg line{stroke:#9a9a9a;stroke-width:2.6;stroke-linecap:round}
+  .mydesignAdd.open .mdPlusBadge{opacity:0;transform:scale(.4)}
+  .mdShapeBtns{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:10px;opacity:0;pointer-events:none;transition:opacity .18s ease}
+  .mydesignAdd.open .mdShapeBtns{opacity:1;pointer-events:auto}
+  .mdShapeBtn{width:44px;height:44px;background:var(--p-white);border-radius:10px;display:flex;align-items:center;justify-content:center;padding:6px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.12);transform:scale(.3);opacity:0;transition:transform .28s cubic-bezier(.34,1.15,.64,1),opacity .2s ease}
+  .mydesignAdd.open .mdShapeBtn{transform:scale(1);opacity:1}
+  .mydesignAdd.open .mdShapeBtn[data-t="0"]{transition-delay:0s}
+  .mydesignAdd.open .mdShapeBtn[data-t="1"]{transition-delay:.03s}
+  .mydesignAdd.open .mdShapeBtn[data-t="2"]{transition-delay:.03s}
+  .mydesignAdd.open .mdShapeBtn[data-t="3"]{transition-delay:.06s}
+  .mdShapeGrid{display:grid;width:100%}
+  .mdShapeGrid.t0,.mdShapeGrid.t3{aspect-ratio:1}
+  .mdShapeGrid.t1,.mdShapeGrid.t2{aspect-ratio:248/157}
+  .mdShapeBtn .mdShapeGrid{width:30px}
+  .mdShapeBtn .mdPc{background:#9a9a9a;border-radius:1px}
+  .mdRow{position:relative;margin:14px 10px;overflow:hidden;border-radius:12px}
+  .mdRowInner{position:relative;background:var(--p-white);transition:transform .22s ease;touch-action:pan-y}
+  .mdRow.swiped .mdRowInner{transform:translateX(-64px)}
+  .mdRowDel{position:absolute;top:0;right:0;bottom:0;width:64px;display:flex;align-items:center;justify-content:center}
+  .mdRowDel .circ{width:34px;height:34px;border-radius:50%;background:var(--p-gray);display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .mdRowDel .circ svg{width:16px;height:16px}
+  .mdRowDel .circ svg line{stroke:var(--p-white);stroke-width:2.6;stroke-linecap:round}
+  .mdCell{position:relative}
+  .mdCell img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none}
+  .mdCell.empty{border:2px solid var(--p-gray);border-radius:10px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;padding:12%;cursor:pointer}
+  .mdCell.filled{cursor:default}
+  .mdTrash{position:absolute;top:2px;right:2px;width:20px;height:20px;padding:0;background:var(--p-white);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+  .mdTrash svg{width:12px;height:12px}
+  #mdPickerBackdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:31}
+  #mdPickerBackdrop.on{display:block}
+  #mdPicker{display:none;position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:520px;background:var(--p-white);border-top:1px solid rgba(0,0,0,.12);padding:12px 10px calc(12px + env(safe-area-inset-bottom));z-index:32;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
+  #mdPicker.on{display:block}
+  #mdPickerRow{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}
+  #mdPickerRow .mdPickIt{flex:none;width:52px;height:52px;cursor:pointer}
+  #mdPickerRow .mdPickIt img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}
+  #mdPickerRow .mdPickEmpty{color:var(--sub);font-size:13px;padding:14px 4px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -250,6 +291,8 @@
   <button id="searchBtn" class="ticon" type="button" aria-label="검색"><img src="icon_search.png" alt=""></button>
   <button id="viewBtn" class="ticon" type="button" aria-label="보기 전환"></button>
 </div>
+<div id="mdPickerBackdrop"></div>
+<div id="mdPicker"><div id="mdPickerRow"></div></div>
 <button id="menubtn" type="button" aria-label="메뉴 열기/닫기"><span></span><span></span><span></span></button>
 <div id="menu"></div><div id="mpanel">
   <div id="mtitle"><img id="ptimg" alt="">30주년 로고 아이콘 갤러리</div>
@@ -290,7 +333,7 @@
   <p id="gachaDesc">30주년 코인을 사용하여 로고 아이콘을 뽑습니다.</p>
   <div id="gachaStage">
     <div id="gachaShadow"></div>
-    <div id="gachaBallWrap"><img id="gachaBall" src="monsterball.png" alt="뽑기"></div>
+    <div id="gachaBallWrap"><img id="gachaBall" src="monsterball.png" alt="뽑기"><img id="gachaBallWhite" src="monsterball.png" alt=""></div>
     <img id="gachaResult" alt=""><img id="gachaResultWhite" alt="">
   </div>
   <div id="gachaGrid"></div>
@@ -301,13 +344,12 @@
   <button class="secondary" id="gachaGridClose" style="display:none">닫기</button>
 </div></div>
 <div id="iconModal" class="modal"><div class="box">
-  <h2>로고 아이콘</h2>
   <img id="iconPopImg" alt="">
   <div id="iconPopNameRow">
     <span id="iconPopName"></span>
     <button id="iconPopFav" type="button" aria-label="즐겨찾기"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.4 6.9.7-5.2 4.7 1.6 6.9L12 17.6 5.8 21.2l1.6-6.9-5.2-4.7 6.9-.7z"/></svg></button>
   </div>
-  <button id="iconPopSave">저장하기</button>
+  <button id="iconPopSave">다운로드</button>
   <button class="secondary" id="iconPopClose">닫기</button>
 </div></div>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
@@ -425,7 +467,35 @@ cfg.dexIdx=(typeof cfg.dexIdx==="number"&&cfg.dexIdx>=0&&cfg.dexIdx<20)?cfg.dexI
 cfg.fillOrder=(cfg.fillOrder===1||cfg.fillOrder===2)?cfg.fillOrder:0;
 cfg.collapsed=(cfg.collapsed&&typeof cfg.collapsed==="object")?cfg.collapsed:{};
 cfg.mode=(cfg.mode==="my")?"my":"grid";
-cfg.myDesign=Array.isArray(cfg.myDesign)?cfg.myDesign:[];
+// 마이 디자인 그리드 모양 정의(측정된 참고 이미지 비율 반영):
+// t0=큰 네모 1개, t1=큰 네모(왼)+작은 네모 2개(오, 위아래), t2=작은 네모 2개(왼, 위아래)+큰 네모(오), t3=작은 네모 3x3
+// cols/rows는 실측 픽셀비를 그대로 fr단위로 사용(큰:작은≈157:67, 칸사이 간격≈23~24) → 화면 폭이 달라져도 정확히 같은 비율의 정사각형 칸 유지.
+var MD_SHAPES=[
+  {cls:"t0",n:1,cols:"1fr",rows:"1fr",areas:[{c:"1",r:"1"}]},
+  {cls:"t1",n:3,cols:"157fr 24fr 67fr",rows:"67fr 23fr 67fr",areas:[{c:"1",r:"1 / 4"},{c:"3",r:"1"},{c:"3",r:"3"}]},
+  {cls:"t2",n:3,cols:"67fr 24fr 157fr",rows:"67fr 23fr 67fr",areas:[{c:"1",r:"1"},{c:"1",r:"3"},{c:"3",r:"1 / 4"}]},
+  {cls:"t3",n:9,cols:"67fr 23.5fr 67fr 23.5fr 67fr",rows:"67fr 23.5fr 67fr 23.5fr 67fr",areas:[
+    {c:"1",r:"1"},{c:"3",r:"1"},{c:"5",r:"1"},
+    {c:"1",r:"3"},{c:"3",r:"3"},{c:"5",r:"3"},
+    {c:"1",r:"5"},{c:"3",r:"5"},{c:"5",r:"5"}
+  ]}
+];
+function sanitizeMyDesign(arr){
+  if(!Array.isArray(arr))return[];
+  var out=[];
+  arr.forEach(function(r){
+    if(!r||typeof r!=="object")return;
+    var t=(r.type>=0&&r.type<MD_SHAPES.length)?r.type:-1;
+    if(t<0)return;
+    var n=MD_SHAPES[t].n;
+    var cells=Array.isArray(r.cells)?r.cells.slice(0,n):[];
+    while(cells.length<n)cells.push(null);
+    cells=cells.map(function(k){return(typeof k==="number")?k:null});
+    out.push({type:t,cells:cells});
+  });
+  return out;
+}
+cfg.myDesign=sanitizeMyDesign(cfg.myDesign);
 cfg.sortOrder=(cfg.sortOrder===1||cfg.sortOrder===2)?cfg.sortOrder:0;
 cfg.gachaAnim=("gachaAnim" in cfg)?!!cfg.gachaAnim:true;
 cfg.gachaAlwaysAll=!!cfg.gachaAlwaysAll;
@@ -606,12 +676,17 @@ function toggleP30Fav(key){
   return p30Favs.has(key);
 }
 var iconPopCur=null;
+function fmtKB(bytes){return (bytes/1024).toFixed(1)+"KB";}
 function openIconPopup(m){
   iconPopCur=m;
   $("iconPopImg").src=m.path;
   $("iconPopName").textContent=p30Name(m);
   $("iconPopFav").classList.toggle("on",p30Favs.has(m.key));
   $("iconModal").style.display="flex";
+  $("iconPopSave").textContent="다운로드";
+  fetch(m.path).then(function(r){return r.blob()}).then(function(blob){
+    if(iconPopCur===m)$("iconPopSave").textContent="다운로드 ("+fmtKB(blob.size)+")";
+  }).catch(function(){});
 }
 function closeIconPopup(){$("iconModal").style.display="none";iconPopCur=null;}
 $("iconPopFav").onclick=function(){
@@ -653,11 +728,186 @@ var p30SpinTimer=null;
   },4000+Math.random()*7000);
 })();
 
+// ---- 마이 디자인: 획득한 로고 아이콘을 원하는 모양(그리드)으로 배치하는 나만의 진열장 ----
+function mdAcquiredList(){return IMG30META.filter(function(m){return p30ImgFound.has(m.key)});}
+function mdMetaByKey(key){
+  for(var i=0;i<IMG30META.length;i++){if(IMG30META[i].key===key)return IMG30META[i];}
+  return null;
+}
+function buildShapeGrid(type,cellBuilder){
+  var sh=MD_SHAPES[type];
+  var g=document.createElement("div");
+  g.className="mdShapeGrid t"+type;
+  g.style.gridTemplateColumns=sh.cols;
+  g.style.gridTemplateRows=sh.rows;
+  sh.areas.forEach(function(a,i){
+    var cell=cellBuilder(i,a);
+    cell.style.gridColumn=a.c;
+    cell.style.gridRow=a.r;
+    g.appendChild(cell);
+  });
+  return g;
+}
+var mdPickerTarget=null;
+function mdOpenPicker(rowIdx,cellIdx){
+  mdPickerTarget={rowIdx:rowIdx,cellIdx:cellIdx};
+  var row=$("mdPickerRow");row.innerHTML="";
+  var list=mdAcquiredList();
+  if(!list.length){
+    var e=document.createElement("div");e.className="mdPickEmpty";e.textContent="아직 획득한 로고 아이콘이 없습니다.";
+    row.appendChild(e);
+  }else{
+    list.forEach(function(m){
+      var it=document.createElement("div");it.className="mdPickIt";
+      var img=document.createElement("img");img.alt="";img.src=m.path;
+      it.appendChild(img);
+      it.addEventListener("click",function(){
+        if(!mdPickerTarget)return;
+        var t=mdPickerTarget;
+        cfg.myDesign[t.rowIdx].cells[t.cellIdx]=m.key;
+        saveCfg();
+        mdClosePicker();
+        render();
+      });
+      row.appendChild(it);
+    });
+  }
+  $("mdPicker").classList.add("on");
+  $("mdPickerBackdrop").classList.add("on");
+}
+function mdClosePicker(){
+  mdPickerTarget=null;
+  $("mdPicker").classList.remove("on");
+  $("mdPickerBackdrop").classList.remove("on");
+}
+$("mdPickerBackdrop").addEventListener("click",mdClosePicker);
+function mdMakeCell(rowIdx,cellIdx,key){
+  var cell=document.createElement("div");
+  if(key){
+    cell.className="mdCell filled";
+    var m=mdMetaByKey(key);
+    var img=document.createElement("img");
+    img.alt="";img.src=m?m.path:"";
+    cell.appendChild(img);
+    var trash=document.createElement("button");
+    trash.type="button";trash.className="mdTrash";trash.setAttribute("aria-label","삭제");
+    trash.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="#E70011" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/></svg>';
+    trash.addEventListener("click",function(e){
+      e.stopPropagation();
+      cfg.myDesign[rowIdx].cells[cellIdx]=null;
+      saveCfg();render();
+    });
+    cell.appendChild(trash);
+  }else{
+    cell.className="mdCell empty";
+    var bimg=document.createElement("img");
+    bimg.alt="";bimg.src="blank_ball.png";
+    cell.appendChild(bimg);
+    cell.addEventListener("click",function(){mdOpenPicker(rowIdx,cellIdx)});
+  }
+  return cell;
+}
+function mdAttachSwipe(rowEl,innerEl){
+  var startX=0,startY=0,dragging=false,moved=false,wasOpen=false;
+  var DEL_W=64;
+  innerEl.addEventListener("pointerdown",function(e){
+    if(e.pointerType==="mouse"&&e.button!==0)return;
+    startX=e.clientX;startY=e.clientY;
+    wasOpen=rowEl.classList.contains("swiped");
+    dragging=true;moved=false;
+    innerEl.style.transition="none";
+  });
+  innerEl.addEventListener("pointermove",function(e){
+    if(!dragging)return;
+    var dx=e.clientX-startX,dy=e.clientY-startY;
+    if(!moved){
+      if(Math.abs(dx)<6&&Math.abs(dy)<6)return;
+      if(Math.abs(dy)>Math.abs(dx)){dragging=false;innerEl.style.transition="";return;}
+      moved=true;
+    }
+    var base=wasOpen?-DEL_W:0;
+    var nx=Math.min(0,Math.max(-DEL_W,base+dx));
+    innerEl.style.transform="translateX("+nx+"px)";
+    innerEl._nx=nx;
+  });
+  function finish(){
+    if(!dragging)return;
+    dragging=false;
+    innerEl.style.transition="";
+    if(moved){
+      var nx=typeof innerEl._nx==="number"?innerEl._nx:(wasOpen?-DEL_W:0);
+      var open=nx<-DEL_W/2;
+      rowEl.classList.toggle("swiped",open);
+      innerEl.style.transform="";
+      innerEl._nx=undefined;
+      var blocker=function(ev){ev.stopPropagation();ev.preventDefault();};
+      innerEl.addEventListener("click",blocker,{capture:true,once:true});
+    }else if(wasOpen){
+      rowEl.classList.remove("swiped");
+      innerEl.style.transform="";
+      var blocker2=function(ev){ev.stopPropagation();ev.preventDefault();};
+      innerEl.addEventListener("click",blocker2,{capture:true,once:true});
+    }
+    moved=false;
+  }
+  innerEl.addEventListener("pointerup",finish);
+  innerEl.addEventListener("pointercancel",finish);
+}
+function mdRenderRow(row,rowIdx,root){
+  var wrap=document.createElement("div");wrap.className="mdRow";
+  var inner=document.createElement("div");inner.className="mdRowInner";
+  var grid=buildShapeGrid(row.type,function(i){return mdMakeCell(rowIdx,i,row.cells[i]);});
+  inner.appendChild(grid);
+  var del=document.createElement("div");del.className="mdRowDel";
+  del.innerHTML='<div class="circ" role="button" aria-label="줄 삭제"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></div>';
+  del.querySelector(".circ").addEventListener("click",function(){
+    cfg.myDesign.splice(rowIdx,1);saveCfg();render();
+  });
+  mdAttachSwipe(wrap,inner);
+  wrap.appendChild(del);wrap.appendChild(inner);
+  root.appendChild(wrap);
+}
+var mdAddOpen=false;
+function mdBuildAddBox(root){
+  var add=document.createElement("div");
+  add.className="mydesignAdd"+(mdAddOpen?" open":"");
+  var badge=document.createElement("div");badge.className="mdPlusBadge";
+  badge.innerHTML='<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+  badge.addEventListener("click",function(e){
+    e.stopPropagation();
+    mdAddOpen=!mdAddOpen;
+    render();
+  });
+  add.appendChild(badge);
+  var btnsWrap=document.createElement("div");btnsWrap.className="mdShapeBtns";
+  MD_SHAPES.forEach(function(sh,ti){
+    var b=document.createElement("div");
+    b.className="mdShapeBtn";b.setAttribute("data-t",ti);
+    var prev=buildShapeGrid(ti,function(){var d=document.createElement("div");d.className="mdPc";return d;});
+    b.appendChild(prev);
+    b.addEventListener("click",function(e){
+      e.stopPropagation();
+      cfg.myDesign.push({type:ti,cells:new Array(sh.n).fill(null)});
+      mdAddOpen=false;
+      saveCfg();render();
+    });
+    btnsWrap.appendChild(b);
+  });
+  add.appendChild(btnsWrap);
+  root.appendChild(add);
+}
+document.addEventListener("click",function(e){
+  if(mdAddOpen&&cfg.mode==="my"&&!e.target.closest(".mydesignAdd")){
+    mdAddOpen=false;
+    var addEl=document.querySelector(".mydesignAdd");
+    if(addEl)addEl.classList.remove("open");
+  }
+});
 function renderMyDesign(){
   var root=$("sections");root.innerHTML="";allCells=[];
-  var add=document.createElement("div");add.className="mydesignAdd";
-  add.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><line x1="12" y1="4" x2="12" y2="20"/><line x1="4" y1="12" x2="20" y2="12"/></svg>';
-  root.appendChild(add);
+  mdClosePicker();
+  cfg.myDesign.forEach(function(row,idx){mdRenderRow(row,idx,root)});
+  mdBuildAddBox(root);
   $("pnum").textContent=0;$("ptotal").textContent=0;
   $("pfill").style.width="0%";
 }
@@ -1084,7 +1334,7 @@ function syncFromServer(){
       cfg.fillOrder=(c.fillOrder===1||c.fillOrder===2)?c.fillOrder:0;
       cfg.collapsed=(c.collapsed&&typeof c.collapsed==="object")?c.collapsed:{};
       cfg.mode=(c.mode==="my")?"my":"grid";
-      cfg.myDesign=Array.isArray(c.myDesign)?c.myDesign:[];
+      cfg.myDesign=sanitizeMyDesign(c.myDesign);
       cfg.sortOrder=(c.sortOrder===1||c.sortOrder===2)?c.sortOrder:0;
       cfg.gachaAnim=("gachaAnim" in c)?!!c.gachaAnim:true;
       cfg.gachaAlwaysAll=!!c.gachaAlwaysAll;
@@ -1160,6 +1410,7 @@ function resetGachaStage(){
   $("gachaBallWrap").className="";
   $("gachaBallWrap").onclick=null;
   $("gachaBall").className="";
+  $("gachaBallWhite").className="";
   $("gachaResult").className="";
   $("gachaResult").removeAttribute("src");
   $("gachaResultWhite").className="";
@@ -1177,8 +1428,8 @@ function resetGachaStage(){
   grid.innerHTML="";
 }
 // 하나의 몬스터볼(떨어짐→대기 흔들림→클릭시 응축→하얘짐→로고 공개) 연출 단위.
-// wrap/ball/white/shadow/result: 각 파츠 엘리먼트, dropDelay: 낙하 시작까지의 지연(ms, 여러개를 시차 배치할 때 사용)
-function runGachaUnit(wrap,ball,shadow,result,resultWhite,dropDelay){
+// wrap/ball/ballWhite/shadow/result/resultWhite: 각 파츠 엘리먼트, dropDelay: 낙하 시작까지의 지연(ms, 여러개를 시차 배치할 때 사용)
+function runGachaUnit(wrap,ball,ballWhite,shadow,result,resultWhite,dropDelay){
   var wiggleTimer=null,dropTimer=null,opened=false;
   var wrapBase=wrap.className,shadowBase=shadow.className;
   function setWrapCls(extra){wrap.className=extra?(wrapBase+" "+extra).trim():wrapBase;}
@@ -1187,13 +1438,21 @@ function runGachaUnit(wrap,ball,shadow,result,resultWhite,dropDelay){
     var pick=IMG30META[Math.floor(Math.random()*IMG30META.length)];
     result.src=pick.path;
     if(withFlash)resultWhite.src=pick.path;
-    requestAnimationFrame(function(){
+    // 두 레이어(원본 색상/흰색 실루엣)가 서로 다른 타이밍에 디코딩되면
+    // 색이 잠깐 비쳤다가 흰색이 뒤늦게 덮으며 사라지는 것처럼 보일 수 있어,
+    // 둘 다 디코딩이 끝난 뒤에만 보여준다.
+    var imgs=withFlash?[result,resultWhite]:[result];
+    Promise.all(imgs.map(function(im){
+      return (im.decode?im.decode():Promise.resolve()).catch(function(){});
+    })).then(function(){
       requestAnimationFrame(function(){
-        result.classList.add("reveal");
-        if(withFlash){
-          resultWhite.classList.add("reveal");
-          setTimeout(function(){resultWhite.classList.add("flashoff")},180);
-        }
+        requestAnimationFrame(function(){
+          result.classList.add("reveal");
+          if(withFlash){
+            resultWhite.classList.add("reveal");
+            setTimeout(function(){resultWhite.classList.add("flashoff")},180);
+          }
+        });
       });
     });
   }
@@ -1214,6 +1473,7 @@ function runGachaUnit(wrap,ball,shadow,result,resultWhite,dropDelay){
     wrap.classList.add("condensing");
     ball.classList.remove("wiggle");
     ball.classList.add("condense");
+    ballWhite.classList.add("condense");
     shadow.classList.add("condense");
     setTimeout(function(){
       wrap.classList.add("closing");
@@ -1256,7 +1516,7 @@ function startGachaOne(){
   $("gachaAll").style.display="none";
   $("gachaOne").style.display="none";
   $("gachaStage").style.display="block";
-  gachaOneUnit=runGachaUnit($("gachaBallWrap"),$("gachaBall"),$("gachaShadow"),$("gachaResult"),$("gachaResultWhite"),0);
+  gachaOneUnit=runGachaUnit($("gachaBallWrap"),$("gachaBall"),$("gachaBallWhite"),$("gachaShadow"),$("gachaResult"),$("gachaResultWhite"),0);
 }
 function startGachaAll(){
   // TODO: 실제 코인 차감/뽑기 확률/보유 로고 반영은 추후 연결. 지금은 연출만 구현(현재 코인 수만큼 몬스터볼 표시).
@@ -1273,13 +1533,14 @@ function startGachaAll(){
     var shadow=document.createElement("div");shadow.className="gShadow";
     var wrap=document.createElement("div");wrap.className="gBallWrap";
     var ball=document.createElement("img");ball.className="gBall";ball.src="monsterball.png";ball.alt="뽑기";
+    var ballWhite=document.createElement("img");ballWhite.className="gBallWhite";ballWhite.src="monsterball.png";ballWhite.alt="";
     var result=document.createElement("img");result.className="gResult";result.alt="";
     var resultWhite=document.createElement("img");resultWhite.className="gResultWhite";resultWhite.alt="";
-    wrap.appendChild(ball);
+    wrap.appendChild(ball);wrap.appendChild(ballWhite);
     stage.appendChild(shadow);stage.appendChild(wrap);stage.appendChild(result);stage.appendChild(resultWhite);
     grid.appendChild(stage);
     var delay=Math.floor(i/3)*160+Math.random()*90;
-    gachaGridUnits.push(runGachaUnit(wrap,ball,shadow,result,resultWhite,delay));
+    gachaGridUnits.push(runGachaUnit(wrap,ball,ballWhite,shadow,result,resultWhite,delay));
   }
   grid.style.display=n?"grid":"none";
   $("gachaOpenAll").style.display="";
