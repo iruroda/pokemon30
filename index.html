@@ -128,14 +128,14 @@
   #gachaBallWrap.drop{animation:gachaDrop .55s cubic-bezier(.34,1.15,.64,1) forwards}
   #gachaBallWrap.settled{opacity:1;transform:translateY(0)}
   #gachaBallWrap.settled.opening{transition:opacity .15s ease;opacity:0}
-  #gachaBall,#gachaBallWhite{position:absolute;width:60px;height:60px;top:50%;left:50%;margin:-30px 0 0 -30px;object-fit:contain;transform-origin:50% 82%}
+  #gachaBall{position:absolute;width:60px;height:60px;top:50%;left:50%;margin:-30px 0 0 -30px;object-fit:contain;transform-origin:50% 82%}
   #gachaBall.wiggle{animation:gachaWiggle .5s ease-in-out}
-  #gachaBall.condense,#gachaBallWhite.condense{transform-origin:50% 100%;animation:gachaCondense .5s cubic-bezier(.36,.07,.4,1) forwards}
-  #gachaBallWhite{filter:brightness(0) invert(1);opacity:0;pointer-events:none}
-  #gachaBallWrap.whitening #gachaBall{transition:opacity .65s ease;opacity:0}
-  #gachaBallWrap.whitening #gachaBallWhite{transition:opacity .65s ease;opacity:1}
-  #gachaResult{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(.15);filter:brightness(6);pointer-events:none}
-  #gachaResult.reveal{transition:transform .5s cubic-bezier(.34,1.4,.64,1),filter .45s ease .05s,opacity .15s ease;opacity:1;transform:scale(1);filter:brightness(1)}
+  #gachaBall.condense{transform-origin:50% 100%;animation:gachaCondense .5s cubic-bezier(.36,.07,.4,1) forwards}
+  #gachaBallWrap.closing #gachaBall{transition:opacity .4s ease;opacity:0}
+  #gachaResult,#gachaResultWhite{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(.15);pointer-events:none}
+  #gachaResultWhite{filter:brightness(0) invert(1)}
+  #gachaResult.reveal,#gachaResultWhite.reveal{transition:transform .5s cubic-bezier(.34,1.4,.64,1),opacity .15s ease;opacity:1;transform:scale(1)}
+  #gachaResultWhite.reveal.flashoff{transition:opacity .18s ease;opacity:0}
   @keyframes gachaDrop{0%{opacity:0;transform:translateY(-35px)}55%{opacity:1}100%{opacity:1;transform:translateY(0)}}
   @keyframes gachaWiggle{0%,100%{transform:rotate(0deg)}20%{transform:rotate(-10deg)}40%{transform:rotate(8deg)}60%{transform:rotate(-5deg)}80%{transform:rotate(3deg)}}
   @keyframes gachaCondense{
@@ -160,14 +160,14 @@
   .gBallWrap.drop{animation:gGridDrop .55s cubic-bezier(.34,1.15,.64,1) forwards}
   .gBallWrap.settled{opacity:1;transform:translateY(0)}
   .gBallWrap.settled.opening{transition:opacity .15s ease;opacity:0}
-  .gBall,.gBallWhite{position:absolute;width:calc(var(--gs) * .5);height:calc(var(--gs) * .5);top:50%;left:50%;margin:calc(var(--gs) * -.25) 0 0 calc(var(--gs) * -.25);object-fit:contain;transform-origin:50% 82%}
+  .gBall{position:absolute;width:calc(var(--gs) * .5);height:calc(var(--gs) * .5);top:50%;left:50%;margin:calc(var(--gs) * -.25) 0 0 calc(var(--gs) * -.25);object-fit:contain;transform-origin:50% 82%}
   .gBall.wiggle{animation:gachaWiggle .5s ease-in-out}
-  .gBall.condense,.gBallWhite.condense{transform-origin:50% 100%;animation:gGridCondense .5s cubic-bezier(.36,.07,.4,1) forwards}
-  .gBallWhite{filter:brightness(0) invert(1);opacity:0;pointer-events:none}
-  .gBallWrap.whitening .gBall{transition:opacity .65s ease;opacity:0}
-  .gBallWrap.whitening .gBallWhite{transition:opacity .65s ease;opacity:1}
-  .gResult{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(.15);filter:brightness(6);pointer-events:none}
-  .gResult.reveal{transition:transform .5s cubic-bezier(.34,1.4,.64,1),filter .45s ease .05s,opacity .15s ease;opacity:1;transform:scale(1);filter:brightness(1)}
+  .gBall.condense{transform-origin:50% 100%;animation:gGridCondense .5s cubic-bezier(.36,.07,.4,1) forwards}
+  .gBallWrap.closing .gBall{transition:opacity .4s ease;opacity:0}
+  .gResult,.gResultWhite{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(.15);pointer-events:none}
+  .gResultWhite{filter:brightness(0) invert(1)}
+  .gResult.reveal,.gResultWhite.reveal{transition:transform .5s cubic-bezier(.34,1.4,.64,1),opacity .15s ease;opacity:1;transform:scale(1)}
+  .gResultWhite.reveal.flashoff{transition:opacity .18s ease;opacity:0}
   @keyframes gGridDrop{0%{opacity:0;transform:translateY(calc(var(--gs) * -.292))}55%{opacity:1}100%{opacity:1;transform:translateY(0)}}
   @keyframes gGridCondense{
     0%{transform:scale(1) translate(0,0)}
@@ -290,8 +290,8 @@
   <p id="gachaDesc">30주년 코인을 사용하여 로고 아이콘을 뽑습니다.</p>
   <div id="gachaStage">
     <div id="gachaShadow"></div>
-    <div id="gachaBallWrap"><img id="gachaBall" src="monsterball.png" alt="뽑기"><img id="gachaBallWhite" src="monsterball.png" alt=""></div>
-    <img id="gachaResult" alt="">
+    <div id="gachaBallWrap"><img id="gachaBall" src="monsterball.png" alt="뽑기"></div>
+    <img id="gachaResult" alt=""><img id="gachaResultWhite" alt="">
   </div>
   <div id="gachaGrid"></div>
   <button id="gachaAll">한 번에 모두 뽑기</button>
@@ -1160,9 +1160,10 @@ function resetGachaStage(){
   $("gachaBallWrap").className="";
   $("gachaBallWrap").onclick=null;
   $("gachaBall").className="";
-  $("gachaBallWhite").className="";
   $("gachaResult").className="";
   $("gachaResult").removeAttribute("src");
+  $("gachaResultWhite").className="";
+  $("gachaResultWhite").removeAttribute("src");
   $("gachaDesc").style.display="";
   $("gachaAll").style.display="";
   $("gachaOne").style.display="";
@@ -1177,16 +1178,23 @@ function resetGachaStage(){
 }
 // 하나의 몬스터볼(떨어짐→대기 흔들림→클릭시 응축→하얘짐→로고 공개) 연출 단위.
 // wrap/ball/white/shadow/result: 각 파츠 엘리먼트, dropDelay: 낙하 시작까지의 지연(ms, 여러개를 시차 배치할 때 사용)
-function runGachaUnit(wrap,ball,white,shadow,result,dropDelay){
+function runGachaUnit(wrap,ball,shadow,result,resultWhite,dropDelay){
   var wiggleTimer=null,dropTimer=null,opened=false;
   var wrapBase=wrap.className,shadowBase=shadow.className;
   function setWrapCls(extra){wrap.className=extra?(wrapBase+" "+extra).trim():wrapBase;}
   function setShadowCls(extra){shadow.className=extra?(shadowBase+" "+extra).trim():shadowBase;}
-  function revealResult(){
+  function revealResult(withFlash){
     var pick=IMG30META[Math.floor(Math.random()*IMG30META.length)];
     result.src=pick.path;
+    if(withFlash)resultWhite.src=pick.path;
     requestAnimationFrame(function(){
-      requestAnimationFrame(function(){result.classList.add("reveal")});
+      requestAnimationFrame(function(){
+        result.classList.add("reveal");
+        if(withFlash){
+          resultWhite.classList.add("reveal");
+          setTimeout(function(){resultWhite.classList.add("flashoff")},180);
+        }
+      });
     });
   }
   function scheduleWiggle(){
@@ -1206,24 +1214,23 @@ function runGachaUnit(wrap,ball,white,shadow,result,dropDelay){
     wrap.classList.add("condensing");
     ball.classList.remove("wiggle");
     ball.classList.add("condense");
-    white.classList.add("condense");
     shadow.classList.add("condense");
     setTimeout(function(){
-      wrap.classList.add("whitening");
+      wrap.classList.add("closing");
       shadow.classList.add("fadeout");
       setTimeout(function(){
         wrap.classList.add("opening");
-        revealResult();
+        revealResult(true);
       },650);
     },280);
   }
   if(!cfg.gachaAnim){
-    // 애니메이션 끄기: 연출 없이 바로 결과 공개
+    // 애니메이션 끄기: 연출 없이 바로 결과 공개(흰색 반짝임도 생략)
     opened=true;
     setWrapCls("settled opening");
     setShadowCls("");
     wrap.onclick=null;
-    revealResult();
+    revealResult(false);
     return{open:function(){},destroy:function(){}};
   }
   dropTimer=setTimeout(function(){
@@ -1249,7 +1256,7 @@ function startGachaOne(){
   $("gachaAll").style.display="none";
   $("gachaOne").style.display="none";
   $("gachaStage").style.display="block";
-  gachaOneUnit=runGachaUnit($("gachaBallWrap"),$("gachaBall"),$("gachaBallWhite"),$("gachaShadow"),$("gachaResult"),0);
+  gachaOneUnit=runGachaUnit($("gachaBallWrap"),$("gachaBall"),$("gachaShadow"),$("gachaResult"),$("gachaResultWhite"),0);
 }
 function startGachaAll(){
   // TODO: 실제 코인 차감/뽑기 확률/보유 로고 반영은 추후 연결. 지금은 연출만 구현(현재 코인 수만큼 몬스터볼 표시).
@@ -1266,13 +1273,13 @@ function startGachaAll(){
     var shadow=document.createElement("div");shadow.className="gShadow";
     var wrap=document.createElement("div");wrap.className="gBallWrap";
     var ball=document.createElement("img");ball.className="gBall";ball.src="monsterball.png";ball.alt="뽑기";
-    var white=document.createElement("img");white.className="gBallWhite";white.src="monsterball.png";white.alt="";
     var result=document.createElement("img");result.className="gResult";result.alt="";
-    wrap.appendChild(ball);wrap.appendChild(white);
-    stage.appendChild(shadow);stage.appendChild(wrap);stage.appendChild(result);
+    var resultWhite=document.createElement("img");resultWhite.className="gResultWhite";resultWhite.alt="";
+    wrap.appendChild(ball);
+    stage.appendChild(shadow);stage.appendChild(wrap);stage.appendChild(result);stage.appendChild(resultWhite);
     grid.appendChild(stage);
     var delay=Math.floor(i/3)*160+Math.random()*90;
-    gachaGridUnits.push(runGachaUnit(wrap,ball,white,shadow,result,delay));
+    gachaGridUnits.push(runGachaUnit(wrap,ball,shadow,result,resultWhite,delay));
   }
   grid.style.display=n?"grid":"none";
   $("gachaOpenAll").style.display="";
