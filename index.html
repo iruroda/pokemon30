@@ -114,13 +114,17 @@
   .modal button{margin-top:6px;background:var(--p-yellow);border:none;border-radius:12px;padding:10px 24px;font-size:14px;font-weight:700;color:var(--p-white);cursor:pointer;width:100%}
   .modal button.secondary{background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);color:var(--p-black);margin-top:8px}
   #gachaStage{display:none;position:relative;width:120px;height:120px;margin:4px auto 18px}
+  #gachaShadow{position:absolute;left:50%;top:90px;width:42px;height:11px;background:#A19E9E;border-radius:50%;opacity:0;transform:translate(-50%,-50%) scale(0);transform-origin:center;pointer-events:none}
+  #gachaShadow.grow{transition:opacity .55s ease,transform .55s cubic-bezier(.34,1.15,.64,1);opacity:1;transform:translate(-50%,-50%) scale(1)}
+  #gachaShadow.grow.condense{transition:transform .5s cubic-bezier(.36,.07,.4,1);transform:translate(-50%,-50%) scale(.9)}
+  #gachaShadow.grow.condense.fadeout{transition:opacity .65s ease,transform .5s cubic-bezier(.36,.07,.4,1);opacity:0}
   #gachaBallWrap{position:absolute;inset:0;opacity:0;transform:translateY(-35px);cursor:pointer}
   #gachaBallWrap.drop{animation:gachaDrop .55s cubic-bezier(.34,1.15,.64,1) forwards}
   #gachaBallWrap.settled{opacity:1;transform:translateY(0)}
   #gachaBallWrap.settled.opening{transition:opacity .3s ease .7s;opacity:0}
   #gachaBall,#gachaBallWhite{position:absolute;width:60px;height:60px;top:50%;left:50%;margin:-30px 0 0 -30px;object-fit:contain;transform-origin:50% 82%}
   #gachaBall.wiggle{animation:gachaWiggle .5s ease-in-out}
-  #gachaBall.condense,#gachaBallWhite.condense{transform-origin:50% 50%;animation:gachaCondense .5s cubic-bezier(.36,.07,.4,1) forwards}
+  #gachaBall.condense,#gachaBallWhite.condense{transform-origin:50% 100%;animation:gachaCondense .5s cubic-bezier(.36,.07,.4,1) forwards}
   #gachaBallWhite{filter:brightness(0) invert(1);opacity:0;pointer-events:none}
   #gachaBallWrap.opening #gachaBall{transition:opacity .65s ease;opacity:0}
   #gachaBallWrap.opening #gachaBallWhite{transition:opacity .65s ease;opacity:1}
@@ -233,6 +237,7 @@
   <h2>뽑기</h2>
   <p id="gachaDesc">30주년 코인을 사용하여 로고 아이콘을 뽑습니다.</p>
   <div id="gachaStage">
+    <div id="gachaShadow"></div>
     <div id="gachaBallWrap"><img id="gachaBall" src="monsterball.png" alt="뽑기"><img id="gachaBallWhite" src="monsterball.png" alt=""></div>
     <img id="gachaResult" alt="">
   </div>
@@ -995,8 +1000,9 @@ function closeGachaModal(){
   resetGachaStage();
 }
 function resetGachaStage(){
-  clearInterval(gachaWiggleTimer);gachaWiggleTimer=null;
+  clearTimeout(gachaWiggleTimer);gachaWiggleTimer=null;
   $("gachaStage").style.display="none";
+  $("gachaShadow").className="";
   $("gachaBallWrap").className="";
   $("gachaBallWrap").onclick=null;
   $("gachaBall").className="";
@@ -1013,28 +1019,36 @@ function startGachaOne(){
   $("gachaAll").style.display="none";
   $("gachaOne").style.display="none";
   $("gachaStage").style.display="block";
-  var wrap=$("gachaBallWrap"),ball=$("gachaBall");
+  var wrap=$("gachaBallWrap"),ball=$("gachaBall"),shadow=$("gachaShadow");
   wrap.className="drop";
+  shadow.className="";
+  void shadow.offsetWidth;
+  shadow.className="grow";
   wrap.addEventListener("animationend",function onDrop(){
     wrap.removeEventListener("animationend",onDrop);
     wrap.className="settled";
   },{once:true});
-  gachaWiggleTimer=setInterval(function(){
-    ball.classList.remove("wiggle");
-    void ball.offsetWidth;
-    ball.classList.add("wiggle");
-  },2200);
+  (function scheduleWiggle(){
+    gachaWiggleTimer=setTimeout(function(){
+      ball.classList.remove("wiggle");
+      void ball.offsetWidth;
+      ball.classList.add("wiggle");
+      scheduleWiggle();
+    },2200+Math.random()*2800);
+  })();
   wrap.onclick=function(){
     if(wrap.classList.contains("opening")||wrap.classList.contains("condensing"))return;
-    clearInterval(gachaWiggleTimer);gachaWiggleTimer=null;
+    clearTimeout(gachaWiggleTimer);gachaWiggleTimer=null;
     if(!wrap.classList.contains("settled"))wrap.className="settled";
     wrap.classList.add("condensing");
     ball.classList.remove("wiggle");
     var white=$("gachaBallWhite");
     ball.classList.add("condense");
     white.classList.add("condense");
+    shadow.classList.add("condense");
     setTimeout(function(){
       wrap.classList.add("opening");
+      shadow.classList.add("fadeout");
       var pick=IMG30META[Math.floor(Math.random()*IMG30META.length)];
       var res=$("gachaResult");
       res.src=pick.path;
