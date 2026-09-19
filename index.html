@@ -146,6 +146,47 @@
     92%{transform:scale(.902) translate(.6px,-.6px)}
     100%{transform:scale(.9) translate(0,0)}
   }
+  #gachaGrid{display:none;grid-template-columns:repeat(3,1fr);gap:8px;max-height:280px;overflow-y:auto;margin:4px 0 18px;padding:2px}
+  .gStage{position:relative;width:100%;aspect-ratio:1/1;--gs:86px}
+  .gShadow{position:absolute;left:50%;top:calc(var(--gs) * .75);width:calc(var(--gs) * .35);height:calc(var(--gs) * .092);background:#A19E9E;border-radius:50%;opacity:0;transform:translate(-50%,-50%) scale(0);transform-origin:center;pointer-events:none}
+  .gShadow.grow{transition:opacity .55s ease,transform .55s cubic-bezier(.34,1.15,.64,1);opacity:1;transform:translate(-50%,-50%) scale(1)}
+  .gShadow.grow.condense{transition:transform .5s cubic-bezier(.36,.07,.4,1);transform:translate(-50%,-50%) scale(.9)}
+  .gShadow.grow.condense.fadeout{transition:opacity .65s ease,transform .5s cubic-bezier(.36,.07,.4,1);opacity:0}
+  .gBallWrap{position:absolute;inset:0;opacity:0;transform:translateY(calc(var(--gs) * -.292));cursor:pointer}
+  .gBallWrap.drop{animation:gGridDrop .55s cubic-bezier(.34,1.15,.64,1) forwards}
+  .gBallWrap.settled{opacity:1;transform:translateY(0)}
+  .gBallWrap.settled.opening{transition:opacity .15s ease;opacity:0}
+  .gBall,.gBallWhite{position:absolute;width:calc(var(--gs) * .5);height:calc(var(--gs) * .5);top:50%;left:50%;margin:calc(var(--gs) * -.25) 0 0 calc(var(--gs) * -.25);object-fit:contain;transform-origin:50% 82%}
+  .gBall.wiggle{animation:gachaWiggle .5s ease-in-out}
+  .gBall.condense,.gBallWhite.condense{transform-origin:50% 100%;animation:gGridCondense .5s cubic-bezier(.36,.07,.4,1) forwards}
+  .gBallWhite{filter:brightness(0) invert(1);opacity:0;pointer-events:none}
+  .gBallWrap.whitening .gBall{transition:opacity .65s ease;opacity:0}
+  .gBallWrap.whitening .gBallWhite{transition:opacity .65s ease;opacity:1}
+  .gResult{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(.15);filter:brightness(6);pointer-events:none}
+  .gResult.reveal{transition:transform .5s cubic-bezier(.34,1.4,.64,1),filter .45s ease .05s,opacity .15s ease;opacity:1;transform:scale(1);filter:brightness(1)}
+  @keyframes gGridDrop{0%{opacity:0;transform:translateY(calc(var(--gs) * -.292))}55%{opacity:1}100%{opacity:1;transform:translateY(0)}}
+  @keyframes gGridCondense{
+    0%{transform:scale(1) translate(0,0)}
+    12%{transform:scale(.985) translate(calc(var(--gs) * -.0208),calc(var(--gs) * .0125))}
+    24%{transform:scale(.965) translate(calc(var(--gs) * .0208),calc(var(--gs) * -.0125))}
+    36%{transform:scale(.945) translate(calc(var(--gs) * -.0167),calc(var(--gs) * -.0167))}
+    48%{transform:scale(.93) translate(calc(var(--gs) * .0167),calc(var(--gs) * .0125))}
+    60%{transform:scale(.918) translate(calc(var(--gs) * -.0125),calc(var(--gs) * .0125))}
+    72%{transform:scale(.91) translate(calc(var(--gs) * .0125),calc(var(--gs) * -.0083))}
+    84%{transform:scale(.905) translate(calc(var(--gs) * -.0083),calc(var(--gs) * .0083))}
+    92%{transform:scale(.902) translate(calc(var(--gs) * .005),calc(var(--gs) * -.005))}
+    100%{transform:scale(.9) translate(0,0)}
+  }
+  @keyframes p30cellSpin{0%{transform:scaleX(1)}50%{transform:scaleX(.06)}100%{transform:scaleX(1)}}
+  .cell img.spin30{animation:p30cellSpin .6s ease-in-out}
+  #iconModal .box{max-width:280px}
+  #iconPopImg{width:140px;height:140px;object-fit:contain;margin:0 auto 10px;display:block}
+  #iconPopNameRow{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:18px}
+  #iconPopName{font-size:16px;font-weight:800;color:var(--p-black)}
+  #iconPopFav{width:30px;height:30px;flex:none;background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;margin:0}
+  #iconPopFav svg{width:18px;height:18px;display:block}
+  #iconPopFav svg path{fill:none;stroke:#000;stroke-width:1.5;stroke-linejoin:round}
+  #iconPopFav.on svg path{fill:var(--p-yellow);stroke:var(--p-yellow)}
   .confirmBtns{display:flex;gap:10px}
   .confirmBtns button{width:auto;flex:1;margin-top:0;border:1.5px solid transparent}
   .confirmBtns button.secondary{margin-top:0;border-color:#3a3e50}
@@ -167,10 +208,10 @@
   #searchBar{max-height:0;overflow:hidden;transition:max-height .3s ease}
   #wrap.searchOpen #searchBar{max-height:60px}
   #searchInputWrap{position:relative;margin-top:8px}
-  #searchBar input{width:100%;box-sizing:border-box;background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);border-radius:12px;color:var(--text);font-size:15px;padding:10px 36px 10px 12px;outline:none}
+  #searchBar input{width:100%;box-sizing:border-box;background:var(--p-white);border:none;border-radius:12px;color:var(--text);font-size:15px;padding:10px 36px 10px 12px;outline:none}
   #searchClearBtn{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;background:none;border:none;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
   #searchClearBtn:active{opacity:.55}
-  #searchClearBtn span{position:absolute;width:14px;height:2px;border-radius:1px;background:var(--sub)}
+  #searchClearBtn span{position:absolute;width:14px;height:2px;border-radius:1px;background:var(--p-black)}
   #searchClearBtn span:nth-child(1){transform:rotate(45deg)}
   #searchClearBtn span:nth-child(2){transform:rotate(-45deg)}
   .mydesignAdd{margin:14px 10px;height:64px;background:var(--p-gray);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer}
@@ -243,9 +284,22 @@
     <div id="gachaBallWrap"><img id="gachaBall" src="monsterball.png" alt="뽑기"><img id="gachaBallWhite" src="monsterball.png" alt=""></div>
     <img id="gachaResult" alt="">
   </div>
+  <div id="gachaGrid"></div>
   <button id="gachaAll">한 번에 모두 뽑기</button>
   <button id="gachaOne">한 개만 뽑기</button>
+  <button id="gachaOpenAll" style="display:none">한번에 모두 열기</button>
   <button class="secondary" id="gachaCancel">취소</button>
+  <button class="secondary" id="gachaGridClose" style="display:none">닫기</button>
+</div></div>
+<div id="iconModal" class="modal"><div class="box">
+  <h2>로고 아이콘</h2>
+  <img id="iconPopImg" alt="">
+  <div id="iconPopNameRow">
+    <span id="iconPopName"></span>
+    <button id="iconPopFav" type="button" aria-label="즐겨찾기"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.4 6.9.7-5.2 4.7 1.6 6.9L12 17.6 5.8 21.2l1.6-6.9-5.2-4.7 6.9-.7z"/></svg></button>
+  </div>
+  <button id="iconPopSave">저장하기</button>
+  <button class="secondary" id="iconPopClose">닫기</button>
 </div></div>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
@@ -349,7 +403,8 @@ function pushToServer(){
       found:Array.from(found),
       stats:{sil:!!stats.sil,typ:!!stats.typ,hint:stats.hint||0,longpress:stats.longpress||0,records:stats.records||[]},
       cfg:{sil:cfg.sil,typ:cfg.typ,fc:cfg.fc,cols:cfg.cols,mode:cfg.mode,myDesign:cfg.myDesign,gmax:cfg.gmax,regional:cfg.regional,mega:cfg.mega,dexIdx:cfg.dexIdx,fillOrder:cfg.fillOrder,collapsed:cfg.collapsed,b:Array.from(selB),t:Array.from(selT),f:selF},
-      imgFound:Array.from(p30ImgFound)
+      imgFound:Array.from(p30ImgFound),
+      favs:Array.from(p30Favs)
     }},{merge:true}).catch(function(e){console.warn("서버 저장 실패",e)});
   },800);
 }
@@ -514,14 +569,71 @@ function spendCoin30(n){
 }
 function saveP30ImgFound(){localStorage.setItem("p30imgfound",JSON.stringify(Array.from(p30ImgFound)));pushToServer();}
 function unlockP30Image(key){if(!p30ImgFound.has(key)){p30ImgFound.add(key);saveP30ImgFound();render();}}
+// 폼 이름(예: 알로라폼, 메가진화 등) 텍스트. key(dex*100+form) 기준으로 채워 넣을 예정 - 아직 목록 미확정.
+var FORMNAMES={};
+function p30Name(m){
+  var base=NAMES[m.dex-1]||"";
+  var fn=FORMNAMES[m.key];
+  return fn?(base+"("+fn+")"):base;
+}
+var p30Favs;
+try{
+  var _savedFavs=JSON.parse(localStorage.getItem("p30favs")||"null");
+  p30Favs=Array.isArray(_savedFavs)?new Set(_savedFavs):new Set();
+}catch(e){p30Favs=new Set();}
+function saveP30Favs(){localStorage.setItem("p30favs",JSON.stringify(Array.from(p30Favs)));pushToServer();}
+function toggleP30Fav(key){
+  if(p30Favs.has(key))p30Favs.delete(key);else p30Favs.add(key);
+  saveP30Favs();
+  return p30Favs.has(key);
+}
+var iconPopCur=null;
+function openIconPopup(m){
+  iconPopCur=m;
+  $("iconPopImg").src=m.path;
+  $("iconPopName").textContent=p30Name(m);
+  $("iconPopFav").classList.toggle("on",p30Favs.has(m.key));
+  $("iconModal").style.display="flex";
+}
+function closeIconPopup(){$("iconModal").style.display="none";iconPopCur=null;}
+$("iconPopFav").onclick=function(){
+  if(!iconPopCur)return;
+  var on=toggleP30Fav(iconPopCur.key);
+  $("iconPopFav").classList.toggle("on",on);
+};
+$("iconPopSave").onclick=function(){
+  if(!iconPopCur)return;
+  var a=document.createElement("a");
+  a.href=iconPopCur.path;
+  a.download=(p30Name(iconPopCur)||"logo")+".png";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+};
+$("iconPopClose").onclick=closeIconPopup;
+$("iconModal").onclick=function(e){if(e.target===$("iconModal"))closeIconPopup();};
 function makeCell30(m){
   var cell=document.createElement("div");cell.className="cell done";
   var img=document.createElement("img");img.loading="lazy";img.alt="";img.src=m.path;
   cell.appendChild(img);
   cell._m=m;
+  cell.addEventListener("click",function(){openIconPopup(m)});
   allCells.push(cell);
   return cell;
 }
+var p30SpinTimer=null;
+(function scheduleP30Spin(){
+  p30SpinTimer=setTimeout(function(){
+    if(cfg.mode!=="my"&&allCells.length){
+      var c=allCells[Math.floor(Math.random()*allCells.length)];
+      var img=c.querySelector("img");
+      if(img){
+        img.classList.remove("spin30");
+        void img.offsetWidth;
+        img.classList.add("spin30");
+      }
+    }
+    scheduleP30Spin();
+  },4000+Math.random()*7000);
+})();
 
 function renderMyDesign(){
   var root=$("sections");root.innerHTML="";allCells=[];
@@ -952,6 +1064,8 @@ function syncFromServer(){
     }
     p30ImgFound=Array.isArray(d30.imgFound)?new Set(d30.imgFound):new Set(P30_ALL_IMG_KEYS);
     localStorage.setItem("p30imgfound",JSON.stringify(Array.from(p30ImgFound)));
+    p30Favs=Array.isArray(d30.favs)?new Set(d30.favs):new Set();
+    localStorage.setItem("p30favs",JSON.stringify(Array.from(p30Favs)));
     coin30=(typeof d.coin30==="number"&&isFinite(d.coin30)&&d.coin30>=0)?Math.floor(d.coin30):0;
     coin30earned=(typeof d.coin30earned==="number"&&isFinite(d.coin30earned)&&d.coin30earned>=0)?Math.floor(d.coin30earned):0;
     cacheCoin30();
@@ -1002,13 +1116,13 @@ $("searchClearBtn").addEventListener("click",function(){
 });
 
 // ---- 뽑기 팝업 ----
-var gachaWiggleTimer=null;
+var gachaOneUnit=null,gachaGridUnits=[];
 function closeGachaModal(){
   $("gachaModal").style.display="none";
   resetGachaStage();
 }
 function resetGachaStage(){
-  clearTimeout(gachaWiggleTimer);gachaWiggleTimer=null;
+  if(gachaOneUnit){gachaOneUnit.destroy();gachaOneUnit=null;}
   $("gachaStage").style.display="none";
   $("gachaShadow").className="";
   $("gachaBallWrap").className="";
@@ -1020,37 +1134,38 @@ function resetGachaStage(){
   $("gachaDesc").style.display="";
   $("gachaAll").style.display="";
   $("gachaOne").style.display="";
+  $("gachaCancel").style.display="";
+  $("gachaOpenAll").style.display="none";
+  $("gachaGridClose").style.display="none";
+  gachaGridUnits.forEach(function(u){u.destroy()});
+  gachaGridUnits=[];
+  var grid=$("gachaGrid");
+  grid.style.display="none";
+  grid.innerHTML="";
 }
-function startGachaOne(){
-  // TODO: 실제 코인 차감(spendCoin30)/뽑기 확률/보유 로고 반영은 추후 연결. 지금은 연출만 구현.
-  $("gachaDesc").style.display="none";
-  $("gachaAll").style.display="none";
-  $("gachaOne").style.display="none";
-  $("gachaStage").style.display="block";
-  var wrap=$("gachaBallWrap"),ball=$("gachaBall"),shadow=$("gachaShadow");
-  wrap.className="drop";
-  shadow.className="";
-  void shadow.offsetWidth;
-  shadow.className="grow";
-  wrap.addEventListener("animationend",function onDrop(){
-    wrap.removeEventListener("animationend",onDrop);
-    wrap.className="settled";
-  },{once:true});
-  (function scheduleWiggle(){
-    gachaWiggleTimer=setTimeout(function(){
+// 하나의 몬스터볼(떨어짐→대기 흔들림→클릭시 응축→하얘짐→로고 공개) 연출 단위.
+// wrap/ball/white/shadow/result: 각 파츠 엘리먼트, dropDelay: 낙하 시작까지의 지연(ms, 여러개를 시차 배치할 때 사용)
+function runGachaUnit(wrap,ball,white,shadow,result,dropDelay){
+  var wiggleTimer=null,dropTimer=null,opened=false;
+  var wrapBase=wrap.className,shadowBase=shadow.className;
+  function setWrapCls(extra){wrap.className=extra?(wrapBase+" "+extra).trim():wrapBase;}
+  function setShadowCls(extra){shadow.className=extra?(shadowBase+" "+extra).trim():shadowBase;}
+  function scheduleWiggle(){
+    wiggleTimer=setTimeout(function(){
       ball.classList.remove("wiggle");
       void ball.offsetWidth;
       ball.classList.add("wiggle");
       scheduleWiggle();
     },2200+Math.random()*2800);
-  })();
-  wrap.onclick=function(){
+  }
+  function openNow(){
+    if(opened)return;
     if(wrap.classList.contains("opening")||wrap.classList.contains("condensing"))return;
-    clearTimeout(gachaWiggleTimer);gachaWiggleTimer=null;
-    if(!wrap.classList.contains("settled"))wrap.className="settled";
+    opened=true;
+    clearTimeout(wiggleTimer);wiggleTimer=null;
+    if(!wrap.classList.contains("settled"))setWrapCls("settled");
     wrap.classList.add("condensing");
     ball.classList.remove("wiggle");
-    var white=$("gachaBallWhite");
     ball.classList.add("condense");
     white.classList.add("condense");
     shadow.classList.add("condense");
@@ -1060,22 +1175,72 @@ function startGachaOne(){
       setTimeout(function(){
         wrap.classList.add("opening");
         var pick=IMG30META[Math.floor(Math.random()*IMG30META.length)];
-        var res=$("gachaResult");
-        res.src=pick.path;
+        result.src=pick.path;
         requestAnimationFrame(function(){
-          requestAnimationFrame(function(){res.classList.add("reveal")});
+          requestAnimationFrame(function(){result.classList.add("reveal")});
         });
       },650);
     },280);
+  }
+  dropTimer=setTimeout(function(){
+    setWrapCls("drop");
+    setShadowCls("");
+    void shadow.offsetWidth;
+    setShadowCls("grow");
+    wrap.addEventListener("animationend",function onDrop(){
+      wrap.removeEventListener("animationend",onDrop);
+      setWrapCls("settled");
+    },{once:true});
+    scheduleWiggle();
+  },dropDelay||0);
+  wrap.onclick=openNow;
+  return{
+    open:openNow,
+    destroy:function(){clearTimeout(wiggleTimer);clearTimeout(dropTimer)}
   };
+}
+function startGachaOne(){
+  // TODO: 실제 코인 차감(spendCoin30)/뽑기 확률/보유 로고 반영은 추후 연결. 지금은 연출만 구현.
+  $("gachaDesc").style.display="none";
+  $("gachaAll").style.display="none";
+  $("gachaOne").style.display="none";
+  $("gachaStage").style.display="block";
+  gachaOneUnit=runGachaUnit($("gachaBallWrap"),$("gachaBall"),$("gachaBallWhite"),$("gachaShadow"),$("gachaResult"),0);
+}
+function startGachaAll(){
+  // TODO: 실제 코인 차감/뽑기 확률/보유 로고 반영은 추후 연결. 지금은 연출만 구현(현재 코인 수만큼 몬스터볼 표시).
+  var n=Math.max(0,Math.floor(coin30||0));
+  $("gachaDesc").style.display="none";
+  $("gachaAll").style.display="none";
+  $("gachaOne").style.display="none";
+  $("gachaCancel").style.display="none";
+  var grid=$("gachaGrid");
+  grid.innerHTML="";
+  gachaGridUnits=[];
+  for(var i=0;i<n;i++){
+    var stage=document.createElement("div");stage.className="gStage";
+    var shadow=document.createElement("div");shadow.className="gShadow";
+    var wrap=document.createElement("div");wrap.className="gBallWrap";
+    var ball=document.createElement("img");ball.className="gBall";ball.src="monsterball.png";ball.alt="뽑기";
+    var white=document.createElement("img");white.className="gBallWhite";white.src="monsterball.png";white.alt="";
+    var result=document.createElement("img");result.className="gResult";result.alt="";
+    wrap.appendChild(ball);wrap.appendChild(white);
+    stage.appendChild(shadow);stage.appendChild(wrap);stage.appendChild(result);
+    grid.appendChild(stage);
+    var delay=Math.floor(i/3)*160+Math.random()*90;
+    gachaGridUnits.push(runGachaUnit(wrap,ball,white,shadow,result,delay));
+  }
+  grid.style.display=n?"grid":"none";
+  $("gachaOpenAll").style.display="";
+  $("gachaGridClose").style.display="";
 }
 $("gachaBtn").onclick=function(){$("gachaModal").style.display="flex"};
 $("gachaCancel").onclick=closeGachaModal;
+$("gachaGridClose").onclick=closeGachaModal;
 $("gachaModal").onclick=function(e){if(e.target===$("gachaModal"))closeGachaModal()};
-$("gachaAll").onclick=function(){
-  // TODO: 한 개만 뽑기 연출을 그리드로 여러 번 배치해서 구현 예정
-};
+$("gachaAll").onclick=startGachaAll;
 $("gachaOne").onclick=startGachaOne;
+$("gachaOpenAll").onclick=function(){gachaGridUnits.forEach(function(u){u.open()})};
 updateAuthUI();
 if(fbAuth)fbAuth.onAuthStateChanged(function(u){
   if(u){fbUid=u.uid;syncFromServer();}
