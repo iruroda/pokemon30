@@ -120,13 +120,26 @@
   #gachaBallWrap.settled.opening{transition:opacity .3s ease .2s;opacity:0}
   #gachaBall,#gachaBallWhite{position:absolute;width:60px;height:60px;top:50%;left:50%;margin:-30px 0 0 -30px;object-fit:contain;transform-origin:50% 82%}
   #gachaBall.wiggle{animation:gachaWiggle .5s ease-in-out}
+  #gachaBall.condense,#gachaBallWhite.condense{transform-origin:50% 50%;animation:gachaCondense .5s cubic-bezier(.36,.07,.4,1) forwards}
   #gachaBallWhite{filter:brightness(0) invert(1);opacity:0;pointer-events:none}
-  #gachaBallWrap.opening #gachaBall{transition:opacity .3s ease;opacity:0}
-  #gachaBallWrap.opening #gachaBallWhite{transition:opacity .3s ease;opacity:1}
+  #gachaBallWrap.opening #gachaBall{transition:opacity .65s ease;opacity:0}
+  #gachaBallWrap.opening #gachaBallWhite{transition:opacity .65s ease;opacity:1}
   #gachaResult{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(.15);filter:brightness(6);pointer-events:none}
   #gachaResult.reveal{transition:transform .5s cubic-bezier(.34,1.4,.64,1),filter .45s ease .05s,opacity .15s ease;opacity:1;transform:scale(1);filter:brightness(1)}
   @keyframes gachaDrop{0%{opacity:0;transform:translateY(-35px)}55%{opacity:1}100%{opacity:1;transform:translateY(0)}}
   @keyframes gachaWiggle{0%,100%{transform:rotate(0deg)}20%{transform:rotate(-10deg)}40%{transform:rotate(8deg)}60%{transform:rotate(-5deg)}80%{transform:rotate(3deg)}}
+  @keyframes gachaCondense{
+    0%{transform:scale(1) translate(0,0)}
+    12%{transform:scale(.97) translate(-2.5px,1.5px)}
+    24%{transform:scale(.93) translate(2.5px,-1.5px)}
+    36%{transform:scale(.9) translate(-2px,-2px)}
+    48%{transform:scale(.87) translate(2px,1.5px)}
+    60%{transform:scale(.85) translate(-1.5px,1.5px)}
+    72%{transform:scale(.83) translate(1.5px,-1px)}
+    84%{transform:scale(.815) translate(-1px,1px)}
+    92%{transform:scale(.805) translate(.6px,-.6px)}
+    100%{transform:scale(.8) translate(0,0)}
+  }
   .confirmBtns{display:flex;gap:10px}
   .confirmBtns button{width:auto;flex:1;margin-top:0;border:1.5px solid transparent}
   .confirmBtns button.secondary{margin-top:0;border-color:#3a3e50}
@@ -1012,16 +1025,23 @@ function startGachaOne(){
     ball.classList.add("wiggle");
   },2200);
   wrap.onclick=function(){
-    if(wrap.classList.contains("opening"))return;
+    if(wrap.classList.contains("opening")||wrap.classList.contains("condensing"))return;
     clearInterval(gachaWiggleTimer);gachaWiggleTimer=null;
     if(!wrap.classList.contains("settled"))wrap.className="settled";
-    wrap.classList.add("opening");
-    var pick=IMG30META[Math.floor(Math.random()*IMG30META.length)];
-    var res=$("gachaResult");
-    res.src=pick.path;
-    requestAnimationFrame(function(){
-      requestAnimationFrame(function(){res.classList.add("reveal")});
-    });
+    wrap.classList.add("condensing");
+    ball.classList.remove("wiggle");
+    var white=$("gachaBallWhite");
+    ball.classList.add("condense");
+    white.classList.add("condense");
+    setTimeout(function(){
+      wrap.classList.add("opening");
+      var pick=IMG30META[Math.floor(Math.random()*IMG30META.length)];
+      var res=$("gachaResult");
+      res.src=pick.path;
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){res.classList.add("reveal")});
+      });
+    },480);
   };
 }
 $("gachaBtn").onclick=function(){$("gachaModal").style.display="flex"};
