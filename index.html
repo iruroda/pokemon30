@@ -873,9 +873,10 @@ function mdMakeCell(rowIdx,cellIdx,key){
   return cell;
 }
 // 줄을 왼쪽으로 밀면 오른쪽에, 오른쪽으로 밀면 왼쪽에 삭제(마이너스) 버튼이 드러남(양방향).
-function mdAttachSwipe(rowEl,innerEl){
+function mdAttachSwipe(rowEl,innerEl,rowIdx){
   var startX=0,startY=0,dragging=false,moved=false,wasSwipe="",pid=null;
   var DEL_W=64;
+  function doDelete(){cfg.myDesign.splice(rowIdx,1);saveCfg();render();}
   innerEl.addEventListener("pointerdown",function(e){
     if(e.pointerType==="mouse"&&e.button!==0)return;
     startX=e.clientX;startY=e.clientY;
@@ -900,7 +901,7 @@ function mdAttachSwipe(rowEl,innerEl){
     innerEl.style.transform="translateX("+nx+"px)";
     innerEl._nx=nx;
   });
-  function finish(){
+  function finish(e){
     if(!dragging)return;
     dragging=false;
     innerEl.style.transition="";
@@ -913,6 +914,19 @@ function mdAttachSwipe(rowEl,innerEl){
       if(state)rowEl.setAttribute("data-swipe",state);else rowEl.removeAttribute("data-swipe");
       innerEl.style.transform="";
       innerEl._nx=undefined;
+      // 스와이프를 밀어서 손을 뗀 위치가 이미 드러난 삭제 버튼 위라면(한 동작으로
+      // 밀고→그대로 눌러서 뗀 경우), 따로 한 번 더 탭하지 않아도 바로 삭제되게 한다.
+      if(state&&e){
+        var delEl=rowEl.querySelector(".mdRowDel."+state);
+        if(delEl){
+          var dr=delEl.getBoundingClientRect();
+          if(e.clientX>=dr.left&&e.clientX<=dr.right&&e.clientY>=dr.top&&e.clientY<=dr.bottom){
+            doDelete();
+            moved=false;
+            return;
+          }
+        }
+      }
       var blocker=function(ev){ev.stopPropagation();ev.preventDefault();};
       innerEl.addEventListener("click",blocker,{capture:true,once:true});
     }else if(wasSwipe){
@@ -924,16 +938,26 @@ function mdAttachSwipe(rowEl,innerEl){
     moved=false;
   }
   innerEl.addEventListener("pointerup",finish);
-  innerEl.addEventListener("pointercancel",finish);
+  innerEl.addEventListener("pointercancel",function(){finish()});
 }
 function mdMakeRowDelBtn(side,rowIdx){
   var del=document.createElement("div");del.className="mdRowDel "+side;
   del.innerHTML='<div class="circ" role="button" aria-label="줄 삭제"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></div>';
   // 원(34px)만 클릭 가능하면 스와이프로 드러난 전체 영역(64px) 중 상당 부분이 반응이 없어
   // "한 번에 안 눌리는" 느낌을 주므로, 드러난 영역 전체를 눌러도 삭제되게 한다.
-  del.addEventListener("click",function(){
+  // click 이벤트 대신 pointerdown/up을 직접 다뤄서, 다른 곳의 포인터 캡처나
+  // 합성 click 지연 등과 무관하게 탭이 확실하게 인식되도록 한다.
+  var dsx=0,dsy=0,down=false;
+  del.addEventListener("pointerdown",function(e){
+    down=true;dsx=e.clientX;dsy=e.clientY;
+  });
+  del.addEventListener("pointerup",function(e){
+    if(!down)return;
+    down=false;
+    if(Math.abs(e.clientX-dsx)>10||Math.abs(e.clientY-dsy)>10)return;
     cfg.myDesign.splice(rowIdx,1);saveCfg();render();
   });
+  del.addEventListener("pointercancel",function(){down=false});
   return del;
 }
 function mdRenderRow(row,rowIdx,root){
@@ -947,7 +971,7 @@ function mdRenderRow(row,rowIdx,root){
     root.appendChild(wrap);
     return;
   }
-  mdAttachSwipe(wrap,inner);
+  mdAttachSwipe(wrap,inner,rowIdx);
   wrap.appendChild(mdMakeRowDelBtn("left",rowIdx));
   wrap.appendChild(mdMakeRowDelBtn("right",rowIdx));
   wrap.appendChild(inner);
@@ -1591,19 +1615,30 @@ function resetGachaStage(){
 function runGachaUnit(wrap,ball,ballWhite,shadow,result,resultWhite,dropDelay){
   var wiggleTimer=null,dropTimer=null,opened=false;
   var wrapBase=wrap.className,shadowBase=shadow.className;
+  // 뽑을 로고를 몬스터볼이 만들어지는 시점에 미리 정해두고, 화면에 보이지 않는
+  // Image로 미리 로딩/디코딩을 시작해둔다. 실제로 열 때(revealResult)까지
+  // 시간이 있으므로, 한꺼번에 열기를 눌러도 이미지 로딩 속도 차이 때문에
+  // 일부만 늦게 튀어나오는 문제 없이 다같이 동시에 나타나게 된다.
+  var pick=IMG30META[Math.floor(Math.random()*IMG30META.length)];
+  var preloadReady=new Promise(function(resolve){
+    var pre=new Image();
+    pre.onload=function(){(pre.decode?pre.decode():Promise.resolve()).catch(function(){}).then(resolve);};
+    pre.onerror=function(){resolve();};
+    pre.src=pick.path;
+  });
   function setWrapCls(extra){wrap.className=extra?(wrapBase+" "+extra).trim():wrapBase;}
   function setShadowCls(extra){shadow.className=extra?(shadowBase+" "+extra).trim():shadowBase;}
   function revealResult(withFlash){
-    var pick=IMG30META[Math.floor(Math.random()*IMG30META.length)];
     result.src=pick.path;
     if(withFlash)resultWhite.src=pick.path;
     // 두 레이어(원본 색상/흰색 실루엣)가 서로 다른 타이밍에 디코딩되면
     // 색이 잠깐 비쳤다가 흰색이 뒤늦게 덮으며 사라지는 것처럼 보일 수 있어,
-    // 둘 다 디코딩이 끝난 뒤에만 보여준다.
+    // 둘 다 디코딩이 끝난 뒤에만 보여준다. 미리 로딩해둔 promise도 함께 기다려서
+    // (이미 끝나 있는 게 보통이라 사실상 바로 통과) 캐시 미스로 인한 지연을 막는다.
     var imgs=withFlash?[result,resultWhite]:[result];
-    Promise.all(imgs.map(function(im){
+    Promise.all([preloadReady].concat(imgs.map(function(im){
       return (im.decode?im.decode():Promise.resolve()).catch(function(){});
-    })).then(function(){
+    }))).then(function(){
       requestAnimationFrame(function(){
         requestAnimationFrame(function(){
           result.classList.add("reveal");
