@@ -75,7 +75,7 @@
   .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 10px}
   .cell{position:relative;text-align:center}
   .cell img{display:block;width:100%;height:auto;object-fit:contain;image-rendering:pixelated;pointer-events:none;-webkit-user-drag:none}
-  #wrap[data-cols="1"] .sgrid{grid-template-columns:repeat(1,1fr);gap:14px;padding:0 10px}
+  #wrap[data-cols="1"] .sgrid{grid-template-columns:repeat(1,1fr);gap:8px;padding:0 10px}
   #pad{height:24px}
   #menu{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:20;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility 0s linear .18s}
   #menu.on{opacity:1;visibility:visible;transition:opacity .18s ease}
@@ -123,7 +123,7 @@
   #gachaShadow{position:absolute;left:50%;top:90px;width:42px;height:11px;background:#A19E9E;border-radius:50%;opacity:0;transform:translate(-50%,-50%) scale(0);transform-origin:center;pointer-events:none}
   #gachaShadow.grow{transition:opacity .55s ease,transform .55s cubic-bezier(.34,1.15,.64,1);opacity:1;transform:translate(-50%,-50%) scale(1)}
   #gachaShadow.grow.condense{transition:transform .5s cubic-bezier(.36,.07,.4,1);transform:translate(-50%,-50%) scale(.9)}
-  #gachaShadow.grow.condense.fadeout{transition:opacity .65s ease,transform .5s cubic-bezier(.36,.07,.4,1);opacity:0}
+  #gachaShadow.grow.condense.fadeout{transition:opacity .22s ease,transform .5s cubic-bezier(.36,.07,.4,1);opacity:0}
   #gachaBallWrap{position:absolute;inset:0;opacity:0;transform:translateY(-35px);cursor:pointer}
   #gachaBallWrap.drop{animation:gachaDrop .55s cubic-bezier(.34,1.15,.64,1) forwards}
   #gachaBallWrap.settled{opacity:1;transform:translateY(0)}
@@ -132,8 +132,8 @@
   #gachaBall.wiggle{animation:gachaWiggle .5s ease-in-out}
   #gachaBall.condense,#gachaBallWhite.condense{transform-origin:50% 100%;animation:gachaCondense .5s cubic-bezier(.36,.07,.4,1) forwards}
   #gachaBallWhite{filter:brightness(0) invert(1);opacity:0;pointer-events:none}
-  #gachaBallWrap.closing #gachaBall{transition:opacity .4s ease;opacity:0}
-  #gachaBallWrap.closing #gachaBallWhite{transition:opacity .4s ease;opacity:1}
+  #gachaBallWrap.closing #gachaBall{transition:opacity .22s ease;opacity:0}
+  #gachaBallWrap.closing #gachaBallWhite{transition:opacity .22s ease;opacity:1}
   #gachaResult,#gachaResultWhite{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(.15);pointer-events:none}
   #gachaResultWhite{filter:brightness(0) invert(1)}
   #gachaResult.reveal,#gachaResultWhite.reveal{transition:transform .5s cubic-bezier(.34,1.4,.64,1),opacity .15s ease;opacity:1;transform:scale(1)}
@@ -157,7 +157,7 @@
   .gShadow{position:absolute;left:50%;top:calc(var(--gs) * .75);width:calc(var(--gs) * .35);height:calc(var(--gs) * .092);background:#A19E9E;border-radius:50%;opacity:0;transform:translate(-50%,-50%) scale(0);transform-origin:center;pointer-events:none}
   .gShadow.grow{transition:opacity .55s ease,transform .55s cubic-bezier(.34,1.15,.64,1);opacity:1;transform:translate(-50%,-50%) scale(1)}
   .gShadow.grow.condense{transition:transform .5s cubic-bezier(.36,.07,.4,1);transform:translate(-50%,-50%) scale(.9)}
-  .gShadow.grow.condense.fadeout{transition:opacity .65s ease,transform .5s cubic-bezier(.36,.07,.4,1);opacity:0}
+  .gShadow.grow.condense.fadeout{transition:opacity .22s ease,transform .5s cubic-bezier(.36,.07,.4,1);opacity:0}
   .gBallWrap{position:absolute;inset:0;opacity:0;transform:translateY(calc(var(--gs) * -.292));cursor:pointer}
   .gBallWrap.drop{animation:gGridDrop .55s cubic-bezier(.34,1.15,.64,1) forwards}
   .gBallWrap.settled{opacity:1;transform:translateY(0)}
@@ -166,8 +166,8 @@
   .gBall.wiggle{animation:gachaWiggle .5s ease-in-out}
   .gBall.condense,.gBallWhite.condense{transform-origin:50% 100%;animation:gGridCondense .5s cubic-bezier(.36,.07,.4,1) forwards}
   .gBallWhite{filter:brightness(0) invert(1);opacity:0;pointer-events:none}
-  .gBallWrap.closing .gBall{transition:opacity .4s ease;opacity:0}
-  .gBallWrap.closing .gBallWhite{transition:opacity .4s ease;opacity:1}
+  .gBallWrap.closing .gBall{transition:opacity .22s ease;opacity:0}
+  .gBallWrap.closing .gBallWhite{transition:opacity .22s ease;opacity:1}
   .gResult,.gResultWhite{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(.15);pointer-events:none}
   .gResultWhite{filter:brightness(0) invert(1)}
   .gResult.reveal,.gResultWhite.reveal{transition:transform .5s cubic-bezier(.34,1.4,.64,1),opacity .15s ease;opacity:1;transform:scale(1)}
@@ -235,12 +235,9 @@
   .mydesignAdd.open .mdShapeBtn[data-t="1"]{transition-delay:.03s}
   .mydesignAdd.open .mdShapeBtn[data-t="2"]{transition-delay:.03s}
   .mydesignAdd.open .mdShapeBtn[data-t="3"]{transition-delay:.06s}
-  .mdShapeGrid{display:grid;width:100%}
-  .mdShapeGrid.t0{aspect-ratio:1}
-  .mdShapeGrid.t1,.mdShapeGrid.t2{aspect-ratio:239/157}
-  .mdShapeGrid.t3{aspect-ratio:125/34}
-  .mdShapeBtn .mdShapeGrid{width:30px}
-  .mdShapeBtn .mdPc{background:#9a9a9a;border-radius:1px}
+  .mdShapeGrid{display:grid;width:100%;gap:8px}
+  .mdShapeBtn .mdShapeGrid{width:30px;gap:3px}
+  .mdShapeBtn .mdPc{background:#9a9a9a;border-radius:1px;aspect-ratio:1}
   .mdRow{position:relative;margin:14px 10px;overflow:hidden;border-radius:12px}
   .mdRowInner{position:relative;background:var(--p-white);transition:transform .22s ease;touch-action:pan-y}
   .mdRow[data-swipe="right"] .mdRowInner{transform:translateX(-64px)}
@@ -251,7 +248,7 @@
   .mdRowDel .circ{width:34px;height:34px;border-radius:50%;background:var(--p-white);border:2px solid var(--p-gray);box-sizing:border-box;display:flex;align-items:center;justify-content:center;cursor:pointer}
   .mdRowDel .circ svg{width:16px;height:16px}
   .mdRowDel .circ svg line{stroke:var(--p-gray);stroke-width:3.4;stroke-linecap:round}
-  .mdCell{position:relative}
+  .mdCell{position:relative;aspect-ratio:1}
   .mdCell img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none}
   .mdCell.empty{border:2px solid var(--p-gray);border-radius:10px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;cursor:pointer}
   .mdCell.empty img{width:36px;height:36px;flex:none}
@@ -261,7 +258,7 @@
   .mdTrash svg path{stroke:var(--p-gray)}
   #mdPickerBackdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:31}
   #mdPickerBackdrop.on{display:block}
-  #mdPicker{display:none;position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:520px;background:var(--p-white);border-top:1px solid rgba(0,0,0,.12);padding:12px 10px calc(12px + env(safe-area-inset-bottom));z-index:32;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
+  #mdPicker{display:none;position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:520px;background:rgba(0,0,0,.8);border-top:1px solid rgba(255,255,255,.14);padding:12px 10px calc(12px + env(safe-area-inset-bottom));z-index:32;box-shadow:0 -4px 16px rgba(0,0,0,.25)}
   #mdPicker.on{display:block}
   #mdPickerRow{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}
   #mdPickerRow .mdPickIt{flex:none;width:52px;height:52px;cursor:pointer}
@@ -476,12 +473,16 @@ cfg.mode=(cfg.mode==="my")?"my":"grid";
 // 마이 디자인 그리드 모양 정의(측정된 참고 이미지 비율 반영):
 // t0=큰 네모 1개, t1=큰 네모(왼)+작은 네모 2개(오, 위아래), t2=작은 네모 2개(왼, 위아래)+큰 네모(오), t3=작은 네모 3x3
 // cols/rows는 실측 픽셀비를 그대로 fr단위로 사용(큰:작은≈157:67, 칸사이 간격≈23~24) → 화면 폭이 달라져도 정확히 같은 비율의 정사각형 칸 유지.
+// 간격은 이제 그리드 트랙 사이에 빈 트랙을 끼워넣는 방식이 아니라 실제 CSS gap(8px, 세 줄 보기와 동일)으로 처리.
+// 칸은 각 셀에 aspect-ratio:1을 직접 걸어서(컨테이너 전체가 아니라) 항상 정사각형을 유지하고,
+// 큰 칸(2x2)은 calc(2fr + 8px)로 "작은 칸 2개 + 그 사이 8px 간격"과 정확히 같은 폭이 되도록 계산됨
+// → 실제 화면 폭이 달라져도 정사각형/8px 간격이 항상 그대로 유지됨(고정 aspect-ratio 컨테이너 트릭 불필요).
 var MD_SHAPES=[
-  {cls:"t0",n:1,cols:"1fr",rows:"1fr",areas:[{c:"1",r:"1"}]},
-  {cls:"t1",n:3,cols:"157fr 7fr 75fr",rows:"75fr 7fr 75fr",areas:[{c:"1",r:"1 / 4"},{c:"3",r:"1"},{c:"3",r:"3"}]},
-  {cls:"t2",n:3,cols:"75fr 7fr 157fr",rows:"75fr 7fr 75fr",areas:[{c:"1",r:"1"},{c:"1",r:"3"},{c:"3",r:"1 / 4"}]},
-  {cls:"t3",n:3,cols:"34fr 11.5fr 34fr 11.5fr 34fr",rows:"1fr",areas:[
-    {c:"1",r:"1"},{c:"3",r:"1"},{c:"5",r:"1"}
+  {cls:"t0",n:1,cols:"1fr",rows:"auto",areas:[{c:"1",r:"1"}]},
+  {cls:"t1",n:3,cols:"calc(2fr + 8px) 1fr",rows:"auto auto",areas:[{c:"1",r:"1 / 3"},{c:"2",r:"1"},{c:"2",r:"2"}]},
+  {cls:"t2",n:3,cols:"1fr calc(2fr + 8px)",rows:"auto auto",areas:[{c:"1",r:"1"},{c:"1",r:"2"},{c:"2",r:"1 / 3"}]},
+  {cls:"t3",n:3,cols:"1fr 1fr 1fr",rows:"auto",areas:[
+    {c:"1",r:"1"},{c:"2",r:"1"},{c:"3",r:"1"}
   ]}
 ];
 function sanitizeMyDesign(arr){
@@ -753,15 +754,20 @@ function buildShapeGrid(type,cellBuilder){
   return g;
 }
 var mdPickerTarget=null;
-function mdUsedKeys(){
+function mdUsedKeys(excludeRow,excludeCell){
   var s=new Set();
-  cfg.myDesign.forEach(function(r){r.cells.forEach(function(k){if(k)s.add(k);});});
+  cfg.myDesign.forEach(function(r,ri){
+    r.cells.forEach(function(k,ci){
+      if(k&&!(ri===excludeRow&&ci===excludeCell))s.add(k);
+    });
+  });
   return s;
 }
 function mdOpenPicker(rowIdx,cellIdx){
   mdPickerTarget={rowIdx:rowIdx,cellIdx:cellIdx};
   var row=$("mdPickerRow");row.innerHTML="";
-  var used=mdUsedKeys();
+  // 지금 이 칸에 이미 들어있는 아이콘(교체 대상)은 목록에서 빼지 않도록, 이 칸 자신은 "사용중" 계산에서 제외.
+  var used=mdUsedKeys(rowIdx,cellIdx);
   var list=mdAcquiredList().filter(function(m){return !used.has(m.key);});
   if(!list.length){
     var e=document.createElement("div");e.className="mdPickEmpty";e.textContent="아직 획득한 로고 아이콘이 없습니다.";
@@ -808,6 +814,7 @@ function mdMakeCell(rowIdx,cellIdx,key){
       saveCfg();render();
     });
     cell.appendChild(trash);
+    cell.addEventListener("click",function(){mdOpenPicker(rowIdx,cellIdx)});
   }else{
     cell.className="mdCell empty";
     var bimg=document.createElement("img");
@@ -1496,10 +1503,12 @@ function runGachaUnit(wrap,ball,ballWhite,shadow,result,resultWhite,dropDelay){
     setTimeout(function(){
       wrap.classList.add("closing");
       shadow.classList.add("fadeout");
+      // 몬스터볼이 하얗게 다 바뀌는 순간(위 closing 전환 .22s) = 로고 아이콘이 나타나는 순간이 되도록,
+      // 흰색으로 바뀐 채 혼자 오래 떠 있는 빈 시간 없이 곧바로 이어서 공개.
       setTimeout(function(){
         wrap.classList.add("opening");
         revealResult(true);
-      },650);
+      },220);
     },280);
   }
   if(!cfg.gachaAnim){
