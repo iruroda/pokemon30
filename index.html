@@ -7,41 +7,41 @@
 <link id="favico" rel="icon" type="image/x-icon" href="favicon.ico">
 <style>
   :root {
-    /* 30th 리뉴얼 팔레트(5색): 흰색/노란색/검은색/빨간색/옅은회색 */
-    --p-white:#FFFFFF; --p-yellow:#FFCF0F; --p-black:#000000; --p-red:#E70011; --p-gray:#EFEFEF;
-    --bg:#FFFFFF; --card:#252834; --accent:#ffcb05; --text:#000000; --sub:#8a8fa3;
+    /* 30th 리뉴얼 팔레트(6색): 흰색/노란색/검은색/빨간색/옅은회색/회색.
+       몬스터볼 그림자(#A19E9E 계열)를 제외한 모든 색상은 이 6색 중 가장 가까운 색으로 통일한다. */
+    --p-white:#FFFFFF; --p-yellow:#FFCF0F; --p-black:#000000; --p-red:#E70011; --p-gray-light:#EFEFEF; --p-gray:#C5C5C5;
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none}
   input,textarea{-webkit-user-select:text;-moz-user-select:text;user-select:text}
   img{-webkit-user-drag:none;user-drag:none}
   html{overscroll-behavior-y:none}
-  body{background:var(--bg);color:var(--text);font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;overflow-x:hidden;overscroll-behavior-y:none}
+  body{background:var(--p-white);color:var(--p-black);font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;overflow-x:hidden;overscroll-behavior-y:none}
   @media (hover:hover) and (pointer:fine){
     html{scrollbar-gutter:stable}
     #mpanel{scrollbar-gutter:stable}
     html,#mpanel{scrollbar-width:thin}
     html::-webkit-scrollbar-track,#mpanel::-webkit-scrollbar-track{background:transparent}
     html::-webkit-scrollbar-thumb,#mpanel::-webkit-scrollbar-thumb{background:transparent;border-radius:6px;transition:background .25s}
-    html.scrolling::-webkit-scrollbar-thumb,#mpanel.scrolling::-webkit-scrollbar-thumb{background:rgba(232,234,240,.28)}
-    html.scrolling::-webkit-scrollbar-thumb:hover,#mpanel.scrolling::-webkit-scrollbar-thumb:hover{background:rgba(232,234,240,.42)}
+    html.scrolling::-webkit-scrollbar-thumb,#mpanel.scrolling::-webkit-scrollbar-thumb{background:rgba(239,239,239,.28)}
+    html.scrolling::-webkit-scrollbar-thumb:hover,#mpanel.scrolling::-webkit-scrollbar-thumb:hover{background:rgba(239,239,239,.42)}
     html,#mpanel{scrollbar-color:transparent transparent}
-    html.scrolling,#mpanel.scrolling{scrollbar-color:rgba(232,234,240,.28) transparent}
+    html.scrolling,#mpanel.scrolling{scrollbar-color:rgba(239,239,239,.28) transparent}
   }
   #wrap{max-width:520px;margin:0 auto;min-height:100dvh}
   #mtitle{position:sticky;top:0;z-index:2;flex:none;display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800;padding:16px 36px 12px 16px;background:var(--p-white)}
   #mtitle img{width:24px;height:24px}
-  #topbar{position:sticky;top:0;z-index:10;background:var(--p-yellow);padding:10px 12px 8px;border-bottom:none}
+  #topbar{position:sticky;top:0;z-index:10;background:var(--p-yellow);padding:10px 12px 0;border-bottom:none}
   #row1{display:flex;align-items:center;gap:8px;height:34px;margin-bottom:8px;padding-right:150px}
   #progresswrap{flex:1}
   #ptextrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
-  #ptext{font-size:12px;color:var(--sub);white-space:nowrap;flex:none}
-  #ptext b{color:var(--accent);font-size:14px}
+  #ptext{font-size:12px;color:var(--p-gray);white-space:nowrap;flex:none}
+  #ptext b{color:var(--p-yellow);font-size:14px}
   #ptext .sl{font-size:12px}
   #ptext #ptotal{font-size:12px}
   #typerow{display:flex;gap:2px;flex-wrap:nowrap;justify-content:flex-end;min-width:0;overflow:hidden}
   #typerow .tic{width:12px;height:12px;flex:none;object-fit:contain;visibility:hidden}
-  #pbar{height:6px;background:#3a3e50;border-radius:3px;overflow:hidden;width:100%}
-  #pfill{height:100%;width:0%;background:var(--accent);border-radius:3px;transition:width .3s}
+  #pbar{height:6px;background:var(--p-black);border-radius:3px;overflow:hidden;width:100%}
+  #pfill{height:100%;width:0%;background:var(--p-yellow);border-radius:3px;transition:width .3s}
   #typerow .tic.on{visibility:visible}
   #progresswrap,#answerWrap{display:none}
   #pagetitle{flex:1;min-width:0;display:flex;align-items:center;gap:6px;font-size:17px;line-height:20px;font-weight:800;color:var(--p-black);padding:4px 0}
@@ -49,33 +49,41 @@
   #pagetitle img{width:20px;height:20px;flex:none}
   #ptitletext{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   #menubtn{position:fixed;top:10px;right:calc(max(0px, (100vw - 520px) / 2) + 8px);z-index:35;width:34px;height:34px;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0;transition:transform .35s cubic-bezier(.4,0,.2,1)}
-  #menubtn span{display:block;width:19px;height:3px;border-radius:2px;background:var(--text);transform-origin:center;transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .2s cubic-bezier(.4,0,.2,1)}
+  #menubtn span{display:block;width:19px;height:3px;border-radius:2px;background:var(--p-black);transform-origin:center;transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .2s cubic-bezier(.4,0,.2,1)}
   #menubtn.open span:nth-child(1){transform:translateY(8px) rotate(45deg)}
   #menubtn.open span:nth-child(2){opacity:0;transform:scaleX(0)}
   #menubtn.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
   #answerWrap{position:relative}
-  #answer{width:100%;background-color:var(--card);background-image:linear-gradient(to bottom,transparent,#8a8fa3 50%,transparent),linear-gradient(to bottom,transparent,#3a3e50 50%,transparent);background-repeat:no-repeat,no-repeat;background-position:center,center;background-size:100% 0%,100% 0%;border:1.5px solid #3a3e50;border-radius:12px;color:var(--text);font-size:17px;padding:11px 40px 11px 14px;outline:none}
-  #answer::placeholder{color:#3a3e50;opacity:1}
+  #answer{width:100%;background-color:var(--p-black);background-image:linear-gradient(to bottom,transparent,var(--p-gray) 50%,transparent),linear-gradient(to bottom,transparent,var(--p-black) 50%,transparent);background-repeat:no-repeat,no-repeat;background-position:center,center;background-size:100% 0%,100% 0%;border:1.5px solid var(--p-black);border-radius:12px;color:var(--p-black);font-size:17px;padding:11px 40px 11px 14px;outline:none}
+  #answer::placeholder{color:var(--p-black);opacity:1}
   #answer::-webkit-search-cancel-button,#answer::-webkit-search-decoration{-webkit-appearance:none;display:none}
   #answer{-webkit-appearance:none;appearance:none}
-  #answer:focus{border-color:var(--accent)}
+  #answer:focus{border-color:var(--p-yellow)}
   #answer.correct{animation:wave .9s ease}
   #answerClearBtn{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;background:none;border:none;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
   #answerClearBtn:active{opacity:.55}
-  #answerClearBtn span{position:absolute;width:14px;height:2px;border-radius:1px;background:var(--sub)}
+  #answerClearBtn span{position:absolute;width:14px;height:2px;border-radius:1px;background:var(--p-gray)}
   #answerClearBtn span:nth-child(1){transform:rotate(45deg)}
   #answerClearBtn span:nth-child(2){transform:rotate(-45deg)}
   @keyframes wave{0%{background-size:100% 0%,100% 0%}38%{background-size:100% 200%,100% 0%}58%{background-size:100% 0%,100% 200%}100%{background-size:100% 0%,100% 0%}}
-  .shead{font-size:14px;font-weight:700;color:var(--accent);padding:16px 12px 6px;display:flex;justify-content:space-between;align-items:baseline}
-  .shead small{color:var(--sub);font-weight:400;font-size:11px}
+  .shead{font-size:14px;font-weight:700;color:var(--p-yellow);padding:16px 12px 6px;display:flex;justify-content:space-between;align-items:baseline}
+  .shead small{color:var(--p-gray);font-weight:400;font-size:11px}
   .dexver{margin-left:8px;display:inline-flex;gap:4px;vertical-align:1px}
-  .dvbtn{background:var(--card);border:1px solid #3a3e50;color:var(--sub);border-radius:10px;padding:2px 8px;font-size:11px;font-weight:400;cursor:pointer;line-height:1.3}
-  .dvbtn.on{border-color:var(--accent);color:var(--accent);font-weight:700}
-  .novar{margin:18px 14px;padding:14px 12px;border:2px solid #b3122a;background:#ffd9e4;color:#b3122a;border-radius:10px;font-size:13px;font-weight:600;text-align:center;line-height:1.5}
+  .dvbtn{background:var(--p-black);border:1px solid var(--p-black);color:var(--p-gray);border-radius:10px;padding:2px 8px;font-size:11px;font-weight:400;cursor:pointer;line-height:1.3}
+  .dvbtn.on{border-color:var(--p-yellow);color:var(--p-yellow);font-weight:700}
+  .novar{margin:18px 14px;padding:14px 12px;border:2px solid var(--p-red);background:var(--p-gray-light);color:var(--p-red);border-radius:10px;font-size:13px;font-weight:600;text-align:center;line-height:1.5}
   .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 10px}
   .cell{position:relative;text-align:center}
   .cell img{display:block;width:100%;height:auto;object-fit:contain;image-rendering:pixelated;pointer-events:none;-webkit-user-drag:none}
   #wrap[data-cols="1"] .sgrid{grid-template-columns:repeat(1,1fr);gap:8px;padding:0 10px}
+  /* 슬라이드쇼: 세 줄 보기와 같은 "3등분 + gap:8px" 격자를 재사용해 크기를 항상 정확히 맞춘다.
+     가로는 1줄보기 네모 하나(=3칸+간격 전부)만큼, 세로는 3줄보기 네모 2개+8px만큼. */
+  .slideshowBox{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto;gap:8px;margin:0 10px}
+  .ssHelper{grid-column:1;aspect-ratio:1;visibility:hidden}
+  .ssHelper:nth-child(1){grid-row:1}
+  .ssHelper:nth-child(2){grid-row:2}
+  .ssStage{grid-column:1 / 4;grid-row:1 / 3;position:relative;overflow:hidden;border-radius:12px;background:var(--p-gray-light)}
+  .ssImg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;transform:scaleX(0)}
   #pad{height:24px}
   #menu{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:20;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility 0s linear .18s}
   #menu.on{opacity:1;visibility:visible;transition:opacity .18s ease}
@@ -86,9 +94,9 @@
   #mbody .mgroup:first-child{margin-top:2px}
   .mgtitle{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800;color:var(--p-black)}
   .mgtitle::after{content:"";flex:1;height:1px;background:rgba(0,0,0,.12)}
-  .msec h3{font-size:12px;color:var(--sub);margin:18px 0 8px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;-webkit-user-select:none}
+  .msec h3{font-size:12px;color:var(--p-gray);margin:18px 0 8px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;-webkit-user-select:none}
   .mgroup .msec:first-of-type h3{margin-top:10px}
-  .msec h3 .car{font-size:10px;color:var(--sub);transition:transform .2s}
+  .msec h3 .car{font-size:10px;color:var(--p-gray);transition:transform .2s}
   .msec.collapsed h3{margin-bottom:0}
   .msec.collapsed .car{transform:rotate(-90deg)}
   .msec.collapsed .chips{display:none}
@@ -98,14 +106,14 @@
   .mbig{width:100%;background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);color:var(--p-black);border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;margin:14px 0 0}
   .mbig.warn{color:var(--p-red);border-color:var(--p-red)}
   #overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:30;align-items:center;justify-content:center;padding:24px}
-  #overlay .box{background:var(--card);border-radius:20px;padding:32px 28px;text-align:center;max-width:320px;width:100%}
-  #overlay h2{color:var(--accent);font-size:22px;margin-bottom:12px}
+  #overlay .box{background:var(--p-black);border-radius:20px;padding:32px 28px;text-align:center;max-width:320px;width:100%}
+  #overlay h2{color:var(--p-yellow);font-size:22px;margin-bottom:12px}
   #overlay p{font-size:15px;line-height:1.6}
-  #overlay button{margin-top:20px;background:var(--accent);border:none;border-radius:12px;padding:12px 28px;font-size:15px;font-weight:700;color:#1a1c24;cursor:pointer}
-  #disclaimer{font-size:7.5px;line-height:1.5;color:var(--sub);text-align:center;margin:10px auto 0;padding:0 16px;opacity:.6}
-  #greetmsg{display:none;margin:18px 0 0;font-size:13px;font-weight:600;color:var(--text)}
+  #overlay button{margin-top:20px;background:var(--p-yellow);border:none;border-radius:12px;padding:12px 28px;font-size:15px;font-weight:700;color:var(--p-black);cursor:pointer}
+  #disclaimer{font-size:7.5px;line-height:1.5;color:var(--p-gray);text-align:center;margin:10px auto 0;padding:0 16px;opacity:.6}
+  #greetmsg{display:none;margin:18px 0 0;font-size:13px;font-weight:600;color:var(--p-black)}
   #greetmsg.show{display:block}
-  #greetmsg.hint{font-weight:500;color:var(--sub)}
+  #greetmsg.hint{font-weight:500;color:var(--p-gray)}
   #greetmsg.show + .mrow{margin-top:8px}
   .mrow{display:flex;gap:8px;margin-top:18px}
   .mrow + .mrow{margin-top:8px}
@@ -113,10 +121,10 @@
   .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:40;align-items:center;justify-content:center;padding:24px}
   .modal .box{background:var(--p-white);border-radius:20px;padding:28px 24px;text-align:center;max-width:320px;width:100%}
   .modal h2{color:var(--p-red);font-size:18px;margin-bottom:14px}
-  .modal input{width:100%;box-sizing:border-box;background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);border-radius:10px;color:var(--text);font-size:15px;padding:10px 12px;margin-bottom:10px;outline:none}
+  .modal input{width:100%;box-sizing:border-box;background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);border-radius:10px;color:var(--p-black);font-size:15px;padding:10px 12px;margin-bottom:10px;outline:none}
   .modal input:focus{border-color:var(--p-red)}
-  .modal p{font-size:14px;color:var(--text);line-height:1.55;margin:0 0 18px}
-  #confirmMsg.danger{color:#d98a9a}
+  .modal p{font-size:14px;color:var(--p-black);line-height:1.55;margin:0 0 18px}
+  #confirmMsg.danger{color:var(--p-red)}
   .modal button{margin-top:6px;background:var(--p-yellow);border:none;border-radius:12px;padding:10px 24px;font-size:14px;font-weight:700;color:var(--p-black);cursor:pointer;width:100%}
   .modal button.secondary{background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);color:var(--p-black);margin-top:8px}
   #gachaStage{display:none;position:relative;width:120px;height:120px;margin:4px auto 18px}
@@ -186,8 +194,14 @@
     92%{transform:scale(.951) translate(calc(var(--gs) * .005),calc(var(--gs) * -.005))}
     100%{transform:scale(.95) translate(0,0)}
   }
-  @keyframes p30cellSpin{0%{transform:scaleX(1)}50%{transform:scaleX(.06)}100%{transform:scaleX(1)}}
-  .cell img.spin30{animation:p30cellSpin .6s ease-in-out}
+  @keyframes p30cellSpin{
+    0%{transform:scale(1) scaleX(1)}
+    20%{transform:scale(.95) scaleX(1)}
+    50%{transform:scale(.95) scaleX(.06)}
+    80%{transform:scale(.95) scaleX(1)}
+    100%{transform:scale(1) scaleX(1)}
+  }
+  .cell img.spin30{animation:p30cellSpin .8s ease-in-out}
   #iconModal .box{max-width:380px}
   #iconPopImg{width:140px;height:140px;object-fit:contain;margin:0 auto 10px;display:block}
   #iconPopNameRow{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:18px}
@@ -198,17 +212,17 @@
   #iconPopFav.on svg path{fill:var(--p-yellow);stroke:var(--p-yellow)}
   .confirmBtns{display:flex;gap:10px}
   .confirmBtns button{width:auto;flex:1;margin-top:0;border:1.5px solid transparent}
-  .confirmBtns button.secondary{margin-top:0;border-color:#3a3e50}
-  #confirmOk.hold{position:relative;overflow:hidden;background:transparent;color:var(--sub);border-color:#3a3e50;-webkit-user-select:none;user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none;touch-action:none}
+  .confirmBtns button.secondary{margin-top:0;border-color:var(--p-black)}
+  #confirmOk.hold{position:relative;overflow:hidden;background:transparent;color:var(--p-gray);border-color:var(--p-black);-webkit-user-select:none;user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none;touch-action:none}
   #confirmOk.hold .lbl{position:relative;z-index:1}
-  #confirmOk.hold::before{content:"";position:absolute;inset:0;width:0;background:var(--accent)}
+  #confirmOk.hold::before{content:"";position:absolute;inset:0;width:0;background:var(--p-yellow)}
   #confirmOk.hold.filling::before{width:100%;transition:width 3s linear}
-  #confirmOk.hold.filling{color:#1a1c24}
-  #recordList{max-height:50vh;overflow-y:auto;text-align:left;font-size:12px;color:var(--text);margin:0 0 10px}
-  #recordList .rec{padding:8px 4px;border-bottom:1px solid #3a3e50}
-  #recordList .rec .t{color:var(--accent);font-weight:700;font-size:12px}
-  #recordList .rec .s{color:var(--sub);font-size:11px;margin-top:2px}
-  #recordList .empty{color:var(--sub);padding:16px 0;text-align:center}
+  #confirmOk.hold.filling{color:var(--p-black)}
+  #recordList{max-height:50vh;overflow-y:auto;text-align:left;font-size:12px;color:var(--p-black);margin:0 0 10px}
+  #recordList .rec{padding:8px 4px;border-bottom:1px solid var(--p-black)}
+  #recordList .rec .t{color:var(--p-yellow);font-weight:700;font-size:12px}
+  #recordList .rec .s{color:var(--p-gray);font-size:11px;margin-top:2px}
+  #recordList .empty{color:var(--p-gray);padding:16px 0;text-align:center}
 
   #toolicons{position:fixed;top:10px;right:calc(max(0px, (100vw - 520px) / 2) + 50px);z-index:35;display:flex;align-items:center;gap:2px;transition:opacity .15s ease}
   #toolicons.hide{opacity:0;pointer-events:none}
@@ -217,13 +231,13 @@
   #searchBar{max-height:0;overflow:hidden;transition:max-height .3s ease}
   #wrap.searchOpen #searchBar{max-height:60px}
   #searchInputWrap{position:relative;margin-top:8px}
-  #searchBar input{width:100%;box-sizing:border-box;background:var(--p-white);border:none;border-radius:12px;color:var(--text);font-size:15px;padding:10px 36px 10px 12px;outline:none}
+  #searchBar input{width:100%;box-sizing:border-box;background:var(--p-white);border:none;border-radius:12px;color:var(--p-black);font-size:15px;padding:10px 36px 10px 12px;outline:none}
   #searchClearBtn{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;background:none;border:none;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
   #searchClearBtn:active{opacity:.55}
   #searchClearBtn span{position:absolute;width:14px;height:2px;border-radius:1px;background:var(--p-black)}
   #searchClearBtn span:nth-child(1){transform:rotate(45deg)}
   #searchClearBtn span:nth-child(2){transform:rotate(-45deg)}
-  #sections{display:flex;flex-direction:column;gap:8px}
+  #sections{display:flex;flex-direction:column;gap:8px;margin-top:8px}
   .mydesignAdd{position:relative;overflow:hidden;margin:0 10px;height:64px;background:var(--p-gray);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer}
   .mdPlusBadge{width:34px;height:34px;border-radius:50%;background:var(--p-white);border:2px solid var(--p-gray);box-sizing:border-box;display:flex;align-items:center;justify-content:center;transition:opacity .18s ease,transform .18s ease}
   .mdPlusBadge svg{width:16px;height:16px}
@@ -239,7 +253,7 @@
   .mydesignAdd.open .mdShapeBtn[data-t="3"]{transition-delay:.06s}
   .mdShapeGrid{display:grid;width:100%;gap:8px}
   .mdShapeBtn .mdShapeGrid{width:30px;gap:3px}
-  .mdShapeBtn .mdPc{background:#9a9a9a;border-radius:1px;aspect-ratio:1}
+  .mdShapeBtn .mdPc{background:var(--p-gray);border-radius:1px;aspect-ratio:1}
   .mdRow{position:relative;margin:0 10px;overflow:hidden;border-radius:12px}
   .mdRowInner{position:relative;background:var(--p-white);transition:transform .22s ease;touch-action:pan-y}
   .mdRow[data-swipe="right"] .mdRowInner{transform:translateX(-64px)}
@@ -255,6 +269,9 @@
   .mdCell.empty{border:2px solid var(--p-gray);border-radius:10px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;cursor:pointer}
   .mdCell.empty img{width:36px;height:36px;flex:none}
   .mdCell.filled{cursor:default}
+  /* 감상 모드: 빈 칸은 테두리 없이 그냥 흰색, 채워진 칸은 편집 UI(쓰레기통) 없이 탭하면 이름 팝업만 표시 */
+  .mdCell.empty.mdView{border:none;background:var(--p-white);cursor:default}
+  .emptyMsg{margin:28px 16px;padding:20px 14px;text-align:center;color:var(--p-gray);font-size:13px;line-height:1.6}
   .mdTrash{position:absolute;top:2px;right:2px;width:26px;height:26px;padding:0;background:none;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
   .mdTrash svg{width:20px;height:20px}
   .mdTrash svg path{stroke:var(--p-gray)}
@@ -265,7 +282,7 @@
   #mdPickerRow{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}
   #mdPickerRow .mdPickIt{flex:none;width:52px;height:52px;cursor:pointer}
   #mdPickerRow .mdPickIt img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}
-  #mdPickerRow .mdPickEmpty{color:var(--sub);font-size:13px;padding:14px 4px;white-space:nowrap}
+  #mdPickerRow .mdPickEmpty{color:var(--p-gray);font-size:13px;padding:14px 4px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -305,6 +322,7 @@
     <div class="mgroup"><div class="mgtitle">그리드 설정</div>
       <div class="msec" data-key="box"><h3>세대별<span class="car">▾</span></h3><div class="chips" id="boxchips"></div></div>
       <div class="msec" data-key="sort"><h3>정렬 순서<span class="car">▾</span></h3><div class="chips" id="sortchips"></div></div>
+      <div class="msec" data-key="mdMode"><h3>마이 디자인<span class="car">▾</span></h3><div class="chips" id="mdModeChips"></div></div>
     </div>
     <div class="mgroup"><div class="mgtitle">뽑기 설정</div>
       <div class="msec" data-key="gachaAnim"><h3>애니메이션<span class="car">▾</span></h3><div class="chips" id="gachaAnimChips"></div></div>
@@ -458,7 +476,7 @@ function pushToServer(){
     fbDb.collection("users").doc(fbUid).set({name:curUser,coin30:coin30,p30:{
       found:Array.from(found),
       stats:{sil:!!stats.sil,typ:!!stats.typ,hint:stats.hint||0,longpress:stats.longpress||0,records:stats.records||[]},
-      cfg:{sil:cfg.sil,typ:cfg.typ,fc:cfg.fc,cols:cfg.cols,mode:cfg.mode,myDesign:cfg.myDesign,gmax:cfg.gmax,regional:cfg.regional,mega:cfg.mega,dexIdx:cfg.dexIdx,fillOrder:cfg.fillOrder,collapsed:cfg.collapsed,sortOrder:cfg.sortOrder,gachaAnim:cfg.gachaAnim,gachaAlwaysAll:cfg.gachaAlwaysAll,b:Array.from(selB),t:Array.from(selT)},
+      cfg:{sil:cfg.sil,typ:cfg.typ,fc:cfg.fc,cols:cfg.cols,mode:cfg.mode,mdViewMode:cfg.mdViewMode,myDesign:cfg.myDesign,gmax:cfg.gmax,regional:cfg.regional,mega:cfg.mega,dexIdx:cfg.dexIdx,fillOrder:cfg.fillOrder,collapsed:cfg.collapsed,sortOrder:cfg.sortOrder,gachaAnim:cfg.gachaAnim,gachaAlwaysAll:cfg.gachaAlwaysAll,b:Array.from(selB),t:Array.from(selT)},
       imgFound:Array.from(p30ImgFound),
       favs:Array.from(p30Favs)
     }},{merge:true}).catch(function(e){console.warn("서버 저장 실패",e)});
@@ -472,6 +490,7 @@ cfg.dexIdx=(typeof cfg.dexIdx==="number"&&cfg.dexIdx>=0&&cfg.dexIdx<20)?cfg.dexI
 cfg.fillOrder=(cfg.fillOrder===1||cfg.fillOrder===2)?cfg.fillOrder:0;
 cfg.collapsed=(cfg.collapsed&&typeof cfg.collapsed==="object")?cfg.collapsed:{};
 cfg.mode=(cfg.mode==="my")?"my":"grid";
+cfg.mdViewMode=(cfg.mdViewMode==="view")?"view":"edit";
 // 마이 디자인 그리드 모양 정의(측정된 참고 이미지 비율 반영):
 // t0=큰 네모 1개, t1=큰 네모(왼)+작은 네모 2개(오, 위아래), t2=작은 네모 2개(왼, 위아래)+큰 네모(오), t3=작은 네모 3x3
 // cols/rows는 실측 픽셀비를 그대로 fr단위로 사용(큰:작은≈157:67, 칸사이 간격≈23~24) → 화면 폭이 달라져도 정확히 같은 비율의 정사각형 칸 유지.
@@ -510,7 +529,7 @@ cfg.gachaAnim=("gachaAnim" in cfg)?!!cfg.gachaAnim:true;
 cfg.gachaAlwaysAll=!!cfg.gachaAlwaysAll;
 var selB=new Set(cfg.b||[]),selT=new Set(cfg.t||[]);
 var tick=0;
-var BALL="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="33" fill="none" stroke="#8a8fa3" stroke-width="9"/><path d="M17 50h22M61 50h22" stroke="#8a8fa3" stroke-width="9" fill="none"/><circle cx="50" cy="50" r="12" fill="none" stroke="#8a8fa3" stroke-width="8"/></svg>');
+var BALL="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="33" fill="none" stroke="#C5C5C5" stroke-width="9"/><path d="M17 50h22M61 50h22" stroke="#C5C5C5" stroke-width="9" fill="none"/><circle cx="50" cy="50" r="12" fill="none" stroke="#C5C5C5" stroke-width="8"/></svg>');
 var SUPRE=/[¹²³⁰-₟ᴬ-ᶿʰ-˿]/;
 (function(){
   var firstNS={},mergedSup={},res=[];
@@ -565,7 +584,7 @@ var VARIDX={};
     BASEVAR[baseIdx]={gmax:gmaxF,regional:regF,mega:megaF};
   });
 })();
-function saveCfg(){localStorage.setItem("p30psq2cfg",JSON.stringify({sil:cfg.sil,typ:cfg.typ,fc:cfg.fc,cols:cfg.cols,mode:cfg.mode,myDesign:cfg.myDesign,gmax:cfg.gmax,regional:cfg.regional,mega:cfg.mega,dexIdx:cfg.dexIdx,fillOrder:cfg.fillOrder,collapsed:cfg.collapsed,sortOrder:cfg.sortOrder,gachaAnim:cfg.gachaAnim,gachaAlwaysAll:cfg.gachaAlwaysAll,b:Array.from(selB),t:Array.from(selT)}));pushToServer();}
+function saveCfg(){localStorage.setItem("p30psq2cfg",JSON.stringify({sil:cfg.sil,typ:cfg.typ,fc:cfg.fc,cols:cfg.cols,mode:cfg.mode,mdViewMode:cfg.mdViewMode,myDesign:cfg.myDesign,gmax:cfg.gmax,regional:cfg.regional,mega:cfg.mega,dexIdx:cfg.dexIdx,fillOrder:cfg.fillOrder,collapsed:cfg.collapsed,sortOrder:cfg.sortOrder,gachaAnim:cfg.gachaAnim,gachaAlwaysAll:cfg.gachaAlwaysAll,b:Array.from(selB),t:Array.from(selT)}));pushToServer();}
 var lookup={};
 DATA.forEach(function(e,i){
   var b=e[1];
@@ -722,15 +741,25 @@ function makeCell30(m){
   return cell;
 }
 var p30SpinTimer=null;
+function p30VisibleCells(){
+  var vh=window.innerHeight||document.documentElement.clientHeight;
+  return allCells.filter(function(c){
+    var r=c.getBoundingClientRect();
+    return r.bottom>0&&r.top<vh&&r.right>0&&r.left<(window.innerWidth||document.documentElement.clientWidth);
+  });
+}
 (function scheduleP30Spin(){
   p30SpinTimer=setTimeout(function(){
     if(cfg.mode!=="my"&&allCells.length){
-      var c=allCells[Math.floor(Math.random()*allCells.length)];
-      var img=c.querySelector("img");
-      if(img){
-        img.classList.remove("spin30");
-        void img.offsetWidth;
-        img.classList.add("spin30");
+      var visible=p30VisibleCells();
+      if(visible.length){
+        var c=visible[Math.floor(Math.random()*visible.length)];
+        var img=c.querySelector("img");
+        if(img){
+          img.classList.remove("spin30");
+          void img.offsetWidth;
+          img.classList.add("spin30");
+        }
       }
     }
     scheduleP30Spin();
@@ -802,10 +831,20 @@ function mdClosePicker(){
 }
 $("mdPickerBackdrop").addEventListener("click",mdClosePicker);
 function mdMakeCell(rowIdx,cellIdx,key){
+  var viewMode=cfg.mdViewMode==="view";
   var cell=document.createElement("div");
   if(key){
-    cell.className="mdCell filled";
     var m=mdMetaByKey(key);
+    if(viewMode){
+      // 감상 모드: 기존 1줄/3줄 보기처럼 탭하면 이름/저장 팝업만 뜨고, 쓰레기통 등 편집 UI는 없음.
+      cell.className="mdCell filled mdView";
+      var vimg=document.createElement("img");
+      vimg.alt="";vimg.src=m?m.path:"";
+      cell.appendChild(vimg);
+      cell.addEventListener("click",function(){if(m)openIconPopup(m)});
+      return cell;
+    }
+    cell.className="mdCell filled";
     var img=document.createElement("img");
     img.alt="";img.src=m?m.path:"";
     cell.appendChild(img);
@@ -820,6 +859,11 @@ function mdMakeCell(rowIdx,cellIdx,key){
     cell.appendChild(trash);
     cell.addEventListener("click",function(){mdOpenPicker(rowIdx,cellIdx)});
   }else{
+    if(viewMode){
+      // 감상 모드의 빈 칸: 테두리도 없이 그냥 흰색으로만 보이고, 탭해도 아무 반응 없음.
+      cell.className="mdCell empty mdView";
+      return cell;
+    }
     cell.className="mdCell empty";
     var bimg=document.createElement("img");
     bimg.alt="";bimg.src="blank_ball.png";
@@ -830,7 +874,7 @@ function mdMakeCell(rowIdx,cellIdx,key){
 }
 // 줄을 왼쪽으로 밀면 오른쪽에, 오른쪽으로 밀면 왼쪽에 삭제(마이너스) 버튼이 드러남(양방향).
 function mdAttachSwipe(rowEl,innerEl){
-  var startX=0,startY=0,dragging=false,moved=false,wasSwipe="";
+  var startX=0,startY=0,dragging=false,moved=false,wasSwipe="",pid=null;
   var DEL_W=64;
   innerEl.addEventListener("pointerdown",function(e){
     if(e.pointerType==="mouse"&&e.button!==0)return;
@@ -838,6 +882,10 @@ function mdAttachSwipe(rowEl,innerEl){
     wasSwipe=rowEl.getAttribute("data-swipe")||"";
     dragging=true;moved=false;
     innerEl.style.transition="none";
+    // 스와이프 도중 손가락이 (드러나는) 삭제 버튼 위로 넘어가면 pointerup이
+    // innerEl이 아닌 그 버튼으로 가버려 제스처가 씹힐 수 있어, 포인터를 캡처해 고정한다.
+    pid=e.pointerId;
+    try{innerEl.setPointerCapture(pid)}catch(_){}
   });
   innerEl.addEventListener("pointermove",function(e){
     if(!dragging)return;
@@ -856,6 +904,7 @@ function mdAttachSwipe(rowEl,innerEl){
     if(!dragging)return;
     dragging=false;
     innerEl.style.transition="";
+    if(pid!==null){try{innerEl.releasePointerCapture(pid)}catch(_){}pid=null;}
     if(moved){
       var nx=typeof innerEl._nx==="number"?innerEl._nx:(wasSwipe==="right"?-DEL_W:(wasSwipe==="left"?DEL_W:0));
       var state="";
@@ -880,7 +929,9 @@ function mdAttachSwipe(rowEl,innerEl){
 function mdMakeRowDelBtn(side,rowIdx){
   var del=document.createElement("div");del.className="mdRowDel "+side;
   del.innerHTML='<div class="circ" role="button" aria-label="줄 삭제"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg></div>';
-  del.querySelector(".circ").addEventListener("click",function(){
+  // 원(34px)만 클릭 가능하면 스와이프로 드러난 전체 영역(64px) 중 상당 부분이 반응이 없어
+  // "한 번에 안 눌리는" 느낌을 주므로, 드러난 영역 전체를 눌러도 삭제되게 한다.
+  del.addEventListener("click",function(){
     cfg.myDesign.splice(rowIdx,1);saveCfg();render();
   });
   return del;
@@ -890,6 +941,12 @@ function mdRenderRow(row,rowIdx,root){
   var inner=document.createElement("div");inner.className="mdRowInner";
   var grid=buildShapeGrid(row.type,function(i){return mdMakeCell(rowIdx,i,row.cells[i]);});
   inner.appendChild(grid);
+  if(cfg.mdViewMode==="view"){
+    // 감상 모드: 스와이프로 삭제 버튼을 불러올 수 없음.
+    wrap.appendChild(inner);
+    root.appendChild(wrap);
+    return;
+  }
   mdAttachSwipe(wrap,inner);
   wrap.appendChild(mdMakeRowDelBtn("left",rowIdx));
   wrap.appendChild(mdMakeRowDelBtn("right",rowIdx));
@@ -935,8 +992,16 @@ document.addEventListener("click",function(e){
 function renderMyDesign(){
   var root=$("sections");root.innerHTML="";allCells=[];
   mdClosePicker();
-  cfg.myDesign.forEach(function(row,idx){mdRenderRow(row,idx,root)});
-  mdBuildAddBox(root);
+  if(cfg.mdViewMode==="view"){
+    if(!cfg.myDesign.length){
+      root.appendChild(makeEmptyMsg("편집 모드에서 표시할 로고 아이콘을 편집할 수 있습니다."));
+    }else{
+      cfg.myDesign.forEach(function(row,idx){mdRenderRow(row,idx,root)});
+    }
+  }else{
+    cfg.myDesign.forEach(function(row,idx){mdRenderRow(row,idx,root)});
+    mdBuildAddBox(root);
+  }
   $("pnum").textContent=0;$("ptotal").textContent=0;
   $("pfill").style.width="0%";
 }
@@ -953,16 +1018,80 @@ function sortP30List(list){
   });
   return arr;
 }
+function makeEmptyMsg(text){
+  var e=document.createElement("div");e.className="emptyMsg";e.textContent=text;
+  return e;
+}
+// ---- 슬라이드쇼: 1줄/3줄 보기 상단에서 보유한 로고 아이콘을 3초마다 랜덤 전환 ----
+// 상자가 회전하는 느낌을 내기 위해, 나가는 아이콘은 왼쪽으로 닦아내며 좁아지고(scaleX 1→0, 왼쪽 기준)
+// 들어오는 아이콘은 오른쪽에서 얇게 시작해 넓어지며 들어온다(scaleX 0→1, 오른쪽 기준).
+var SS_INTERVAL=3000,SS_DUR=500;
+var ssTimer=null,ssStage=null,ssImgs=null,ssFrontIdx=0,ssKeys=[null,null];
+function ssPick(excludeKey){
+  var list=mdAcquiredList();
+  if(!list.length)return null;
+  if(list.length===1)return list[0];
+  var m;
+  do{m=list[Math.floor(Math.random()*list.length)];}while(m.key===excludeKey);
+  return m;
+}
+function ssTick(){
+  if(!ssStage)return;
+  var front=ssImgs[ssFrontIdx],back=ssImgs[1-ssFrontIdx];
+  var next=ssPick(ssKeys[ssFrontIdx]);
+  if(!next)return;
+  ssKeys[1-ssFrontIdx]=next.key;
+  back.src=next.path;
+  back.style.transition="none";
+  back.style.transformOrigin="right center";
+  back.style.transform="scaleX(.05)";
+  void back.offsetWidth;
+  front.style.transition="transform "+SS_DUR+"ms cubic-bezier(.4,0,.2,1)";
+  front.style.transformOrigin="left center";
+  front.style.transform="scaleX(.05)";
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      back.style.transition="transform "+SS_DUR+"ms cubic-bezier(.4,0,.2,1)";
+      back.style.transform="scaleX(1)";
+    });
+  });
+  ssFrontIdx=1-ssFrontIdx;
+}
+function ssTeardown(){
+  clearInterval(ssTimer);ssTimer=null;ssStage=null;ssImgs=null;
+}
+function ssBuild(root){
+  var first=ssPick(null);
+  if(!first)return; // 보유한 로고 아이콘이 하나도 없으면 슬라이드쇼를 그리지 않음
+  var box=document.createElement("div");box.className="slideshowBox";
+  var h1=document.createElement("div");h1.className="ssHelper";
+  var h2=document.createElement("div");h2.className="ssHelper";
+  var stage=document.createElement("div");stage.className="ssStage";
+  var imgA=document.createElement("img");imgA.className="ssImg";imgA.alt="";
+  var imgB=document.createElement("img");imgB.className="ssImg";imgB.alt="";
+  stage.appendChild(imgA);stage.appendChild(imgB);
+  box.appendChild(h1);box.appendChild(h2);box.appendChild(stage);
+  root.appendChild(box);
+  ssStage=stage;ssImgs=[imgA,imgB];ssFrontIdx=0;ssKeys=[first.key,null];
+  imgA.src=first.path;
+  imgA.style.transform="scaleX(1)";
+  clearInterval(ssTimer);
+  ssTimer=setInterval(ssTick,SS_INTERVAL);
+}
 function render(){
+  ssTeardown();
   if(cfg.mode==="my"){renderMyDesign();return;}
   var root=$("sections");root.innerHTML="";allCells=[];
+  ssBuild(root);
   var list=IMG30META.filter(function(m){
     if(selB.size&&!selB.has(m.box))return false;
     return true;
   });
   list=sortP30List(list);
   var tot=IMG30META.length,fnd=p30ImgFound.size;
-  if(selB.size===0){
+  if(!list.length){
+    root.appendChild(makeEmptyMsg("표시할 수 있는 로고 아이콘이 없습니다."));
+  }else if(selB.size===0){
     var gr=document.createElement("div");gr.className="sgrid";
     list.forEach(function(m){gr.appendChild(makeCell30(m))});
     root.appendChild(gr);
@@ -1363,6 +1492,7 @@ function syncFromServer(){
       cfg.fillOrder=(c.fillOrder===1||c.fillOrder===2)?c.fillOrder:0;
       cfg.collapsed=(c.collapsed&&typeof c.collapsed==="object")?c.collapsed:{};
       cfg.mode=(c.mode==="my")?"my":"grid";
+      cfg.mdViewMode=(c.mdViewMode==="view")?"view":"edit";
       cfg.myDesign=sanitizeMyDesign(c.myDesign);
       cfg.sortOrder=(c.sortOrder===1||c.sortOrder===2)?c.sortOrder:0;
       cfg.gachaAnim=("gachaAnim" in c)?!!c.gachaAnim:true;
@@ -1503,16 +1633,19 @@ function runGachaUnit(wrap,ball,ballWhite,shadow,result,resultWhite,dropDelay){
     ball.classList.add("condense");
     ballWhite.classList.add("condense");
     shadow.classList.add("condense");
+    // 몬스터볼이 95%로 다 줄어든 뒤에도 색이 있는 채로 잠시 유지되다가,
+    // 로고 아이콘이 먼저 커지기 시작하고 절반 이상 나타난 시점에야
+    // 몬스터볼이 흰색으로 바뀌기 시작하도록 해서 빈 흰 화면 노출 시간을 없앤다.
     setTimeout(function(){
-      wrap.classList.add("closing");
-      shadow.classList.add("fadeout");
-      // 몬스터볼이 하얗게 다 바뀌는 순간(위 closing 전환 .22s) = 로고 아이콘이 나타나는 순간이 되도록,
-      // 흰색으로 바뀐 채 혼자 오래 떠 있는 빈 시간 없이 곧바로 이어서 공개.
+      revealResult(true);
       setTimeout(function(){
-        wrap.classList.add("opening");
-        revealResult(true);
-      },220);
-    },280);
+        wrap.classList.add("closing");
+        shadow.classList.add("fadeout");
+        setTimeout(function(){
+          wrap.classList.add("opening");
+        },220);
+      },100);
+    },500);
   }
   if(!cfg.gachaAnim){
     // 애니메이션 끄기: 연출 없이 바로 결과 공개(흰색 반짝임도 생략)
@@ -1632,6 +1765,10 @@ function buildMenu(){
   var soc=$("sortchips");soc.innerHTML="";
   [[0,"번호순"],[1,"획득순(↑)"],[2,"획득순(↓)"]].forEach(function(o){
     chip(o[1],cfg.sortOrder===o[0],function(){cfg.sortOrder=o[0];saveCfg();render();buildMenu()},soc);
+  });
+  var mmc=$("mdModeChips");mmc.innerHTML="";
+  [["edit","편집 모드"],["view","감상 모드"]].forEach(function(o){
+    chip(o[1],cfg.mdViewMode===o[0],function(){cfg.mdViewMode=o[0];saveCfg();render();buildMenu()},mmc);
   });
   var gac=$("gachaAnimChips");gac.innerHTML="";
   [[true,"켜기"],[false,"끄기"]].forEach(function(o){
