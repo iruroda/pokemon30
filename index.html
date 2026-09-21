@@ -83,10 +83,12 @@
   .ssHelper:nth-child(1){grid-row:1}
   .ssHelper:nth-child(2){grid-row:2}
   .ssStage{grid-column:1 / 4;grid-row:1 / 3;position:relative;overflow:hidden;border-radius:12px;background:var(--p-gray-light);cursor:pointer}
-  .ssImg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;opacity:0}
-  .ssCtrl{position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:5}
-  .ssBtn{width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--p-white)}
-  .ssBtn svg{width:14px;height:14px;fill:currentColor;display:block}
+  .ssImg{position:absolute;top:0;left:8%;width:84%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;opacity:0}
+  .ssCtrl{position:absolute;top:8px;right:8px;display:flex;gap:10px;z-index:5}
+  .ssBtn{width:22px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--p-gray)}
+  .ssBtn svg{width:18px;height:18px;fill:currentColor;display:block}
+  .ssStageMsg{cursor:default;display:flex;align-items:center;justify-content:center;padding:20px}
+  .ssEmptyMsg{text-align:center;color:var(--p-gray);font-size:13px;line-height:1.6}
   #pad{height:24px}
   #menu{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:20;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility 0s linear .18s}
   #menu.on{opacity:1;visibility:visible;transition:opacity .18s ease}
@@ -198,7 +200,7 @@
     100%{transform:scale(.95) translate(0,0)}
   }
   #iconModal .box{max-width:380px}
-  #iconPopImg{width:140px;height:140px;object-fit:contain;margin:0 auto 10px;display:block}
+  #iconPopImg{width:210px;height:210px;object-fit:contain;margin:0 auto 10px;display:block}
   #iconPopNameRow{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:18px}
   #iconPopName{font-size:16px;font-weight:800;color:var(--p-black);white-space:nowrap}
   #iconPopFav{width:30px;height:30px;flex:none;background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;margin:0}
@@ -225,7 +227,7 @@
   #toolicons .ticon svg,#toolicons .ticon img{width:26px;height:26px;display:block}
   #searchBar{max-height:0;overflow:hidden;transition:max-height .3s ease}
   #wrap.searchOpen #searchBar{max-height:60px}
-  #searchInputWrap{position:relative;margin-top:8px}
+  #searchInputWrap{position:relative;margin:0 0 8px}
   #searchBar input{width:100%;box-sizing:border-box;background:var(--p-white);border:none;border-radius:12px;color:var(--p-black);font-size:15px;padding:10px 36px 10px 12px;outline:none}
   #searchClearBtn{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;background:none;border:none;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
   #searchClearBtn:active{opacity:.55}
@@ -233,14 +235,14 @@
   #searchClearBtn span:nth-child(1){transform:rotate(45deg)}
   #searchClearBtn span:nth-child(2){transform:rotate(-45deg)}
   #sections{display:flex;flex-direction:column;gap:8px;margin-top:8px}
-  .mydesignAdd{position:relative;overflow:hidden;margin:0 10px;height:64px;background:var(--p-gray);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .mydesignAdd{position:relative;overflow:hidden;margin:0 10px;height:64px;background:var(--p-gray-light);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer}
   .mdPlusBadge{width:34px;height:34px;border-radius:50%;background:var(--p-white);border:2px solid var(--p-gray);box-sizing:border-box;display:flex;align-items:center;justify-content:center;transition:opacity .18s ease,transform .18s ease}
   .mdPlusBadge svg{width:16px;height:16px}
   .mdPlusBadge svg line{stroke:var(--p-gray);stroke-width:3.4;stroke-linecap:round}
   .mydesignAdd.open .mdPlusBadge{opacity:0;transform:scale(.4)}
   .mdShapeBtns{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:10px;opacity:0;pointer-events:none;transition:opacity .18s ease}
   .mydesignAdd.open .mdShapeBtns{opacity:1;pointer-events:auto}
-  .mdShapeBtn{width:44px;height:44px;background:var(--p-white);border-radius:10px;display:flex;align-items:center;justify-content:center;padding:6px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.12);transform:scale(.3);opacity:0;transition:transform .28s cubic-bezier(.34,1.15,.64,1),opacity .2s ease}
+  .mdShapeBtn{width:44px;height:44px;background:var(--p-white);border-radius:10px;display:flex;align-items:center;justify-content:center;padding:6px;cursor:pointer;transform:scale(.3);opacity:0;transition:transform .28s cubic-bezier(.34,1.15,.64,1),opacity .2s ease}
   .mydesignAdd.open .mdShapeBtn{transform:scale(1);opacity:1}
   .mydesignAdd.open .mdShapeBtn[data-t="0"]{transition-delay:0s}
   .mydesignAdd.open .mdShapeBtn[data-t="1"]{transition-delay:.03s}
@@ -253,24 +255,26 @@
   .mdRowInner{position:relative;background:var(--p-white);transition:transform .22s ease;touch-action:pan-y}
   .mdRow[data-swipe="right"] .mdRowInner{transform:translateX(-64px)}
   .mdRow[data-swipe="left"] .mdRowInner{transform:translateX(64px)}
-  .mdRowDel{position:absolute;top:0;bottom:0;width:64px;display:flex;align-items:center;justify-content:center}
-  .mdRowDel.right{right:0}
-  .mdRowDel.left{left:0}
+  .mdRowDel{position:absolute;top:0;bottom:0;width:64px;display:flex;align-items:center;justify-content:center;transition:transform .22s ease}
+  .mdRowDel.right{right:0;transform:translateX(64px)}
+  .mdRowDel.left{left:0;transform:translateX(-64px)}
+  .mdRow[data-swipe="right"] .mdRowDel.right{transform:translateX(0)}
+  .mdRow[data-swipe="left"] .mdRowDel.left{transform:translateX(0)}
   .mdRowDel .circ{width:34px;height:34px;border-radius:50%;background:var(--p-white);border:2px solid var(--p-gray);box-sizing:border-box;display:flex;align-items:center;justify-content:center;cursor:pointer}
   .mdRowDel .circ svg{width:16px;height:16px}
   .mdRowDel .circ svg line{stroke:var(--p-gray);stroke-width:3.4;stroke-linecap:round}
   .mdCell{position:relative;aspect-ratio:1}
   .mdCell img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none}
   .mdCell.empty{border:2px solid var(--p-gray);border-radius:10px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;cursor:pointer}
-  .mdCell.empty img{width:36px;height:36px;flex:none}
+  .mdCell.empty img{width:72px;height:72px;flex:none}
   .mdCell.filled{cursor:default}
   /* 감상 모드: 빈 칸은 테두리 없이 그냥 흰색, 채워진 칸은 편집 UI(쓰레기통) 없이 탭하면 이름 팝업만 표시 */
   .mdCell.empty.mdView{border:none;background:var(--p-white);cursor:default}
   .emptyMsg{margin:28px 16px;padding:20px 14px;text-align:center;color:var(--p-gray);font-size:13px;line-height:1.6}
-  .mdTrash{position:absolute;top:2px;right:2px;width:26px;height:26px;padding:0;background:none;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
-  .mdTrash svg{width:20px;height:20px}
+  .mdTrash{position:absolute;top:2px;right:2px;width:52px;height:52px;padding:0;background:none;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .mdTrash svg{width:40px;height:40px}
   .mdTrash svg path{stroke:var(--p-gray)}
-  #mdPickerBackdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:31}
+  #mdPickerBackdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.15);z-index:31}
   #mdPickerBackdrop.on{display:block}
   #mdPicker{display:none;position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:520px;background:rgba(0,0,0,.8);border-top:1px solid rgba(255,255,255,.14);padding:12px 10px calc(12px + env(safe-area-inset-bottom));z-index:32;box-shadow:0 -4px 16px rgba(0,0,0,.25)}
   #mdPicker.on{display:block}
@@ -318,6 +322,7 @@
       <div class="msec" data-key="box"><h3>세대별<span class="car">▾</span></h3><div class="chips" id="boxchips"></div></div>
       <div class="msec" data-key="sort"><h3>정렬 순서<span class="car">▾</span></h3><div class="chips" id="sortchips"></div></div>
       <div class="msec" data-key="mdMode"><h3>마이 디자인<span class="car">▾</span></h3><div class="chips" id="mdModeChips"></div></div>
+      <div class="msec" data-key="ssMode"><h3>슬라이드 쇼<span class="car">▾</span></h3><div class="chips" id="ssModeChips"></div></div>
     </div>
     <div class="mgroup"><div class="mgtitle">뽑기 설정</div>
       <div class="msec" data-key="gachaAnim"><h3>애니메이션<span class="car">▾</span></h3><div class="chips" id="gachaAnimChips"></div></div>
@@ -347,7 +352,7 @@
   <div class="confirmBtns"><button id="confirmOk"><span class="lbl">확인</span></button><button class="secondary" id="confirmCancel">취소</button></div>
 </div></div>
 <div id="gachaModal" class="modal"><div class="box">
-  <h2>뽑기</h2>
+  <h2>로고 아이콘 뽑기</h2>
   <p id="gachaDesc">30주년 코인을 사용하여 로고 아이콘을 뽑습니다.</p>
   <div id="gachaStage">
     <div id="gachaShadow"></div>
@@ -471,7 +476,7 @@ function pushToServer(){
     fbDb.collection("users").doc(fbUid).set({name:curUser,coin30:coin30,p30:{
       found:Array.from(found),
       stats:{sil:!!stats.sil,typ:!!stats.typ,hint:stats.hint||0,longpress:stats.longpress||0,records:stats.records||[]},
-      cfg:{sil:cfg.sil,typ:cfg.typ,fc:cfg.fc,cols:cfg.cols,mode:cfg.mode,mdViewMode:cfg.mdViewMode,myDesign:cfg.myDesign,gmax:cfg.gmax,regional:cfg.regional,mega:cfg.mega,dexIdx:cfg.dexIdx,fillOrder:cfg.fillOrder,collapsed:cfg.collapsed,sortOrder:cfg.sortOrder,gachaAnim:cfg.gachaAnim,gachaAlwaysAll:cfg.gachaAlwaysAll,b:Array.from(selB),t:Array.from(selT)},
+      cfg:{sil:cfg.sil,typ:cfg.typ,fc:cfg.fc,cols:cfg.cols,mode:cfg.mode,mdViewMode:cfg.mdViewMode,ssMode:cfg.ssMode,myDesign:cfg.myDesign,gmax:cfg.gmax,regional:cfg.regional,mega:cfg.mega,dexIdx:cfg.dexIdx,fillOrder:cfg.fillOrder,collapsed:cfg.collapsed,sortOrder:cfg.sortOrder,gachaAnim:cfg.gachaAnim,gachaAlwaysAll:cfg.gachaAlwaysAll,b:Array.from(selB),t:Array.from(selT)},
       imgFound:Array.from(p30ImgFound),
       favs:Array.from(p30Favs)
     }},{merge:true}).catch(function(e){console.warn("서버 저장 실패",e)});
@@ -486,6 +491,7 @@ cfg.fillOrder=(cfg.fillOrder===1||cfg.fillOrder===2)?cfg.fillOrder:0;
 cfg.collapsed=(cfg.collapsed&&typeof cfg.collapsed==="object")?cfg.collapsed:{};
 cfg.mode=(cfg.mode==="my")?"my":"grid";
 cfg.mdViewMode=(cfg.mdViewMode==="view")?"view":"edit";
+cfg.ssMode=(cfg.ssMode==="fav")?"fav":"all";
 // 마이 디자인 그리드 모양 정의(측정된 참고 이미지 비율 반영):
 // t0=큰 네모 1개, t1=큰 네모(왼)+작은 네모 2개(오, 위아래), t2=작은 네모 2개(왼, 위아래)+큰 네모(오), t3=작은 네모 3x3
 // cols/rows는 실측 픽셀비를 그대로 fr단위로 사용(큰:작은≈157:67, 칸사이 간격≈23~24) → 화면 폭이 달라져도 정확히 같은 비율의 정사각형 칸 유지.
@@ -579,7 +585,7 @@ var VARIDX={};
     BASEVAR[baseIdx]={gmax:gmaxF,regional:regF,mega:megaF};
   });
 })();
-function saveCfg(){localStorage.setItem("p30psq2cfg",JSON.stringify({sil:cfg.sil,typ:cfg.typ,fc:cfg.fc,cols:cfg.cols,mode:cfg.mode,mdViewMode:cfg.mdViewMode,myDesign:cfg.myDesign,gmax:cfg.gmax,regional:cfg.regional,mega:cfg.mega,dexIdx:cfg.dexIdx,fillOrder:cfg.fillOrder,collapsed:cfg.collapsed,sortOrder:cfg.sortOrder,gachaAnim:cfg.gachaAnim,gachaAlwaysAll:cfg.gachaAlwaysAll,b:Array.from(selB),t:Array.from(selT)}));pushToServer();}
+function saveCfg(){localStorage.setItem("p30psq2cfg",JSON.stringify({sil:cfg.sil,typ:cfg.typ,fc:cfg.fc,cols:cfg.cols,mode:cfg.mode,mdViewMode:cfg.mdViewMode,ssMode:cfg.ssMode,myDesign:cfg.myDesign,gmax:cfg.gmax,regional:cfg.regional,mega:cfg.mega,dexIdx:cfg.dexIdx,fillOrder:cfg.fillOrder,collapsed:cfg.collapsed,sortOrder:cfg.sortOrder,gachaAnim:cfg.gachaAnim,gachaAlwaysAll:cfg.gachaAlwaysAll,b:Array.from(selB),t:Array.from(selT)}));pushToServer();}
 var lookup={};
 DATA.forEach(function(e,i){
   var b=e[1];
@@ -721,7 +727,9 @@ $("iconPopSave").onclick=function(){
   if(!iconPopCur)return;
   var a=document.createElement("a");
   a.href=iconPopCur.path;
-  a.download=(p30Name(iconPopCur)||"logo")+".png";
+  var dexStr=("000"+iconPopCur.dex).slice(-4);
+  var nm=(p30Name(iconPopCur)||"logo").replace(/[\\/:*?"<>|]/g,"_");
+  a.download="30주년_로고_아이콘_"+dexStr+"_"+nm+".png";
   document.body.appendChild(a);a.click();document.body.removeChild(a);
 };
 $("iconPopClose").onclick=closeIconPopup;
@@ -852,6 +860,9 @@ function mdAttachSwipe(rowEl,innerEl,rowIdx){
     wasSwipe=rowEl.getAttribute("data-swipe")||"";
     dragging=true;moved=false;
     innerEl.style.transition="none";
+    var delRight0=rowEl.querySelector(".mdRowDel.right"),delLeft0=rowEl.querySelector(".mdRowDel.left");
+    if(delRight0)delRight0.style.transition="none";
+    if(delLeft0)delLeft0.style.transition="none";
     // 스와이프 도중 손가락이 (드러나는) 삭제 버튼 위로 넘어가면 pointerup이
     // innerEl이 아닌 그 버튼으로 가버려 제스처가 씹힐 수 있어, 포인터를 캡처해 고정한다.
     pid=e.pointerId;
@@ -869,17 +880,29 @@ function mdAttachSwipe(rowEl,innerEl,rowIdx){
     var nx=Math.min(DEL_W,Math.max(-DEL_W,base+dx));
     innerEl.style.transform="translateX("+nx+"px)";
     innerEl._nx=nx;
+    // 삭제 버튼(원)이 화면 바깥에서 밀려나는 방향과 함께 들어오는 것처럼 보이도록,
+    // 드래그 중에는 innerEl과 같은 진행률로 실시간 동기화한다.
+    var delRight=rowEl.querySelector(".mdRowDel.right"),delLeft=rowEl.querySelector(".mdRowDel.left");
+    if(delRight)delRight.style.transform="translateX("+(nx+DEL_W)+"px)";
+    if(delLeft)delLeft.style.transform="translateX("+(nx-DEL_W)+"px)";
   });
   function finish(e){
     if(!dragging)return;
     dragging=false;
     innerEl.style.transition="";
+    var delRightF=rowEl.querySelector(".mdRowDel.right"),delLeftF=rowEl.querySelector(".mdRowDel.left");
     if(pid!==null){try{innerEl.releasePointerCapture(pid)}catch(_){}pid=null;}
     if(moved){
       var nx=typeof innerEl._nx==="number"?innerEl._nx:(wasSwipe==="right"?-DEL_W:(wasSwipe==="left"?DEL_W:0));
       var state="";
       if(nx<=-DEL_W/2)state="right";
       else if(nx>=DEL_W/2)state="left";
+      // 삭제 버튼(원)을 최종 위치로 전환 없이 즉시 맞춰둔 뒤 data-swipe를 반영한다.
+      // (그래야 바로 아래에서 읽는 getBoundingClientRect가 손을 뗀 순간 실제로
+      // 보이던 위치와 어긋나지 않는다 - 인라인 스타일을 여기서 먼저 지워버리면
+      // 잠깐 닫힌 위치로 되돌아갔다가 트랜지션이 시작되어 좌표가 어긋났었음.)
+      if(delRightF){delRightF.style.transition="none";delRightF.style.transform="translateX("+(state==="right"?0:DEL_W)+"px)";}
+      if(delLeftF){delLeftF.style.transition="none";delLeftF.style.transform="translateX("+(state==="left"?0:-DEL_W)+"px)";}
       if(state)rowEl.setAttribute("data-swipe",state);else rowEl.removeAttribute("data-swipe");
       innerEl.style.transform="";
       innerEl._nx=undefined;
@@ -904,6 +927,10 @@ function mdAttachSwipe(rowEl,innerEl,rowIdx){
       var blocker2=function(ev){ev.stopPropagation();ev.preventDefault();};
       innerEl.addEventListener("click",blocker2,{capture:true,once:true});
     }
+    // 목표 위치로 이미 맞춰둔 뒤이므로, 인라인 스타일을 지워 CSS(전환 포함)가
+    // 이어받아도 시각적으로 튀지 않는다.
+    if(delRightF){delRightF.style.transition="";delRightF.style.transform="";}
+    if(delLeftF){delLeftF.style.transition="";delLeftF.style.transform="";}
     moved=false;
   }
   innerEl.addEventListener("pointerup",finish);
@@ -975,7 +1002,10 @@ function mdBuildAddBox(root){
   add.appendChild(btnsWrap);
   root.appendChild(add);
 }
-document.addEventListener("click",function(e){
+// 다른 곳을 눌렀을 때 닫히는 처리는 "click"이 아니라 "pointerdown"으로 감지한다.
+// 합성 click 이벤트는 모바일 환경에서 스크롤/터치 판정에 따라 씹히거나 늦게 발생할 수
+// 있어(마이 디자인 삭제 버튼 때와 동일한 문제), 누르는 즉시 발생하는 pointerdown이 더 확실하다.
+document.addEventListener("pointerdown",function(e){
   if(mdAddOpen&&cfg.mode==="my"&&!e.target.closest(".mydesignAdd")){
     mdAddOpen=false;
     var addEl=document.querySelector(".mydesignAdd");
@@ -1025,13 +1055,40 @@ var SS_ICON_PLAY='<svg viewBox="0 0 24 24"><path d="M8 5l12 7-12 7z"/></svg>';
 var SS_ICON_PAUSE='<svg viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>';
 var SS_ICON_PREV='<svg viewBox="0 0 24 24"><path d="M2 12L10 5V19Z M10 12L18 5V19Z"/></svg>';
 var SS_ICON_NEXT='<svg viewBox="0 0 24 24"><path d="M2 5L10 12L2 19Z M10 5L18 12L10 19Z"/></svg>';
-function ssPick(excludeKey){
+// 현재 슬라이드쇼 대상 목록: '전부'면 보유한 전체, '즐겨찾기'면 그 중 즐겨찾기한 것만.
+function ssPoolList(){
   var list=mdAcquiredList();
-  if(!list.length)return null;
-  if(list.length===1)return list[0];
-  var m;
-  do{m=list[Math.floor(Math.random()*list.length)];}while(m.key===excludeKey);
-  return m;
+  if(cfg.ssMode==="fav")list=list.filter(function(m){return p30Favs.has(m.key)});
+  return list;
+}
+function ssShuffle(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=a[i];a[i]=a[j];a[j]=t;
+  }
+  return a;
+}
+// 순수 무작위 대신 "셔플" 방식: 전체를 무작위로 한 번 섞은 뒤 순서대로 다 보여주고,
+// 다 돌면 다시 새로 섞는다 — 가만히 끝까지 보면 목록의 모든 아이콘이 한 번씩 등장함.
+var ssBag=[];
+function ssBagNext(pool,avoidKey){
+  if(!pool.length)return null;
+  if(pool.length===1)return pool[0]; // 1개뿐이면 셔플 의미가 없으니 그 아이콘을 그대로 반복
+  if(!ssBag.length){
+    ssBag=ssShuffle(pool);
+    if(avoidKey!=null&&ssBag[0].key===avoidKey){
+      // 이전 셔플의 마지막과 새 셔플의 첫 번째가 같은 아이콘이면 바로 연달아 나오므로,
+      // 다른 자리와 바꿔서 같은 아이콘이 연속으로 나오지 않게 한다.
+      var swapIdx=1+Math.floor(Math.random()*(ssBag.length-1));
+      var tmp=ssBag[0];ssBag[0]=ssBag[swapIdx];ssBag[swapIdx]=tmp;
+    }
+  }
+  return ssBag.shift();
+}
+function ssPick(excludeKey){
+  var pool=ssPoolList();
+  return ssBagNext(pool,excludeKey);
 }
 function ssCurrent(){return (ssHistIdx>=0&&ssHistIdx<ssHistory.length)?ssHistory[ssHistIdx]:null;}
 // 애니메이션 없이 즉시 특정 아이콘을 보여준다(되감기/빨리감기, 화면 복귀 시 리셋용).
@@ -1053,6 +1110,7 @@ function ssShowInstant(meta){
   back.style.transform="scaleX(1)";
 }
 // 회전 연출로 전환(자동 재생 전용 — 되감기/빨리감기는 항상 즉시 전환).
+var ssAnimSeq=0;
 function ssAnimateTo(meta){
   if(!ssStage||!meta)return;
   var front=ssImgs[ssFrontIdx],back=ssImgs[1-ssFrontIdx];
@@ -1062,40 +1120,51 @@ function ssAnimateTo(meta){
   // 가며 순서가 뒤집혀 나가는 아이콘이 위에 남아 사라지지 않는 문제가 생겼었음).
   front.style.zIndex="2";
   back.style.zIndex="1";
-  back.src=meta.path;
-  back.style.transition="none";
-  back.style.opacity="1";
-  back.style.transformOrigin="right center";
-  back.style.transform="scaleX(.05)";
-  void back.offsetWidth;
-  front.style.transition="transform "+SS_DUR+"ms cubic-bezier(.4,0,.2,1)";
-  front.style.transformOrigin="left center";
-  front.style.transform="scaleX(.05)";
-  requestAnimationFrame(function(){
+  // 새 이미지가 로딩되기 전에 애니메이션을 시작하면, 전환 도중/직후에 이미지가
+  // 로드 완료되면서 갑자기 내용이 바뀌는 것처럼 보이는 문제가 생긴다. 그래서
+  // 로딩이 끝난 뒤에만 회전 연출을 시작하도록 한다(뽑기 프리로드와 동일한 방식).
+  var seq=++ssAnimSeq;
+  back._ssSeq=seq;
+  function runAnim(){
+    if(back._ssSeq!==seq)return;
+    back.style.transition="none";
+    back.style.opacity="1";
+    back.style.transformOrigin="right center";
+    back.style.transform="scaleX(0)";
+    void back.offsetWidth;
+    front.style.transition="transform "+SS_DUR+"ms cubic-bezier(.4,0,.2,1)";
+    front.style.transformOrigin="left center";
+    front.style.transform="scaleX(0)";
     requestAnimationFrame(function(){
-      if(!ssStage)return;
-      back.style.transition="transform "+SS_DUR+"ms cubic-bezier(.4,0,.2,1)";
-      back.style.transform="scaleX(1)";
+      requestAnimationFrame(function(){
+        if(!ssStage||back._ssSeq!==seq)return;
+        back.style.transition="transform "+SS_DUR+"ms cubic-bezier(.4,0,.2,1)";
+        back.style.transform="scaleX(1)";
+      });
     });
-  });
-  // 전환이 끝나면 나간 레이어를 완전히 숨겨서, 가로로 눌린 잔상이 화면에 계속
-  // 남아있거나(문제1) 다음 전환 때 레이어 순서가 꼬이는 일(문제2)이 없게 한다.
-  front._ssHideTimer=setTimeout(function(){front.style.opacity="0";},SS_DUR+30);
+    // 전환이 끝나면 나간 레이어를 완전히 숨겨서, 가로로 눌린 잔상이 화면에 계속
+    // 남아있거나(문제1) 다음 전환 때 레이어 순서가 꼬이는 일(문제2)이 없게 한다.
+    front._ssHideTimer=setTimeout(function(){front.style.opacity="0";},SS_DUR+30);
+  }
+  back.src=meta.path;
+  if(back.complete&&back.naturalWidth>0){
+    runAnim();
+  }else{
+    back.onload=function(){if(back._ssSeq===seq)runAnim();};
+    back.onerror=function(){if(back._ssSeq===seq)runAnim();};
+  }
   ssFrontIdx=1-ssFrontIdx;
 }
 function ssStartTimer(){clearInterval(ssTimer);ssTimer=setInterval(ssAdvance,SS_INTERVAL);}
 function ssStopTimer(){clearInterval(ssTimer);ssTimer=null;}
 function ssSetPlaying(p){
   ssPlaying=p;
-  if(ssBtnPlay)ssBtnPlay.innerHTML=ssPlaying?SS_ICON_PAUSE:SS_ICON_PLAY;
+  if(ssBtnPlay)ssBtnPlay.innerHTML=ssPlaying?SS_ICON_PLAY:SS_ICON_PAUSE;
   if(ssPlaying){if(ssStage&&!document.hidden)ssStartTimer();}else{ssStopTimer();}
 }
 // 자동 재생 한 칸 전진: 새 아이콘을 무작위로 뽑아 회전 연출로 전환하고 기록에 남긴다.
 function ssAdvance(){
   if(!ssStage)return;
-  // 보유한 로고 아이콘이 1개뿐이면 바꿀 대상이 없으므로, 자기 자신으로
-  // 매번 헛되이 전환 애니메이션을 반복하지 않고 조용히 그대로 둔다.
-  if(mdAcquiredList().length<=1)return;
   var cur=ssCurrent();
   var next=ssPick(cur?cur.key:null);
   if(!next)return;
@@ -1117,8 +1186,6 @@ function ssGoNext(){
     ssHistIdx++;
     ssShowInstant(ssHistory[ssHistIdx]);
   }else{
-    // 아이콘이 1개뿐이면 더 넘어갈 곳이 없으므로 아무 것도 하지 않는다(위 ssAdvance와 동일한 이유).
-    if(mdAcquiredList().length<=1)return;
     var cur=ssCurrent();
     var next=ssPick(cur?cur.key:null);
     if(!next)return;
@@ -1134,8 +1201,24 @@ function ssTeardown(){
   ssStage=null;ssImgs=null;ssBtnPlay=null;
 }
 function ssBuild(root){
+  ssBag=[]; // 새로 지을 때마다 셔플을 처음부터 다시 시작
+  var pool=ssPoolList();
+  if(!pool.length){
+    if(cfg.ssMode==="fav"){
+      // 즐겨찾기 모드인데 즐겨찾기한 아이콘이 하나도 없으면, 같은 크기 박스에 안내문만 표시.
+      var mbox=document.createElement("div");mbox.className="slideshowBox";
+      var mh1=document.createElement("div");mh1.className="ssHelper";
+      var mh2=document.createElement("div");mh2.className="ssHelper";
+      var mstage=document.createElement("div");mstage.className="ssStage ssStageMsg";
+      var mtxt=document.createElement("div");mtxt.className="ssEmptyMsg";mtxt.textContent="즐겨찾기에 등록된 로고 아이콘이 없습니다.";
+      mstage.appendChild(mtxt);
+      mbox.appendChild(mh1);mbox.appendChild(mh2);mbox.appendChild(mstage);
+      root.appendChild(mbox);
+    }
+    return; // 전체 모드에서 보유한 로고 아이콘이 하나도 없으면 기존처럼 아무것도 그리지 않음
+  }
   var first=ssPick(null);
-  if(!first)return; // 보유한 로고 아이콘이 하나도 없으면 슬라이드쇼를 그리지 않음
+  if(!first)return;
   ssHistory=[first];ssHistIdx=0;
   var box=document.createElement("div");box.className="slideshowBox";
   var h1=document.createElement("div");h1.className="ssHelper";
@@ -1154,7 +1237,7 @@ function ssBuild(root){
   root.appendChild(box);
   ssStage=stage;ssImgs=[imgA,imgB];ssFrontIdx=0;ssBtnPlay=btnPlay;
   ssShowInstant(first);
-  ssBtnPlay.innerHTML=ssPlaying?SS_ICON_PAUSE:SS_ICON_PLAY;
+  ssBtnPlay.innerHTML=ssPlaying?SS_ICON_PLAY:SS_ICON_PAUSE;
   stage.addEventListener("click",function(e){
     if(e.target.closest(".ssCtrl"))return;
     var cur=ssCurrent();
@@ -1593,6 +1676,7 @@ function syncFromServer(){
       cfg.collapsed=(c.collapsed&&typeof c.collapsed==="object")?c.collapsed:{};
       cfg.mode=(c.mode==="my")?"my":"grid";
       cfg.mdViewMode=(c.mdViewMode==="view")?"view":"edit";
+      cfg.ssMode=(c.ssMode==="fav")?"fav":"all";
       cfg.myDesign=sanitizeMyDesign(c.myDesign);
       cfg.sortOrder=(c.sortOrder===1||c.sortOrder===2)?c.sortOrder:0;
       cfg.gachaAnim=("gachaAnim" in c)?!!c.gachaAnim:true;
@@ -1820,9 +1904,28 @@ function startGachaAll(){
   $("gachaOpenAll").style.display="";
   $("gachaGridClose").style.display="";
 }
+// 보유 코인 개수에 따라 뽑기 팝업의 안내문/버튼을 맞춰준다.
+// 코인이 0개면 안내문만 보여주고 뽑기 버튼들은 숨긴 채 닫기 버튼만 남긴다.
+function updateGachaDescForCoins(){
+  var n=Math.max(0,Math.floor(coin30||0));
+  if(n<=0){
+    $("gachaDesc").innerHTML="30주년 코인을 가지고 있지 않습니다.";
+    $("gachaAll").style.display="none";
+    $("gachaOne").style.display="none";
+    $("gachaCancel").textContent="닫기";
+  }else{
+    $("gachaDesc").innerHTML="30주년 코인 × "+n+"<br>30주년 코인 1개로 1개의 로고 아이콘을 뽑을 수 있습니다.";
+    $("gachaAll").textContent=n+"개 한 번에 뽑기";
+    $("gachaOne").textContent="1개만 뽑기";
+    $("gachaAll").style.display="";
+    $("gachaOne").style.display="";
+    $("gachaCancel").textContent="취소";
+  }
+}
 $("gachaBtn").onclick=function(){
   $("gachaModal").style.display="flex";
-  if(cfg.gachaAlwaysAll)startGachaAll();
+  updateGachaDescForCoins();
+  if(coin30>0&&cfg.gachaAlwaysAll)startGachaAll();
 };
 $("gachaCancel").onclick=closeGachaModal;
 $("gachaGridClose").onclick=closeGachaModal;
@@ -1880,6 +1983,10 @@ function buildMenu(){
   var mmc=$("mdModeChips");mmc.innerHTML="";
   [["edit","편집 모드"],["view","감상 모드"]].forEach(function(o){
     chip(o[1],cfg.mdViewMode===o[0],function(){cfg.mdViewMode=o[0];saveCfg();render();buildMenu()},mmc);
+  });
+  var smc=$("ssModeChips");smc.innerHTML="";
+  [["all","전부"],["fav","즐겨찾기"]].forEach(function(o){
+    chip(o[1],cfg.ssMode===o[0],function(){cfg.ssMode=o[0];saveCfg();render();buildMenu()},smc);
   });
   var gac=$("gachaAnimChips");gac.innerHTML="";
   [[true,"켜기"],[false,"끄기"]].forEach(function(o){
