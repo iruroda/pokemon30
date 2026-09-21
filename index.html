@@ -82,8 +82,11 @@
   .ssHelper{grid-column:1;aspect-ratio:1;visibility:hidden}
   .ssHelper:nth-child(1){grid-row:1}
   .ssHelper:nth-child(2){grid-row:2}
-  .ssStage{grid-column:1 / 4;grid-row:1 / 3;position:relative;overflow:hidden;border-radius:12px;background:var(--p-gray-light)}
-  .ssImg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;transform:scaleX(0)}
+  .ssStage{grid-column:1 / 4;grid-row:1 / 3;position:relative;overflow:hidden;border-radius:12px;background:var(--p-gray-light);cursor:pointer}
+  .ssImg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;opacity:0}
+  .ssCtrl{position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:5}
+  .ssBtn{width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--p-white)}
+  .ssBtn svg{width:14px;height:14px;fill:currentColor;display:block}
   #pad{height:24px}
   #menu{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:20;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility 0s linear .18s}
   #menu.on{opacity:1;visibility:visible;transition:opacity .18s ease}
@@ -194,14 +197,6 @@
     92%{transform:scale(.951) translate(calc(var(--gs) * .005),calc(var(--gs) * -.005))}
     100%{transform:scale(.95) translate(0,0)}
   }
-  @keyframes p30cellSpin{
-    0%{transform:scale(1) scaleX(1)}
-    20%{transform:scale(.95) scaleX(1)}
-    50%{transform:scale(.95) scaleX(.06)}
-    80%{transform:scale(.95) scaleX(1)}
-    100%{transform:scale(1) scaleX(1)}
-  }
-  .cell img.spin30{animation:p30cellSpin .8s ease-in-out}
   #iconModal .box{max-width:380px}
   #iconPopImg{width:140px;height:140px;object-fit:contain;margin:0 auto 10px;display:block}
   #iconPopNameRow{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:18px}
@@ -740,32 +735,6 @@ function makeCell30(m){
   allCells.push(cell);
   return cell;
 }
-var p30SpinTimer=null;
-function p30VisibleCells(){
-  var vh=window.innerHeight||document.documentElement.clientHeight;
-  return allCells.filter(function(c){
-    var r=c.getBoundingClientRect();
-    return r.bottom>0&&r.top<vh&&r.right>0&&r.left<(window.innerWidth||document.documentElement.clientWidth);
-  });
-}
-(function scheduleP30Spin(){
-  p30SpinTimer=setTimeout(function(){
-    if(cfg.mode!=="my"&&allCells.length){
-      var visible=p30VisibleCells();
-      if(visible.length){
-        var c=visible[Math.floor(Math.random()*visible.length)];
-        var img=c.querySelector("img");
-        if(img){
-          img.classList.remove("spin30");
-          void img.offsetWidth;
-          img.classList.add("spin30");
-        }
-      }
-    }
-    scheduleP30Spin();
-  },4000+Math.random()*7000);
-})();
-
 // ---- 마이 디자인: 획득한 로고 아이콘을 원하는 모양(그리드)으로 배치하는 나만의 진열장 ----
 function mdAcquiredList(){return IMG30META.filter(function(m){return p30ImgFound.has(m.key)});}
 function mdMetaByKey(key){
@@ -1046,11 +1015,16 @@ function makeEmptyMsg(text){
   var e=document.createElement("div");e.className="emptyMsg";e.textContent=text;
   return e;
 }
-// ---- 슬라이드쇼: 1줄/3줄 보기 상단에서 보유한 로고 아이콘을 3초마다 랜덤 전환 ----
-// 상자가 회전하는 느낌을 내기 위해, 나가는 아이콘은 왼쪽으로 닦아내며 좁아지고(scaleX 1→0, 왼쪽 기준)
-// 들어오는 아이콘은 오른쪽에서 얇게 시작해 넓어지며 들어온다(scaleX 0→1, 오른쪽 기준).
-var SS_INTERVAL=3000,SS_DUR=500;
-var ssTimer=null,ssStage=null,ssImgs=null,ssFrontIdx=0,ssKeys=[null,null];
+// ---- 슬라이드쇼: 1줄/3줄 보기 상단에서 보유한 로고 아이콘을 5초마다 랜덤 전환 ----
+// 상자가 회전하는 느낌을 내기 위해, 나가는 아이콘은 왼쪽으로 닦아내며 좁아지고(scaleX 1→.05, 왼쪽 기준)
+// 들어오는 아이콘은 오른쪽에서 얇게 시작해 넓어지며 들어온다(scaleX .05→1, 오른쪽 기준).
+var SS_INTERVAL=5000,SS_DUR=500,SS_HIST_MAX=30;
+var ssTimer=null,ssStage=null,ssImgs=null,ssFrontIdx=0;
+var ssHistory=[],ssHistIdx=-1,ssPlaying=true,ssBtnPlay=null;
+var SS_ICON_PLAY='<svg viewBox="0 0 24 24"><path d="M8 5l12 7-12 7z"/></svg>';
+var SS_ICON_PAUSE='<svg viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>';
+var SS_ICON_PREV='<svg viewBox="0 0 24 24"><path d="M2 12L10 5V19Z M10 12L18 5V19Z"/></svg>';
+var SS_ICON_NEXT='<svg viewBox="0 0 24 24"><path d="M2 5L10 12L2 19Z M10 5L18 12L10 19Z"/></svg>';
 function ssPick(excludeKey){
   var list=mdAcquiredList();
   if(!list.length)return null;
@@ -1059,14 +1033,38 @@ function ssPick(excludeKey){
   do{m=list[Math.floor(Math.random()*list.length)];}while(m.key===excludeKey);
   return m;
 }
-function ssTick(){
-  if(!ssStage)return;
+function ssCurrent(){return (ssHistIdx>=0&&ssHistIdx<ssHistory.length)?ssHistory[ssHistIdx]:null;}
+// 애니메이션 없이 즉시 특정 아이콘을 보여준다(되감기/빨리감기, 화면 복귀 시 리셋용).
+// 두 레이어를 항상 깨끗한 상태(하나는 완전히 보임, 하나는 완전히 숨김)로 되돌려서
+// 이후 자동 전환(ssAdvance)이 다시 정상적으로 이어지게 한다.
+function ssShowInstant(meta){
+  if(!ssStage||!meta)return;
   var front=ssImgs[ssFrontIdx],back=ssImgs[1-ssFrontIdx];
-  var next=ssPick(ssKeys[ssFrontIdx]);
-  if(!next)return;
-  ssKeys[1-ssFrontIdx]=next.key;
-  back.src=next.path;
+  clearTimeout(front._ssHideTimer);clearTimeout(back._ssHideTimer);
+  front.src=meta.path;
+  front.style.transition="none";
+  front.style.zIndex="2";
+  front.style.opacity="1";
+  front.style.transformOrigin="center";
+  front.style.transform="scaleX(1)";
   back.style.transition="none";
+  back.style.zIndex="1";
+  back.style.opacity="0";
+  back.style.transform="scaleX(1)";
+}
+// 회전 연출로 전환(자동 재생 전용 — 되감기/빨리감기는 항상 즉시 전환).
+function ssAnimateTo(meta){
+  if(!ssStage||!meta)return;
+  var front=ssImgs[ssFrontIdx],back=ssImgs[1-ssFrontIdx];
+  clearTimeout(front._ssHideTimer);clearTimeout(back._ssHideTimer);
+  // 나가는(front) 레이어는 항상 위, 들어오는(back) 레이어는 항상 아래에서 시작하게 해서
+  // 두 <img>의 DOM 순서와 무관하게 매번 같은 방식으로 겹치도록 한다(안 그러면 번갈아
+  // 가며 순서가 뒤집혀 나가는 아이콘이 위에 남아 사라지지 않는 문제가 생겼었음).
+  front.style.zIndex="2";
+  back.style.zIndex="1";
+  back.src=meta.path;
+  back.style.transition="none";
+  back.style.opacity="1";
   back.style.transformOrigin="right center";
   back.style.transform="scaleX(.05)";
   void back.offsetWidth;
@@ -1075,18 +1073,70 @@ function ssTick(){
   front.style.transform="scaleX(.05)";
   requestAnimationFrame(function(){
     requestAnimationFrame(function(){
+      if(!ssStage)return;
       back.style.transition="transform "+SS_DUR+"ms cubic-bezier(.4,0,.2,1)";
       back.style.transform="scaleX(1)";
     });
   });
+  // 전환이 끝나면 나간 레이어를 완전히 숨겨서, 가로로 눌린 잔상이 화면에 계속
+  // 남아있거나(문제1) 다음 전환 때 레이어 순서가 꼬이는 일(문제2)이 없게 한다.
+  front._ssHideTimer=setTimeout(function(){front.style.opacity="0";},SS_DUR+30);
   ssFrontIdx=1-ssFrontIdx;
 }
+function ssStartTimer(){clearInterval(ssTimer);ssTimer=setInterval(ssAdvance,SS_INTERVAL);}
+function ssStopTimer(){clearInterval(ssTimer);ssTimer=null;}
+function ssSetPlaying(p){
+  ssPlaying=p;
+  if(ssBtnPlay)ssBtnPlay.innerHTML=ssPlaying?SS_ICON_PAUSE:SS_ICON_PLAY;
+  if(ssPlaying){if(ssStage&&!document.hidden)ssStartTimer();}else{ssStopTimer();}
+}
+// 자동 재생 한 칸 전진: 새 아이콘을 무작위로 뽑아 회전 연출로 전환하고 기록에 남긴다.
+function ssAdvance(){
+  if(!ssStage)return;
+  // 보유한 로고 아이콘이 1개뿐이면 바꿀 대상이 없으므로, 자기 자신으로
+  // 매번 헛되이 전환 애니메이션을 반복하지 않고 조용히 그대로 둔다.
+  if(mdAcquiredList().length<=1)return;
+  var cur=ssCurrent();
+  var next=ssPick(cur?cur.key:null);
+  if(!next)return;
+  ssHistory=ssHistory.slice(0,ssHistIdx+1); // 되감았다가 다시 자동재생되면 그 뒤 기록은 버림
+  ssHistory.push(next);
+  ssHistIdx=ssHistory.length-1;
+  if(ssHistory.length>SS_HIST_MAX){ssHistory.shift();ssHistIdx--;}
+  ssAnimateTo(next);
+}
+function ssGoPrev(){
+  if(!ssStage||ssHistIdx<=0)return;
+  ssHistIdx--;
+  ssShowInstant(ssHistory[ssHistIdx]);
+  if(ssPlaying&&!document.hidden)ssStartTimer();
+}
+function ssGoNext(){
+  if(!ssStage)return;
+  if(ssHistIdx<ssHistory.length-1){
+    ssHistIdx++;
+    ssShowInstant(ssHistory[ssHistIdx]);
+  }else{
+    // 아이콘이 1개뿐이면 더 넘어갈 곳이 없으므로 아무 것도 하지 않는다(위 ssAdvance와 동일한 이유).
+    if(mdAcquiredList().length<=1)return;
+    var cur=ssCurrent();
+    var next=ssPick(cur?cur.key:null);
+    if(!next)return;
+    ssHistory.push(next);
+    ssHistIdx=ssHistory.length-1;
+    if(ssHistory.length>SS_HIST_MAX){ssHistory.shift();ssHistIdx--;}
+    ssShowInstant(next);
+  }
+  if(ssPlaying&&!document.hidden)ssStartTimer();
+}
 function ssTeardown(){
-  clearInterval(ssTimer);ssTimer=null;ssStage=null;ssImgs=null;
+  ssStopTimer();
+  ssStage=null;ssImgs=null;ssBtnPlay=null;
 }
 function ssBuild(root){
   var first=ssPick(null);
   if(!first)return; // 보유한 로고 아이콘이 하나도 없으면 슬라이드쇼를 그리지 않음
+  ssHistory=[first];ssHistIdx=0;
   var box=document.createElement("div");box.className="slideshowBox";
   var h1=document.createElement("div");h1.className="ssHelper";
   var h2=document.createElement("div");h2.className="ssHelper";
@@ -1094,14 +1144,40 @@ function ssBuild(root){
   var imgA=document.createElement("img");imgA.className="ssImg";imgA.alt="";
   var imgB=document.createElement("img");imgB.className="ssImg";imgB.alt="";
   stage.appendChild(imgA);stage.appendChild(imgB);
+  var ctrl=document.createElement("div");ctrl.className="ssCtrl";
+  var btnPrev=document.createElement("div");btnPrev.className="ssBtn";btnPrev.innerHTML=SS_ICON_PREV;btnPrev.setAttribute("role","button");btnPrev.setAttribute("aria-label","이전 로고");
+  var btnPlay=document.createElement("div");btnPlay.className="ssBtn";btnPlay.setAttribute("role","button");btnPlay.setAttribute("aria-label","재생/일시정지");
+  var btnNext=document.createElement("div");btnNext.className="ssBtn";btnNext.innerHTML=SS_ICON_NEXT;btnNext.setAttribute("role","button");btnNext.setAttribute("aria-label","다음 로고");
+  ctrl.appendChild(btnPrev);ctrl.appendChild(btnPlay);ctrl.appendChild(btnNext);
+  stage.appendChild(ctrl);
   box.appendChild(h1);box.appendChild(h2);box.appendChild(stage);
   root.appendChild(box);
-  ssStage=stage;ssImgs=[imgA,imgB];ssFrontIdx=0;ssKeys=[first.key,null];
-  imgA.src=first.path;
-  imgA.style.transform="scaleX(1)";
-  clearInterval(ssTimer);
-  ssTimer=setInterval(ssTick,SS_INTERVAL);
+  ssStage=stage;ssImgs=[imgA,imgB];ssFrontIdx=0;ssBtnPlay=btnPlay;
+  ssShowInstant(first);
+  ssBtnPlay.innerHTML=ssPlaying?SS_ICON_PAUSE:SS_ICON_PLAY;
+  stage.addEventListener("click",function(e){
+    if(e.target.closest(".ssCtrl"))return;
+    var cur=ssCurrent();
+    if(cur)openIconPopup(cur);
+  });
+  btnPrev.addEventListener("click",function(e){e.stopPropagation();ssGoPrev();});
+  btnNext.addEventListener("click",function(e){e.stopPropagation();ssGoNext();});
+  btnPlay.addEventListener("click",function(e){e.stopPropagation();ssSetPlaying(!ssPlaying);});
+  if(ssPlaying&&!document.hidden)ssStartTimer();
 }
+// 모바일에서 화면을 껐다 켜는 동안(탭이 백그라운드로 가는 동안) 타이머가 밀려서 쌓였다가
+// 화면이 켜질 때 한꺼번에(혹은 레이어가 꼬여서) 재생되는 문제를 막기 위해, 화면이 안 보이는
+// 동안은 자동 전환을 완전히 멈추고, 다시 보이면 현재 아이콘을 깨끗하게 다시 그린 뒤 재개한다.
+document.addEventListener("visibilitychange",function(){
+  if(!ssStage)return;
+  if(document.hidden){
+    ssStopTimer();
+  }else{
+    var cur=ssCurrent();
+    if(cur)ssShowInstant(cur);
+    if(ssPlaying)ssStartTimer();
+  }
+});
 function render(){
   ssTeardown();
   if(cfg.mode==="my"){renderMyDesign();return;}
