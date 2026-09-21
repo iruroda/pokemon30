@@ -111,10 +111,13 @@
   .mbig{width:100%;background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);color:var(--p-black);border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;margin:14px 0 0}
   .mbig.warn{color:var(--p-red);border-color:var(--p-red)}
   #overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:30;align-items:center;justify-content:center;padding:24px}
-  #overlay .box{background:var(--p-black);border-radius:20px;padding:32px 28px;text-align:center;max-width:320px;width:100%}
+  #overlay .box{position:relative;background:var(--p-black);border-radius:20px;padding:32px 28px;text-align:center;max-width:320px;width:100%}
   #overlay h2{color:var(--p-yellow);font-size:22px;margin-bottom:12px}
-  #overlay p{font-size:15px;line-height:1.6}
+  #overlay p{font-size:15px;line-height:1.6;color:var(--p-white)}
   #overlay button{margin-top:20px;background:var(--p-yellow);border:none;border-radius:12px;padding:12px 28px;font-size:15px;font-weight:700;color:var(--p-black);cursor:pointer}
+  #overlay button.modalX{position:absolute;top:14px;right:14px;width:28px;height:28px;margin:0;padding:0;background:none;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  #overlay button.modalX svg{width:16px;height:16px;display:block}
+  #overlay button.modalX svg line{stroke:var(--p-white);stroke-width:2;stroke-linecap:round}
   #disclaimer{font-size:7.5px;line-height:1.5;color:var(--p-gray);text-align:center;margin:10px auto 0;padding:0 16px;opacity:.6}
   #greetmsg{display:none;margin:18px 0 0;font-size:13px;font-weight:600;color:var(--p-black)}
   #greetmsg.show{display:block}
@@ -124,14 +127,19 @@
   .mrow + .mrow{margin-top:8px}
   .mrow .mbig{margin:0;flex:1;height:38px;padding:0 10px;font-size:12px;display:flex;align-items:center;justify-content:center;box-sizing:border-box}
   .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:40;align-items:center;justify-content:center;padding:24px}
-  .modal .box{background:var(--p-white);border-radius:20px;padding:28px 24px;text-align:center;max-width:320px;width:100%}
+  .modal .box{position:relative;background:var(--p-white);border-radius:20px;padding:28px 24px;text-align:center;max-width:320px;width:100%}
   .modal h2{color:var(--p-red);font-size:18px;margin-bottom:14px}
   .modal input{width:100%;box-sizing:border-box;background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);border-radius:10px;color:var(--p-black);font-size:15px;padding:10px 12px;margin-bottom:10px;outline:none}
   .modal input:focus{border-color:var(--p-red)}
   .modal p{font-size:14px;color:var(--p-black);line-height:1.55;margin:0 0 18px}
+  #gachaDesc{text-align:left}
+  .gachaCoinLine{display:inline-flex;align-items:center;gap:4px}
+  .gachaCoinIcon{width:18px;height:18px;object-fit:contain;flex:none}
   #confirmMsg.danger{color:var(--p-red)}
   .modal button{margin-top:6px;background:var(--p-yellow);border:none;border-radius:12px;padding:10px 24px;font-size:14px;font-weight:700;color:var(--p-black);cursor:pointer;width:100%}
-  .modal button.secondary{background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);color:var(--p-black);margin-top:8px}
+  .modal button.modalX{position:absolute;top:14px;right:14px;width:28px;height:28px;margin:0;padding:0;background:none;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .modal button.modalX svg{width:16px;height:16px;display:block}
+  .modal button.modalX svg line{stroke:var(--p-gray);stroke-width:2;stroke-linecap:round}
   #gachaStage{display:none;position:relative;width:120px;height:120px;margin:4px auto 18px}
   #gachaShadow{position:absolute;left:50%;top:90px;width:42px;height:11px;background:#A19E9E;border-radius:50%;opacity:0;transform:translate(-50%,-50%) scale(0);transform-origin:center;pointer-events:none}
   #gachaShadow.grow{transition:opacity .55s ease,transform .55s cubic-bezier(.34,1.15,.64,1);opacity:1;transform:translate(-50%,-50%) scale(1)}
@@ -333,25 +341,27 @@
   <div class="mrow"><button class="mbig" id="hubBtn">Pokélab 메인으로</button><button class="mbig" id="loginBtn">로그인</button></div>
   </div>
 </div>
-<div id="overlay"><div class="box"><h2>🎉 축하합니다!</h2><p id="ovmsg"></p><button id="ovbtn">닫기</button></div></div>
+<div id="overlay"><div class="box"><button class="modalX" id="ovbtn" type="button" aria-label="닫기"><svg viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button><h2>🎉 축하합니다!</h2><p id="ovmsg"></p></div></div>
 <div id="loginModal" class="modal"><div class="box">
+  <button class="modalX" id="loginCancel" type="button" aria-label="닫기"><svg viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button>
   <h2 id="loginTitle">로그인</h2>
   <input id="loginId" type="text" name="username" placeholder="아이디" autocomplete="username">
   <input id="loginPw" type="password" name="password" placeholder="비밀번호" autocomplete="current-password">
   <button id="loginSubmit">확인</button>
-  <button class="secondary" id="loginCancel">닫기</button>
 </div></div>
 <div id="recordModal" class="modal"><div class="box">
+  <button class="modalX" id="recordClose" type="button" aria-label="닫기"><svg viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button>
   <h2>기록 보기</h2>
   <div id="recordList"></div>
-  <button class="secondary" id="recordClose">닫기</button>
 </div></div>
 <div id="confirmModal" class="modal"><div class="box">
+  <button class="modalX" id="confirmCancel" type="button" aria-label="취소"><svg viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button>
   <h2 id="confirmTitle" hidden></h2>
   <p id="confirmMsg"></p>
-  <div class="confirmBtns"><button id="confirmOk"><span class="lbl">확인</span></button><button class="secondary" id="confirmCancel">취소</button></div>
+  <div class="confirmBtns"><button id="confirmOk"><span class="lbl">확인</span></button></div>
 </div></div>
 <div id="gachaModal" class="modal"><div class="box">
+  <button class="modalX" id="gachaClose" type="button" aria-label="닫기"><svg viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button>
   <h2>로고 아이콘 뽑기</h2>
   <p id="gachaDesc">30주년 코인을 사용하여 로고 아이콘을 뽑습니다.</p>
   <div id="gachaStage">
@@ -363,17 +373,15 @@
   <button id="gachaAll">한 번에 모두 뽑기</button>
   <button id="gachaOne">한 개만 뽑기</button>
   <button id="gachaOpenAll" style="display:none">한번에 모두 열기</button>
-  <button class="secondary" id="gachaCancel">취소</button>
-  <button class="secondary" id="gachaGridClose" style="display:none">닫기</button>
 </div></div>
 <div id="iconModal" class="modal"><div class="box">
+  <button class="modalX" id="iconPopClose" type="button" aria-label="닫기"><svg viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button>
   <img id="iconPopImg" alt="">
   <div id="iconPopNameRow">
     <span id="iconPopName"></span>
     <button id="iconPopFav" type="button" aria-label="즐겨찾기"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.4 6.9.7-5.2 4.7 1.6 6.9L12 17.6 5.8 21.2l1.6-6.9-5.2-4.7 6.9-.7z"/></svg></button>
   </div>
   <button id="iconPopSave">다운로드</button>
-  <button class="secondary" id="iconPopClose">닫기</button>
 </div></div>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
@@ -1761,9 +1769,7 @@ function resetGachaStage(){
   $("gachaDesc").style.display="";
   $("gachaAll").style.display="";
   $("gachaOne").style.display="";
-  $("gachaCancel").style.display="";
   $("gachaOpenAll").style.display="none";
-  $("gachaGridClose").style.display="none";
   gachaGridUnits.forEach(function(u){u.destroy()});
   gachaGridUnits=[];
   var grid=$("gachaGrid");
@@ -1882,7 +1888,6 @@ function startGachaAll(){
   $("gachaDesc").style.display="none";
   $("gachaAll").style.display="none";
   $("gachaOne").style.display="none";
-  $("gachaCancel").style.display="none";
   var grid=$("gachaGrid");
   grid.innerHTML="";
   gachaGridUnits=[];
@@ -1902,24 +1907,21 @@ function startGachaAll(){
   }
   grid.style.display=n?"grid":"none";
   $("gachaOpenAll").style.display="";
-  $("gachaGridClose").style.display="";
 }
 // 보유 코인 개수에 따라 뽑기 팝업의 안내문/버튼을 맞춰준다.
-// 코인이 0개면 안내문만 보여주고 뽑기 버튼들은 숨긴 채 닫기 버튼만 남긴다.
+// 코인이 0개면 안내문만 보여주고 뽑기 버튼들은 숨긴다(닫기는 오른쪽 위 X로 항상 가능).
 function updateGachaDescForCoins(){
   var n=Math.max(0,Math.floor(coin30||0));
   if(n<=0){
     $("gachaDesc").innerHTML="30주년 코인을 가지고 있지 않습니다.";
     $("gachaAll").style.display="none";
     $("gachaOne").style.display="none";
-    $("gachaCancel").textContent="닫기";
   }else{
-    $("gachaDesc").innerHTML="30주년 코인 × "+n+"<br>30주년 코인 1개로 1개의 로고 아이콘을 뽑을 수 있습니다.";
+    $("gachaDesc").innerHTML='<span class="gachaCoinLine"><img class="gachaCoinIcon" src="coin.png" alt="코인"> × '+n+'</span><br>코인 1개로 로고 아이콘 1개를 뽑을 수 있습니다.';
     $("gachaAll").textContent=n+"개 한 번에 뽑기";
     $("gachaOne").textContent="1개만 뽑기";
     $("gachaAll").style.display="";
     $("gachaOne").style.display="";
-    $("gachaCancel").textContent="취소";
   }
 }
 $("gachaBtn").onclick=function(){
@@ -1927,8 +1929,7 @@ $("gachaBtn").onclick=function(){
   updateGachaDescForCoins();
   if(coin30>0&&cfg.gachaAlwaysAll)startGachaAll();
 };
-$("gachaCancel").onclick=closeGachaModal;
-$("gachaGridClose").onclick=closeGachaModal;
+$("gachaClose").onclick=closeGachaModal;
 $("gachaModal").onclick=function(e){if(e.target===$("gachaModal"))closeGachaModal()};
 $("gachaAll").onclick=startGachaAll;
 $("gachaOne").onclick=startGachaOne;
