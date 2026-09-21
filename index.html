@@ -135,7 +135,6 @@
   #gachaDesc{text-align:left}
   .gachaCoinLine{display:inline-flex;align-items:center;gap:4px}
   .gachaCoinIcon{width:18px;height:18px;object-fit:contain;flex:none}
-  #confirmMsg.danger{color:var(--p-red)}
   .modal button{margin-top:6px;background:var(--p-yellow);border:none;border-radius:12px;padding:10px 24px;font-size:14px;font-weight:700;color:var(--p-black);cursor:pointer;width:100%}
   .modal button.modalX{position:absolute;top:14px;right:14px;width:28px;height:28px;margin:0;padding:0;background:none;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
   .modal button.modalX svg{width:16px;height:16px;display:block}
@@ -215,19 +214,6 @@
   #iconPopFav svg{width:18px;height:18px;display:block}
   #iconPopFav svg path{fill:none;stroke:#000;stroke-width:1.5;stroke-linejoin:round}
   #iconPopFav.on svg path{fill:var(--p-yellow);stroke:var(--p-yellow)}
-  .confirmBtns{display:flex;gap:10px}
-  .confirmBtns button{width:auto;flex:1;margin-top:0;border:1.5px solid transparent}
-  .confirmBtns button.secondary{margin-top:0;border-color:var(--p-black)}
-  #confirmOk.hold{position:relative;overflow:hidden;background:transparent;color:var(--p-gray);border-color:var(--p-black);-webkit-user-select:none;user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none;touch-action:none}
-  #confirmOk.hold .lbl{position:relative;z-index:1}
-  #confirmOk.hold::before{content:"";position:absolute;inset:0;width:0;background:var(--p-yellow)}
-  #confirmOk.hold.filling::before{width:100%;transition:width 3s linear}
-  #confirmOk.hold.filling{color:var(--p-black)}
-  #recordList{max-height:50vh;overflow-y:auto;text-align:left;font-size:12px;color:var(--p-black);margin:0 0 10px}
-  #recordList .rec{padding:8px 4px;border-bottom:1px solid var(--p-black)}
-  #recordList .rec .t{color:var(--p-yellow);font-weight:700;font-size:12px}
-  #recordList .rec .s{color:var(--p-gray);font-size:11px;margin-top:2px}
-  #recordList .empty{color:var(--p-gray);padding:16px 0;text-align:center}
 
   #toolicons{position:fixed;top:10px;right:calc(max(0px, (100vw - 520px) / 2) + 50px);z-index:35;display:flex;align-items:center;gap:2px;transition:opacity .15s ease}
   #toolicons.hide{opacity:0;pointer-events:none}
@@ -337,28 +323,16 @@
       <div class="msec" data-key="gachaAllOnly"><h3>항상 한꺼번에 뽑기<span class="car">▾</span></h3><div class="chips" id="gachaAllOnlyChips"></div></div>
     </div>
       <div id="greetmsg"></div>
-  <div class="mrow"><button class="mbig" id="recordBtn">기록 보기</button><button class="mbig warn" id="resetbtn">처음부터 하기</button></div>
   <div class="mrow"><button class="mbig" id="hubBtn">Pokélab 메인으로</button><button class="mbig" id="loginBtn">로그인</button></div>
   </div>
 </div>
-<div id="overlay"><div class="box"><button class="modalX" id="ovbtn" type="button" aria-label="닫기"><svg viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button><h2>🎉 축하합니다!</h2><p id="ovmsg"></p></div></div>
+<div id="overlay"><div class="box"><button class="modalX" id="ovbtn" type="button" aria-label="닫기"><svg viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button><h2>축하합니다!</h2><p id="ovmsg"></p><button id="ovOk">확인</button></div></div>
 <div id="loginModal" class="modal"><div class="box">
   <button class="modalX" id="loginCancel" type="button" aria-label="닫기"><svg viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button>
   <h2 id="loginTitle">로그인</h2>
   <input id="loginId" type="text" name="username" placeholder="아이디" autocomplete="username">
   <input id="loginPw" type="password" name="password" placeholder="비밀번호" autocomplete="current-password">
   <button id="loginSubmit">확인</button>
-</div></div>
-<div id="recordModal" class="modal"><div class="box">
-  <button class="modalX" id="recordClose" type="button" aria-label="닫기"><svg viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button>
-  <h2>기록 보기</h2>
-  <div id="recordList"></div>
-</div></div>
-<div id="confirmModal" class="modal"><div class="box">
-  <button class="modalX" id="confirmCancel" type="button" aria-label="취소"><svg viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button>
-  <h2 id="confirmTitle" hidden></h2>
-  <p id="confirmMsg"></p>
-  <div class="confirmBtns"><button id="confirmOk"><span class="lbl">확인</span></button></div>
 </div></div>
 <div id="gachaModal" class="modal"><div class="box">
   <button class="modalX" id="gachaClose" type="button" aria-label="닫기"><svg viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button>
@@ -373,9 +347,11 @@
   <button id="gachaAll">한 번에 모두 뽑기</button>
   <button id="gachaOne">한 개만 뽑기</button>
   <button id="gachaOpenAll" style="display:none">한번에 모두 열기</button>
+  <button id="gachaOk" style="display:none">확인</button>
 </div></div>
 <div id="iconModal" class="modal"><div class="box">
   <button class="modalX" id="iconPopClose" type="button" aria-label="닫기"><svg viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button>
+  <h2>로고 아이콘</h2>
   <img id="iconPopImg" alt="">
   <div id="iconPopNameRow">
     <span id="iconPopName"></span>
@@ -471,8 +447,7 @@ function statsKey(){return "p30psq2stats_"+(curUser||"guest")}
 function loadStats(){
   var raw;try{raw=JSON.parse(localStorage.getItem(statsKey())||"null")}catch(e){raw=null}
   if(!raw||typeof raw!=="object")raw={};
-  raw.sil=!!raw.sil;raw.typ=!!raw.typ;raw.hint=raw.hint||0;raw.longpress=raw.longpress||0;
-  raw.records=Array.isArray(raw.records)?raw.records:[];
+  raw.sil=!!raw.sil;raw.typ=!!raw.typ;raw.hint=raw.hint||0;
   return raw;
 }
 function saveStats(){localStorage.setItem(statsKey(),JSON.stringify(stats));pushToServer()}
@@ -483,7 +458,7 @@ function pushToServer(){
   pushTimer=setTimeout(function(){
     fbDb.collection("users").doc(fbUid).set({name:curUser,coin30:coin30,p30:{
       found:Array.from(found),
-      stats:{sil:!!stats.sil,typ:!!stats.typ,hint:stats.hint||0,longpress:stats.longpress||0,records:stats.records||[]},
+      stats:{sil:!!stats.sil,typ:!!stats.typ,hint:stats.hint||0},
       cfg:{sil:cfg.sil,typ:cfg.typ,fc:cfg.fc,cols:cfg.cols,mode:cfg.mode,mdViewMode:cfg.mdViewMode,ssMode:cfg.ssMode,myDesign:cfg.myDesign,gmax:cfg.gmax,regional:cfg.regional,mega:cfg.mega,dexIdx:cfg.dexIdx,fillOrder:cfg.fillOrder,collapsed:cfg.collapsed,sortOrder:cfg.sortOrder,gachaAnim:cfg.gachaAnim,gachaAlwaysAll:cfg.gachaAlwaysAll,b:Array.from(selB),t:Array.from(selT)},
       imgFound:Array.from(p30ImgFound),
       favs:Array.from(p30Favs)
@@ -1384,11 +1359,9 @@ function checkInput(){
     var allsp=new Set(DATA.map(function(e){return e[1]})).size;
     if(found.size===allsp&&!celebrated){
       celebrated=true;localStorage.setItem("p30psq2cel","1");
-      stats.records.unshift({ts:Date.now(),sil:stats.sil,typ:stats.typ,hint:stats.hint,longpress:stats.longpress});
-      if(stats.records.length>20)stats.records.length=20;
-      stats.sil=false;stats.typ=false;stats.hint=0;stats.longpress=0;
+      stats.sil=false;stats.typ=false;stats.hint=0;
       saveStats();
-      $("ovmsg").textContent="당신은 모든 포켓몬을 발견했습니다!";$("overlay").style.display="flex";
+      $("ovmsg").textContent="모든 30주년 로고 아이콘을 획득하였습니다.";$("overlay").style.display="flex";
     }
   }
 }
@@ -1426,53 +1399,6 @@ $("answerClearBtn").addEventListener("click",function(){
   inp.focus();
 });
 var lastTapCell=null,lastTapT=0;
-var LONG_PRESS_MS=1500;
-var pressTimer=null,longPressFired=false;
-function cellFromEv(ev){
-  var t=ev.target,cell=null;
-  while(t&&t!==$("sections")){if(t.classList&&t.classList.contains("cell")){cell=t;break}t=t.parentNode}
-  return cell;
-}
-function doLongPress(cell){
-  if(!cell||!cell._e)return;
-  var inp=$("answer"),tgt=NAMES[cell._e[1]],b=cell._e[1];
-  if(cell.classList.contains("done")){
-    found.delete(b);save();
-    (cellsByBase[b]||[]).forEach(function(c){
-      c.classList.remove("done");
-      c.style.background=cfg.typ?typeBg(c):"";
-      c._img.src=srcFor(c);
-      if(c._e[5].length>1)updateFI(c);
-    });
-    if(inp.value===tgt)inp.value="";
-    render2counts();
-    updateFillHighlight();
-    return;
-  }
-  if(inp.value===tgt){
-    inp.value="";
-  }else{
-    showConfirm("해당 칸의 포켓몬 이름을 공개합니다.",function(){
-      inp.value=tgt;
-      stats.longpress++;saveStats();
-      checkInput();
-    });
-  }
-}
-function startPress(ev){
-  var cell=cellFromEv(ev);
-  if(!cell||!cell._e)return;
-  longPressFired=false;
-  clearTimeout(pressTimer);
-  pressTimer=setTimeout(function(){longPressFired=true;doLongPress(cell)},LONG_PRESS_MS);
-}
-function endPress(){clearTimeout(pressTimer)}
-$("sections").addEventListener("mousedown",startPress);
-$("sections").addEventListener("touchstart",startPress,{passive:true});
-$("sections").addEventListener("mouseup",endPress);
-$("sections").addEventListener("mouseleave",endPress);
-$("sections").addEventListener("touchend",endPress);
-$("sections").addEventListener("touchcancel",endPress);
 document.addEventListener("contextmenu",function(ev){ev.preventDefault()});
 document.addEventListener("dragstart",function(ev){ev.preventDefault()});
 document.addEventListener("selectstart",function(ev){
@@ -1481,7 +1407,6 @@ document.addEventListener("selectstart",function(ev){
   ev.preventDefault();
 });
 $("sections").addEventListener("click",function(ev){
-  if(longPressFired){longPressFired=false;return;}
   var t=ev.target,cell=null;
   while(t&&t!==this){if(t.classList&&t.classList.contains("cell")){cell=t;break}t=t.parentNode}
   if(!cell||!cell._e)return;
@@ -1526,20 +1451,6 @@ Array.prototype.forEach.call(document.querySelectorAll("#mpanel .msec"),function
     saveCfg();
   };
 });
-function fmtTs(ts){
-  var d=new Date(ts);
-  function p(n){return n<10?"0"+n:n}
-  return d.getFullYear()+"."+p(d.getMonth()+1)+"."+p(d.getDate())+" "+p(d.getHours())+":"+p(d.getMinutes());
-}
-function renderRecords(){
-  var el=$("recordList");el.innerHTML="";
-  if(!stats.records.length){el.innerHTML='<div class="empty">아직 기록이 없습니다.</div>';return}
-  stats.records.forEach(function(r){
-    var row=document.createElement("div");row.className="rec";
-    row.innerHTML='<div class="t">'+fmtTs(r.ts)+'</div><div class="s">실루엣 '+(r.sil?"O":"X")+" · 타입 미리 보기 "+(r.typ?"O":"X")+" · 힌트 "+r.hint+"회 · 이름 보기 "+r.longpress+"회</div>";
-    el.appendChild(row);
-  });
-}
 function updateAuthUI(){
   $("loginBtn").textContent=curUser?"로그아웃":"로그인";
   var g=$("greetmsg");
@@ -1563,54 +1474,10 @@ $("loginBtn").onclick=function(){
 $("loginCancel").onclick=function(){$("loginModal").style.display="none"};
 $("loginModal").onclick=function(e){if(e.target===$("loginModal"))$("loginModal").style.display="none"};
 
-// 공용 확인창(브라우저 기본 confirm() 대체) — 로그인 창과 같은 스킨
-function showConfirm(msg,onOk,danger,title,hold){
-  $("confirmMsg").textContent=msg;
-  $("confirmMsg").classList.toggle("danger",!!danger);
-  if(title){$("confirmTitle").textContent=title;$("confirmTitle").hidden=false}else{$("confirmTitle").hidden=true}
-  $("confirmOk").classList.toggle("hold",!!hold);
-  $("confirmOk").classList.remove("filling");
-  $("confirmModal").style.display="flex";
-  var holdTimer=null;
-  function cleanup(){
-    $("confirmModal").style.display="none";
-    clearTimeout(holdTimer);
-    $("confirmOk").classList.remove("filling");
-    $("confirmOk").removeEventListener("click",okHandler);
-    $("confirmOk").removeEventListener("pointerdown",startHold);
-    $("confirmOk").removeEventListener("pointerup",stopHold);
-    $("confirmOk").removeEventListener("pointercancel",stopHold);
-    $("confirmCancel").removeEventListener("click",cancelHandler);
-  }
-  function okHandler(){cleanup();onOk&&onOk()}
-  function cancelHandler(){cleanup()}
-  function startHold(e){
-    try{e.target.setPointerCapture(e.pointerId)}catch(err){}
-    e.preventDefault();
-    $("confirmOk").classList.add("filling");
-    holdTimer=setTimeout(function(){cleanup();onOk&&onOk()},3000);
-  }
-  function stopHold(){
-    clearTimeout(holdTimer);
-    $("confirmOk").classList.remove("filling");
-  }
-  if(hold){
-    $("confirmOk").addEventListener("pointerdown",startHold);
-    $("confirmOk").addEventListener("pointerup",stopHold);
-    $("confirmOk").addEventListener("pointercancel",stopHold);
-  }else{
-    $("confirmOk").addEventListener("click",okHandler);
-  }
-  $("confirmCancel").addEventListener("click",cancelHandler);
-}
-$("confirmModal").onclick=function(e){if(e.target===$("confirmModal")){$("confirmCancel").click()}};
-
 // PC 환경: 팝업(모달)이 열려있을 때 ESC로 닫기, Enter로 확인 버튼 실행
 var MODAL_KEYS=[
   {id:"loginModal",confirm:"loginSubmit",cancel:"loginCancel"},
-  {id:"recordModal",confirm:"recordClose",cancel:"recordClose"},
-  {id:"overlay",confirm:"ovbtn",cancel:"ovbtn"},
-  {id:"confirmModal",confirm:"confirmOk",cancel:"confirmCancel"}
+  {id:"overlay",confirm:"ovOk",cancel:"ovbtn"}
 ];
 document.addEventListener("keydown",function(e){
   for(var i=0;i<MODAL_KEYS.length;i++){
@@ -1669,7 +1536,7 @@ function syncFromServer(){
     localStorage.setItem("p30psq2",JSON.stringify(Array.from(found)));
     var s=(d30.stats&&typeof d30.stats==="object")?d30.stats:null;
     if(s){
-      stats={sil:!!s.sil,typ:!!s.typ,hint:s.hint||0,longpress:s.longpress||0,records:Array.isArray(s.records)?s.records:[]};
+      stats={sil:!!s.sil,typ:!!s.typ,hint:s.hint||0};
       localStorage.setItem(statsKey(),JSON.stringify(stats));
     }else{
       stats=loadStats();
@@ -1711,10 +1578,6 @@ function syncFromServer(){
     updateAuthUI();
   }).catch(function(e){console.warn("서버 동기화 실패",e);stats=loadStats()});
 }
-$("recordBtn").onclick=function(){renderRecords();$("recordModal").style.display="flex"};
-$("recordClose").onclick=function(){$("recordModal").style.display="none"};
-$("recordModal").onclick=function(e){if(e.target===$("recordModal"))$("recordModal").style.display="none"};
-
 // ---- 보기 전환(1줄/3줄/마이 디자인) 아이콘 ----
 function viewIconSVG(){
   if(cfg.mode==="my"){
@@ -1770,6 +1633,7 @@ function resetGachaStage(){
   $("gachaAll").style.display="";
   $("gachaOne").style.display="";
   $("gachaOpenAll").style.display="none";
+  $("gachaOk").style.display="none";
   gachaGridUnits.forEach(function(u){u.destroy()});
   gachaGridUnits=[];
   var grid=$("gachaGrid");
@@ -1916,12 +1780,14 @@ function updateGachaDescForCoins(){
     $("gachaDesc").innerHTML="30주년 코인을 가지고 있지 않습니다.";
     $("gachaAll").style.display="none";
     $("gachaOne").style.display="none";
+    $("gachaOk").style.display="";
   }else{
     $("gachaDesc").innerHTML='<span class="gachaCoinLine"><img class="gachaCoinIcon" src="coin.png" alt="코인"> × '+n+'</span><br>코인 1개로 로고 아이콘 1개를 뽑을 수 있습니다.';
     $("gachaAll").textContent=n+"개 한 번에 뽑기";
     $("gachaOne").textContent="1개만 뽑기";
     $("gachaAll").style.display="";
     $("gachaOne").style.display="";
+    $("gachaOk").style.display="none";
   }
 }
 $("gachaBtn").onclick=function(){
@@ -1934,6 +1800,7 @@ $("gachaModal").onclick=function(e){if(e.target===$("gachaModal"))closeGachaModa
 $("gachaAll").onclick=startGachaAll;
 $("gachaOne").onclick=startGachaOne;
 $("gachaOpenAll").onclick=function(){gachaGridUnits.forEach(function(u){u.open()})};
+$("gachaOk").onclick=closeGachaModal;
 updateAuthUI();
 if(fbAuth)fbAuth.onAuthStateChanged(function(u){
   if(u){fbUid=u.uid;syncFromServer();}
@@ -1942,16 +1809,6 @@ if(fbAuth)fbAuth.onAuthStateChanged(function(u){
     if(curUser){curUser=null;localStorage.removeItem("p30psq2curuser");stats=loadStats();updateAuthUI();}
   }
 });
-$("resetbtn").onclick=function(){
-  showConfirm("지금까지 발견한 포켓몬의 기록을 전부 지웁니다.",function(){
-    found=new Set();save();celebrated=false;localStorage.setItem("p30psq2cel","0");
-    cfg.dexIdx=0;selB.clear();selT.clear();
-    cfg.cols=4;cfg.sil=false;cfg.typ=false;cfg.fc=true;cfg.gmax=false;cfg.regional=false;cfg.mega=false;cfg.fillOrder=0;fillTarget=null;
-    stats.sil=false;stats.typ=false;stats.hint=0;stats.longpress=0;saveStats();
-    saveCfg();applyCols();applySil();applyTyp();applyVariants();refreshImgs();refreshBgs();
-    render();buildMenu();closeMenu();
-  },true,"처음부터 하기",true);
-};
 function chip(label,on,fn,parent){
   var c=document.createElement("button");c.className="chip"+(on?" on":"");c.textContent=label;c.onclick=fn;parent.appendChild(c);
 }
@@ -2000,6 +1857,7 @@ function buildMenu(){
 }
 
 $("ovbtn").onclick=function(){$("overlay").style.display="none"};
+$("ovOk").onclick=function(){$("overlay").style.display="none"};
 $("overlay").onclick=function(e){if(e.target===$("overlay"))$("overlay").style.display="none"};
 setInterval(function(){
   tick++;
