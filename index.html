@@ -83,10 +83,10 @@
   .ssHelper:nth-child(1){grid-row:1}
   .ssHelper:nth-child(2){grid-row:2}
   .ssStage{grid-column:1 / 4;grid-row:1 / 3;position:relative;overflow:hidden;border-radius:12px;background:var(--p-gray-light);cursor:pointer}
-  .ssImg{position:absolute;top:0;left:8%;width:84%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;opacity:0}
+  .ssImg{position:absolute;top:8px;left:8%;width:84%;height:calc(100% - 16px);object-fit:contain;pointer-events:none;-webkit-user-drag:none;opacity:0}
   .ssCtrl{position:absolute;top:8px;right:8px;display:flex;gap:10px;z-index:5}
-  .ssBtn{width:22px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--p-gray)}
-  .ssBtn svg{width:18px;height:18px;fill:currentColor;display:block}
+  .ssBtn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--p-gray)}
+  .ssBtn svg{width:22px;height:22px;fill:currentColor;display:block}
   .ssStageMsg{cursor:default;display:flex;align-items:center;justify-content:center;padding:20px}
   .ssEmptyMsg{text-align:center;color:var(--p-gray);font-size:13px;line-height:1.6}
   #pad{height:24px}
@@ -220,17 +220,28 @@
   #toolicons .ticon{width:34px;height:34px;background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
   #toolicons .ticon svg,#toolicons .ticon img{width:26px;height:26px;display:block}
   #searchBar{max-height:0;overflow:hidden;transition:max-height .3s ease}
-  #wrap.searchOpen #searchBar{max-height:60px}
-  #searchInputWrap{position:relative;margin:0 0 8px}
-  #searchBar input{width:100%;box-sizing:border-box;background:var(--p-white);border:none;border-radius:12px;color:var(--p-black);font-size:15px;padding:10px 36px 10px 12px;outline:none}
+  #wrap.searchOpen #searchBar{max-height:240px}
+  #searchInputWrap{margin:0 0 8px;background:var(--p-white);border-radius:12px;box-sizing:border-box;transform:translateY(-14px);opacity:0;transition:transform .3s ease,opacity .3s ease}
+  #wrap.searchOpen #searchInputWrap{transform:translateY(0);opacity:1}
+  #searchInputRow{position:relative}
+  #searchBar input{width:100%;box-sizing:border-box;background:transparent;border:none;border-radius:12px;color:var(--p-black);font-size:15px;padding:10px 36px 10px 12px;outline:none}
+  #searchBar input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none;display:none}
+  #searchBar input{-moz-appearance:textfield}
   #searchClearBtn{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;background:none;border:none;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
   #searchClearBtn:active{opacity:.55}
   #searchClearBtn span{position:absolute;width:14px;height:2px;border-radius:1px;background:var(--p-black)}
   #searchClearBtn span:nth-child(1){transform:rotate(45deg)}
   #searchClearBtn span:nth-child(2){transform:rotate(-45deg)}
+  #searchResultsRow{display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;max-height:0;padding:0 10px;box-sizing:border-box;transition:max-height .22s ease,padding .22s ease}
+  #searchResultsRow.on{max-height:76px;padding:0 10px 12px}
+  #searchResultsRow .srIt{flex:none;width:52px;height:52px;cursor:pointer}
+  #searchResultsRow .srIt img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}
+  #searchResultsRow .srEmpty{color:var(--p-black);font-size:13px;padding:6px 4px 4px;white-space:nowrap}
+  @keyframes searchHitPulse{0%{box-shadow:0 0 0 0 rgba(255,207,15,.9)}70%{box-shadow:0 0 0 10px rgba(255,207,15,0)}100%{box-shadow:0 0 0 0 rgba(255,207,15,0)}}
+  .cell.searchHit img{animation:searchHitPulse 1.1s ease;border-radius:10px}
   #sections{display:flex;flex-direction:column;gap:8px;margin-top:8px}
   .mydesignAdd{position:relative;overflow:hidden;margin:0 10px;height:64px;background:var(--p-gray-light);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer}
-  .mdPlusBadge{width:34px;height:34px;border-radius:50%;background:var(--p-white);border:2px solid var(--p-gray);box-sizing:border-box;display:flex;align-items:center;justify-content:center;transition:opacity .18s ease,transform .18s ease}
+  .mdPlusBadge{width:34px;height:34px;border-radius:50%;background:var(--p-white);box-sizing:border-box;display:flex;align-items:center;justify-content:center;transition:opacity .18s ease,transform .18s ease}
   .mdPlusBadge svg{width:16px;height:16px}
   .mdPlusBadge svg line{stroke:var(--p-gray);stroke-width:3.4;stroke-linecap:round}
   .mydesignAdd.open .mdPlusBadge{opacity:0;transform:scale(.4)}
@@ -265,13 +276,17 @@
   /* 감상 모드: 빈 칸은 테두리 없이 그냥 흰색, 채워진 칸은 편집 UI(쓰레기통) 없이 탭하면 이름 팝업만 표시 */
   .mdCell.empty.mdView{border:none;background:var(--p-white);cursor:default}
   .emptyMsg{margin:28px 16px;padding:20px 14px;text-align:center;color:var(--p-gray);font-size:13px;line-height:1.6}
-  .mdTrash{position:absolute;top:2px;right:2px;width:52px;height:52px;padding:0;background:none;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
-  .mdTrash svg{width:40px;height:40px}
+  .mdTrash{position:absolute;top:2px;right:2px;width:39px;height:39px;padding:0;background:none;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .mdTrash svg{width:30px;height:30px}
   .mdTrash svg path{stroke:var(--p-gray)}
-  #mdPickerBackdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.15);z-index:31}
+  #mdPickerBackdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:31}
   #mdPickerBackdrop.on{display:block}
-  #mdPicker{display:none;position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:520px;background:rgba(0,0,0,.8);border-top:1px solid rgba(255,255,255,.14);padding:12px 10px calc(12px + env(safe-area-inset-bottom));z-index:32;box-shadow:0 -4px 16px rgba(0,0,0,.25)}
+  #mdPicker{display:none;position:fixed;left:12px;right:12px;bottom:calc(16px + env(safe-area-inset-bottom));margin:0 auto;max-width:496px;background:rgba(0,0,0,.55);border-radius:18px;padding:22px 10px 12px;z-index:32;box-shadow:0 6px 20px rgba(0,0,0,.35)}
   #mdPicker.on{display:block}
+  #mdPickerFav{position:absolute;top:-14px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--p-white);border:none;box-shadow:0 2px 6px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+  #mdPickerFav svg{width:18px;height:18px;display:block}
+  #mdPickerFav svg path{fill:none;stroke:var(--p-gray);stroke-width:1.5;stroke-linejoin:round}
+  #mdPickerFav.on svg path{fill:var(--p-yellow);stroke:var(--p-yellow)}
   #mdPickerRow{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}
   #mdPickerRow .mdPickIt{flex:none;width:52px;height:52px;cursor:pointer}
   #mdPickerRow .mdPickIt img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}
@@ -295,7 +310,10 @@
       <input id="answer" type="search" name="pokemon-answer" placeholder="포켓몬 이름 입력" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       <button id="answerClearBtn" type="button" aria-label="입력 지우기"><span></span><span></span></button>
     </div>
-    <div id="searchBar"><div id="searchInputWrap"><input id="searchInput" type="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"><button id="searchClearBtn" type="button" aria-label="검색어 지우기"><span></span><span></span></button></div></div>
+    <div id="searchBar"><div id="searchInputWrap">
+      <div id="searchInputRow"><input id="searchInput" type="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"><button id="searchClearBtn" type="button" aria-label="검색어 지우기"><span></span><span></span></button></div>
+      <div id="searchResultsRow"></div>
+    </div></div>
   </div>
   <div id="sections"></div>
   <div id="disclaimer">본 사이트는 팬이 만든 비공식 사이트로, 닌텐도, 게임프리크, 주식회사 포켓몬과는 어떠한 관계도 없습니다. Pokemon은 닌텐도 / Creatures Inc. / Game Freak Inc.의 상표입니다. 모든 게임 콘텐츠, 이미지, 상표는 각 권리자에게 귀속됩니다.</div>
@@ -307,7 +325,10 @@
   <button id="viewBtn" class="ticon" type="button" aria-label="보기 전환"></button>
 </div>
 <div id="mdPickerBackdrop"></div>
-<div id="mdPicker"><div id="mdPickerRow"></div></div>
+<div id="mdPicker">
+  <button id="mdPickerFav" type="button" aria-label="즐겨찾기만 보기"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.4 6.9.7-5.2 4.7 1.6 6.9L12 17.6 5.8 21.2l1.6-6.9-5.2-4.7 6.9-.7z"/></svg></button>
+  <div id="mdPickerRow"></div>
+</div>
 <button id="menubtn" type="button" aria-label="메뉴 열기/닫기"><span></span><span></span><span></span></button>
 <div id="menu"></div><div id="mpanel">
   <div id="mtitle"><img id="ptimg" alt="">30주년 로고 아이콘 갤러리</div>
@@ -327,13 +348,6 @@
   </div>
 </div>
 <div id="overlay"><div class="box"><button class="modalX" id="ovbtn" type="button" aria-label="닫기"><svg viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button><h2>축하합니다!</h2><p id="ovmsg"></p><button id="ovOk">확인</button></div></div>
-<div id="loginModal" class="modal"><div class="box">
-  <button class="modalX" id="loginCancel" type="button" aria-label="닫기"><svg viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button>
-  <h2 id="loginTitle">로그인</h2>
-  <input id="loginId" type="text" name="username" placeholder="아이디" autocomplete="username">
-  <input id="loginPw" type="password" name="password" placeholder="비밀번호" autocomplete="current-password">
-  <button id="loginSubmit">확인</button>
-</div></div>
 <div id="gachaModal" class="modal"><div class="box">
   <button class="modalX" id="gachaClose" type="button" aria-label="닫기"><svg viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button>
   <h2>로고 아이콘 뽑기</h2>
@@ -344,9 +358,9 @@
     <img id="gachaResult" alt=""><img id="gachaResultWhite" alt="">
   </div>
   <div id="gachaGrid"></div>
-  <button id="gachaAll">한 번에 모두 뽑기</button>
+  <button id="gachaAll">한꺼번에 모두 뽑기</button>
   <button id="gachaOne">한 개만 뽑기</button>
-  <button id="gachaOpenAll" style="display:none">한번에 모두 열기</button>
+  <button id="gachaOpenAll" style="display:none">모두 열기</button>
   <button id="gachaOk" style="display:none">확인</button>
 </div></div>
 <div id="iconModal" class="modal"><div class="box">
@@ -432,16 +446,12 @@ var $=function(id){return document.getElementById(id)};
 var found=new Set(JSON.parse(localStorage.getItem("p30psq2")||"[]"));
 var celebrated=localStorage.getItem("p30psq2cel")==="1";
 // ---- 로그인/기록: Firebase Auth + Firestore ----
-var fbAuth=null,fbDb=null,fbUid=null;
+var fbAuth=null,fbDb=null,fbUid=null,googleProvider=null;
 try{
   firebase.initializeApp({apiKey:"AIzaSyA1qlkS_vNnAEMhyeJxH0EHRxYrFeJXZDk",authDomain:"todayspokemon-ef9c0.firebaseapp.com",projectId:"todayspokemon-ef9c0",storageBucket:"todayspokemon-ef9c0.firebasestorage.app",messagingSenderId:"69457831977",appId:"1:69457831977:web:faeee4ba343a6c9b931438"});
   fbAuth=firebase.auth();fbDb=firebase.firestore();
+  googleProvider=new firebase.auth.GoogleAuthProvider();
 }catch(e){console.warn("Firebase 초기화 실패",e)}
-function idToEmail(id){
-  var hex="",b=unescape(encodeURIComponent(id));
-  for(var i=0;i<b.length;i++){var h=b.charCodeAt(i).toString(16);hex+=(h.length<2?"0":"")+h}
-  return "u"+hex+"@todayspokemon.app";
-}
 var curUser=localStorage.getItem("p30psq2curuser")||null;
 function statsKey(){return "p30psq2stats_"+(curUser||"guest")}
 function loadStats(){
@@ -747,6 +757,7 @@ function buildShapeGrid(type,cellBuilder){
   return g;
 }
 var mdPickerTarget=null;
+var mdPickerFavOnly=false;
 function mdUsedKeys(excludeRow,excludeCell){
   var s=new Set();
   cfg.myDesign.forEach(function(r,ri){
@@ -756,14 +767,16 @@ function mdUsedKeys(excludeRow,excludeCell){
   });
   return s;
 }
-function mdOpenPicker(rowIdx,cellIdx){
-  mdPickerTarget={rowIdx:rowIdx,cellIdx:cellIdx};
+function mdRenderPickerRow(){
+  if(!mdPickerTarget)return;
   var row=$("mdPickerRow");row.innerHTML="";
   // 지금 이 칸에 이미 들어있는 아이콘(교체 대상)은 목록에서 빼지 않도록, 이 칸 자신은 "사용중" 계산에서 제외.
-  var used=mdUsedKeys(rowIdx,cellIdx);
+  var used=mdUsedKeys(mdPickerTarget.rowIdx,mdPickerTarget.cellIdx);
   var list=mdAcquiredList().filter(function(m){return !used.has(m.key);});
+  if(mdPickerFavOnly)list=list.filter(function(m){return p30Favs.has(m.key);});
   if(!list.length){
-    var e=document.createElement("div");e.className="mdPickEmpty";e.textContent="아직 획득한 로고 아이콘이 없습니다.";
+    var e=document.createElement("div");e.className="mdPickEmpty";
+    e.textContent=mdPickerFavOnly?"즐겨찾기한 로고 아이콘이 없습니다.":"아직 획득한 로고 아이콘이 없습니다.";
     row.appendChild(e);
   }else{
     list.forEach(function(m){
@@ -781,6 +794,12 @@ function mdOpenPicker(rowIdx,cellIdx){
       row.appendChild(it);
     });
   }
+}
+function mdOpenPicker(rowIdx,cellIdx){
+  mdPickerTarget={rowIdx:rowIdx,cellIdx:cellIdx};
+  mdPickerFavOnly=false;
+  $("mdPickerFav").classList.remove("on");
+  mdRenderPickerRow();
   $("mdPicker").classList.add("on");
   $("mdPickerBackdrop").classList.add("on");
 }
@@ -790,6 +809,11 @@ function mdClosePicker(){
   $("mdPickerBackdrop").classList.remove("on");
 }
 $("mdPickerBackdrop").addEventListener("click",mdClosePicker);
+$("mdPickerFav").addEventListener("click",function(){
+  mdPickerFavOnly=!mdPickerFavOnly;
+  $("mdPickerFav").classList.toggle("on",mdPickerFavOnly);
+  mdRenderPickerRow();
+});
 function mdMakeCell(rowIdx,cellIdx,key){
   var viewMode=cfg.mdViewMode==="view";
   var cell=document.createElement("div");
@@ -860,7 +884,13 @@ function mdAttachSwipe(rowEl,innerEl,rowIdx){
       moved=true;
     }
     var base=wasSwipe==="right"?-DEL_W:(wasSwipe==="left"?DEL_W:0);
-    var nx=Math.min(DEL_W,Math.max(-DEL_W,base+dx));
+    // 이미 한쪽 삭제 버튼이 열려있는 상태에서는, 반대쪽으로 미는 단일 동작만으로
+    // 곧장 반대쪽 버튼까지 열리지 않도록 이번 드래그의 이동 범위를
+    // "열린 상태 ↔ 닫힘(0)" 사이로만 제한한다. 반대쪽을 열려면 손을 떼고 다시 시도해야 함.
+    var lo=-DEL_W,hi=DEL_W;
+    if(wasSwipe==="right")hi=0;
+    else if(wasSwipe==="left")lo=0;
+    var nx=Math.min(hi,Math.max(lo,base+dx));
     innerEl.style.transform="translateX("+nx+"px)";
     innerEl._nx=nx;
     // 삭제 버튼(원)이 화면 바깥에서 밀려나는 방향과 함께 들어오는 것처럼 보이도록,
@@ -988,8 +1018,12 @@ function mdBuildAddBox(root){
 // 다른 곳을 눌렀을 때 닫히는 처리는 "click"이 아니라 "pointerdown"으로 감지한다.
 // 합성 click 이벤트는 모바일 환경에서 스크롤/터치 판정에 따라 씹히거나 늦게 발생할 수
 // 있어(마이 디자인 삭제 버튼 때와 동일한 문제), 누르는 즉시 발생하는 pointerdown이 더 확실하다.
+// "+" 박스 바깥은 물론, 박스 안이어도 실제 아이콘(플러스 배지/모양 버튼)이 아닌
+// 회색 여백을 눌렀을 때도 다시 "+" 상태로 닫히게 한다.
 document.addEventListener("pointerdown",function(e){
-  if(mdAddOpen&&cfg.mode==="my"&&!e.target.closest(".mydesignAdd")){
+  if(!mdAddOpen||cfg.mode!=="my")return;
+  var onActionable=e.target.closest(".mdPlusBadge")||e.target.closest(".mdShapeBtn");
+  if(!onActionable){
     mdAddOpen=false;
     var addEl=document.querySelector(".mydesignAdd");
     if(addEl)addEl.classList.remove("open");
@@ -1454,10 +1488,41 @@ Array.prototype.forEach.call(document.querySelectorAll("#mpanel .msec"),function
 function updateAuthUI(){
   $("loginBtn").textContent=curUser?"로그아웃":"로그인";
   var g=$("greetmsg");
-  if(curUser){g.textContent=curUser==="admin"?"관리자로 로그인 중입니다.":curUser+"님, 안녕하세요.";g.className="show";}
+  if(curUser){g.textContent=curUser+"님, 안녕하세요.";g.className="show";}
   else{g.textContent="로그인하면 발견 기록을 저장할 수 있습니다.";g.className="show hint";}
 }
 $("hubBtn").onclick=function(){location.href="https://iruroda.github.io/pokelab"};
+var googleLoginBusy=false;
+function doGoogleLogin(){
+  if(googleLoginBusy)return;
+  if(!fbAuth||!googleProvider){
+    var g=$("greetmsg");
+    g.textContent="로그인에 실패했습니다.";g.className="show";
+    setTimeout(updateAuthUI,1600);
+    return;
+  }
+  googleLoginBusy=true;
+  $("loginBtn").disabled=true;
+  fbAuth.signInWithPopup(googleProvider)
+    .then(function(cred){
+      fbUid=cred.user.uid;
+      var name=cred.user.displayName||(cred.user.email?cred.user.email.split("@")[0]:"사용자");
+      curUser=name;localStorage.setItem("p30psq2curuser",name);
+      return syncFromServer();
+    })
+    .catch(function(err){
+      if(!err||err.code!=="auth/popup-closed-by-user"&&err.code!=="auth/cancelled-popup-request"){
+        var g=$("greetmsg");
+        g.textContent="로그인에 실패했습니다.";g.className="show";
+        setTimeout(updateAuthUI,1600);
+      }
+    })
+    .then(function(){
+      googleLoginBusy=false;
+      $("loginBtn").disabled=false;
+      updateAuthUI();
+    });
+}
 $("loginBtn").onclick=function(){
   if(curUser){
     if(fbAuth)fbAuth.signOut();
@@ -1465,18 +1530,12 @@ $("loginBtn").onclick=function(){
     stats=loadStats();
     updateAuthUI();
   }else{
-    $("loginId").value="";$("loginPw").value="";
-    $("loginSubmit").disabled=false;$("loginSubmit").textContent="확인";
-    $("loginModal").style.display="flex";
-    $("loginId").focus();
+    doGoogleLogin();
   }
 };
-$("loginCancel").onclick=function(){$("loginModal").style.display="none"};
-$("loginModal").onclick=function(e){if(e.target===$("loginModal"))$("loginModal").style.display="none"};
 
 // PC 환경: 팝업(모달)이 열려있을 때 ESC로 닫기, Enter로 확인 버튼 실행
 var MODAL_KEYS=[
-  {id:"loginModal",confirm:"loginSubmit",cancel:"loginCancel"},
   {id:"overlay",confirm:"ovOk",cancel:"ovbtn"}
 ];
 document.addEventListener("keydown",function(e){
@@ -1498,34 +1557,6 @@ document.addEventListener("keydown",function(e){
   }
 });
 
-$("loginSubmit").onclick=function(){
-  var id=$("loginId").value.trim(),pw=$("loginPw").value;
-  var btn=$("loginSubmit");
-  var showErr=function(text){
-    btn.disabled=true;btn.textContent=text;
-    setTimeout(function(){btn.disabled=false;btn.textContent="확인"},1600);
-    updateAuthUI();
-  };
-  if(!id||!pw){showErr("계정 정보가 일치하지 않습니다.");return}
-  if(!fbAuth){showErr("로그인에 실패했습니다.");return}
-  if(pw.length<6){showErr("계정 정보가 일치하지 않습니다.");return}
-  var email=idToEmail(id);
-  if(email.length>80){showErr("계정 정보가 일치하지 않습니다.");return}
-  btn.disabled=true;btn.textContent="확인 중…";
-  fbAuth.signInWithEmailAndPassword(email,pw)
-    .then(function(cred){
-      fbUid=cred.user.uid;
-      curUser=id;localStorage.setItem("p30psq2curuser",id);
-      $("loginModal").style.display="none";
-      btn.disabled=false;btn.textContent="확인";
-      return syncFromServer();
-    })
-    .catch(function(err){
-      var m="로그인에 실패했습니다.";
-      if(err&&(err.code==="auth/user-not-found"||err.code==="auth/invalid-credential"||err.code==="auth/wrong-password"))m="계정 정보가 일치하지 않습니다.";
-      showErr(m);
-    });
-};
 function syncFromServer(){
   if(!fbUid||!fbDb)return Promise.resolve();
   return fbDb.collection("users").doc(fbUid).get().then(function(snap){
@@ -1601,15 +1632,74 @@ $("viewBtn").onclick=cycleViewMode;
 updateViewIcon();
 
 // ---- 검색(헤더 아래로 펼쳐지는 검색창) ----
+function closeSearchResults(){
+  var row=$("searchResultsRow");
+  row.classList.remove("on");
+  row.innerHTML="";
+}
 $("searchBtn").onclick=function(){
   var open=$("wrap").classList.toggle("searchOpen");
-  if(open)setTimeout(function(){$("searchInput").focus()},300);
+  if(open){setTimeout(function(){$("searchInput").focus()},300);}
+  else{$("searchInput").value="";closeSearchResults();}
 };
 $("searchClearBtn").addEventListener("click",function(){
   var inp=$("searchInput");
   inp.value="";
   inp.focus();
+  closeSearchResults();
 });
+// 검색어(도감번호 또는 이름)와 일치하는, 보유한 로고 아이콘 목록을 찾는다.
+function searchMatchList(qRaw){
+  var q=(qRaw||"").trim();
+  if(!q)return [];
+  var isNum=/^\d+$/.test(q);
+  var nq=norm(q);
+  var out=mdAcquiredList().filter(function(m){
+    if(isNum){
+      var dexStr=("000"+m.dex).slice(-4);
+      return dexStr.indexOf(q)>=0;
+    }
+    return norm(p30Name(m)).indexOf(nq)>=0;
+  });
+  out.sort(function(a,b){return a.dex-b.dex||a.form-b.form});
+  return out.slice(0,40);
+}
+function selectSearchResult(m){
+  var changed=false;
+  if(cfg.mode==="my"){cfg.mode="grid";changed=true;}
+  if(selB.size&&!selB.has(m.box)){selB.clear();changed=true;}
+  if(changed){saveCfg();applyCols();updateViewIcon();buildMenu();}
+  render();
+  var cell=null;
+  for(var i=0;i<allCells.length;i++){if(allCells[i]._m&&allCells[i]._m.key===m.key){cell=allCells[i];break;}}
+  if(!cell)return;
+  requestAnimationFrame(function(){
+    scrollToCell(cell);
+    cell.classList.remove("searchHit");void cell.offsetWidth;
+    cell.classList.add("searchHit");
+    setTimeout(function(){cell.classList.remove("searchHit")},1200);
+  });
+}
+function renderSearchResults(){
+  var q=$("searchInput").value;
+  var row=$("searchResultsRow");row.innerHTML="";
+  if(!q.trim()){closeSearchResults();return;}
+  var list=searchMatchList(q);
+  if(!list.length){
+    var e=document.createElement("div");e.className="srEmpty";e.textContent="검색 결과가 없습니다.";
+    row.appendChild(e);
+  }else{
+    list.forEach(function(m){
+      var it=document.createElement("div");it.className="srIt";
+      var img=document.createElement("img");img.loading="lazy";img.alt="";img.src=m.path;
+      it.appendChild(img);
+      it.addEventListener("click",function(){selectSearchResult(m)});
+      row.appendChild(it);
+    });
+  }
+  row.classList.add("on");
+}
+$("searchInput").addEventListener("input",renderSearchResults);
 
 // ---- 뽑기 팝업 ----
 var gachaOneUnit=null,gachaGridUnits=[];
@@ -1783,7 +1873,7 @@ function updateGachaDescForCoins(){
     $("gachaOk").style.display="";
   }else{
     $("gachaDesc").innerHTML='<span class="gachaCoinLine"><img class="gachaCoinIcon" src="coin.png" alt="코인"> × '+n+'</span><br>코인 1개로 로고 아이콘 1개를 뽑을 수 있습니다.';
-    $("gachaAll").textContent=n+"개 한 번에 뽑기";
+    $("gachaAll").textContent=n+"개 한꺼번에 뽑기";
     $("gachaOne").textContent="1개만 뽑기";
     $("gachaAll").style.display="";
     $("gachaOne").style.display="";
@@ -1835,7 +1925,7 @@ function buildMenu(){
     },bc);
   });
   var soc=$("sortchips");soc.innerHTML="";
-  [[0,"번호순"],[1,"획득순(↑)"],[2,"획득순(↓)"]].forEach(function(o){
+  [[0,"번호순"],[1,"획득순↑"],[2,"획득순↓"]].forEach(function(o){
     chip(o[1],cfg.sortOrder===o[0],function(){cfg.sortOrder=o[0];saveCfg();render();buildMenu()},soc);
   });
   var mmc=$("mdModeChips");mmc.innerHTML="";
