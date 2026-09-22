@@ -83,10 +83,10 @@
   .ssHelper:nth-child(1){grid-row:1}
   .ssHelper:nth-child(2){grid-row:2}
   .ssStage{grid-column:1 / 4;grid-row:1 / 3;position:relative;overflow:hidden;border-radius:12px;background:var(--p-gray-light);cursor:pointer}
-  .ssImg{position:absolute;top:8px;left:8%;width:84%;height:calc(100% - 16px);object-fit:contain;pointer-events:none;-webkit-user-drag:none;opacity:0}
+  .ssImg{position:absolute;top:0;left:8%;width:84%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;opacity:0}
   .ssCtrl{position:absolute;top:8px;right:8px;display:flex;gap:10px;z-index:5}
-  .ssBtn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--p-gray)}
-  .ssBtn svg{width:22px;height:22px;fill:currentColor;display:block}
+  .ssBtn{width:22px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--p-gray)}
+  .ssBtn svg{width:18px;height:18px;fill:currentColor;display:block}
   .ssStageMsg{cursor:default;display:flex;align-items:center;justify-content:center;padding:20px}
   .ssEmptyMsg{text-align:center;color:var(--p-gray);font-size:13px;line-height:1.6}
   #pad{height:24px}
@@ -223,21 +223,11 @@
   #wrap.searchOpen #searchBar{max-height:60px}
   #searchInputWrap{position:relative;margin:0 0 8px}
   #searchBar input{width:100%;box-sizing:border-box;background:var(--p-white);border:none;border-radius:12px;color:var(--p-black);font-size:15px;padding:10px 36px 10px 12px;outline:none}
-  #searchBar input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none;display:none}
-  #searchBar input{-moz-appearance:textfield}
   #searchClearBtn{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;background:none;border:none;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
   #searchClearBtn:active{opacity:.55}
   #searchClearBtn span{position:absolute;width:14px;height:2px;border-radius:1px;background:var(--p-black)}
   #searchClearBtn span:nth-child(1){transform:rotate(45deg)}
   #searchClearBtn span:nth-child(2){transform:rotate(-45deg)}
-  #searchResults{display:none;background:rgba(0,0,0,.8);border-radius:12px;margin:0 0 8px;padding:10px 8px;box-sizing:border-box}
-  #searchResults.on{display:block}
-  #searchResultsRow{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}
-  #searchResultsRow .srIt{flex:none;width:52px;height:52px;cursor:pointer}
-  #searchResultsRow .srIt img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}
-  #searchResultsRow .srEmpty{color:var(--p-gray);font-size:13px;padding:14px 4px;white-space:nowrap}
-  @keyframes searchHitPulse{0%{box-shadow:0 0 0 0 rgba(255,207,15,.9)}70%{box-shadow:0 0 0 10px rgba(255,207,15,0)}100%{box-shadow:0 0 0 0 rgba(255,207,15,0)}}
-  .cell.searchHit img{animation:searchHitPulse 1.1s ease;border-radius:10px}
   #sections{display:flex;flex-direction:column;gap:8px;margin-top:8px}
   .mydesignAdd{position:relative;overflow:hidden;margin:0 10px;height:64px;background:var(--p-gray-light);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer}
   .mdPlusBadge{width:34px;height:34px;border-radius:50%;background:var(--p-white);border:2px solid var(--p-gray);box-sizing:border-box;display:flex;align-items:center;justify-content:center;transition:opacity .18s ease,transform .18s ease}
@@ -305,8 +295,7 @@
       <input id="answer" type="search" name="pokemon-answer" placeholder="포켓몬 이름 입력" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       <button id="answerClearBtn" type="button" aria-label="입력 지우기"><span></span><span></span></button>
     </div>
-    <div id="searchBar"><div id="searchInputWrap"><input id="searchInput" type="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="도감번호 또는 이름 검색"><button id="searchClearBtn" type="button" aria-label="검색어 지우기"><span></span><span></span></button></div></div>
-    <div id="searchResults"><div id="searchResultsRow"></div></div>
+    <div id="searchBar"><div id="searchInputWrap"><input id="searchInput" type="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"><button id="searchClearBtn" type="button" aria-label="검색어 지우기"><span></span><span></span></button></div></div>
   </div>
   <div id="sections"></div>
   <div id="disclaimer">본 사이트는 팬이 만든 비공식 사이트로, 닌텐도, 게임프리크, 주식회사 포켓몬과는 어떠한 관계도 없습니다. Pokemon은 닌텐도 / Creatures Inc. / Game Freak Inc.의 상표입니다. 모든 게임 콘텐츠, 이미지, 상표는 각 권리자에게 귀속됩니다.</div>
@@ -355,9 +344,9 @@
     <img id="gachaResult" alt=""><img id="gachaResultWhite" alt="">
   </div>
   <div id="gachaGrid"></div>
-  <button id="gachaAll">한꺼번에 모두 뽑기</button>
+  <button id="gachaAll">한 번에 모두 뽑기</button>
   <button id="gachaOne">한 개만 뽑기</button>
-  <button id="gachaOpenAll" style="display:none">모두 열기</button>
+  <button id="gachaOpenAll" style="display:none">한번에 모두 열기</button>
   <button id="gachaOk" style="display:none">확인</button>
 </div></div>
 <div id="iconModal" class="modal"><div class="box">
@@ -1612,73 +1601,15 @@ $("viewBtn").onclick=cycleViewMode;
 updateViewIcon();
 
 // ---- 검색(헤더 아래로 펼쳐지는 검색창) ----
-function closeSearchResults(){
-  $("searchResults").classList.remove("on");
-  $("searchResultsRow").innerHTML="";
-}
 $("searchBtn").onclick=function(){
   var open=$("wrap").classList.toggle("searchOpen");
-  if(open){setTimeout(function(){$("searchInput").focus()},300);}
-  else{$("searchInput").value="";closeSearchResults();}
+  if(open)setTimeout(function(){$("searchInput").focus()},300);
 };
 $("searchClearBtn").addEventListener("click",function(){
   var inp=$("searchInput");
   inp.value="";
   inp.focus();
-  closeSearchResults();
 });
-// 검색어(도감번호 또는 이름)와 일치하는, 보유한 로고 아이콘 목록을 찾는다.
-function searchMatchList(qRaw){
-  var q=(qRaw||"").trim();
-  if(!q)return [];
-  var isNum=/^\d+$/.test(q);
-  var nq=norm(q);
-  var out=mdAcquiredList().filter(function(m){
-    if(isNum){
-      var dexStr=("000"+m.dex).slice(-4);
-      return dexStr.indexOf(q)>=0;
-    }
-    return norm(p30Name(m)).indexOf(nq)>=0;
-  });
-  out.sort(function(a,b){return a.dex-b.dex||a.form-b.form});
-  return out.slice(0,40);
-}
-function selectSearchResult(m){
-  var changed=false;
-  if(cfg.mode==="my"){cfg.mode="grid";changed=true;}
-  if(selB.size&&!selB.has(m.box)){selB.clear();changed=true;}
-  if(changed){saveCfg();applyCols();updateViewIcon();buildMenu();}
-  render();
-  var cell=null;
-  for(var i=0;i<allCells.length;i++){if(allCells[i]._m&&allCells[i]._m.key===m.key){cell=allCells[i];break;}}
-  if(!cell)return;
-  requestAnimationFrame(function(){
-    scrollToCell(cell);
-    cell.classList.remove("searchHit");void cell.offsetWidth;
-    cell.classList.add("searchHit");
-    setTimeout(function(){cell.classList.remove("searchHit")},1200);
-  });
-}
-function renderSearchResults(){
-  var q=$("searchInput").value;
-  var row=$("searchResultsRow");row.innerHTML="";
-  if(!q.trim()){closeSearchResults();return;}
-  var list=searchMatchList(q);
-  if(!list.length){
-    var e=document.createElement("div");e.className="srEmpty";e.textContent="검색 결과가 없습니다.";
-    row.appendChild(e);
-  }else{
-    list.forEach(function(m){
-      var it=document.createElement("div");it.className="srIt";
-      var img=document.createElement("img");img.loading="lazy";img.alt="";img.src=m.path;
-      it.appendChild(img);
-      it.addEventListener("click",function(){selectSearchResult(m)});
-      row.appendChild(it);
-    });
-  }
-  $("searchResults").classList.add("on");
-}
-$("searchInput").addEventListener("input",renderSearchResults);
 
 // ---- 뽑기 팝업 ----
 var gachaOneUnit=null,gachaGridUnits=[];
@@ -1852,7 +1783,7 @@ function updateGachaDescForCoins(){
     $("gachaOk").style.display="";
   }else{
     $("gachaDesc").innerHTML='<span class="gachaCoinLine"><img class="gachaCoinIcon" src="coin.png" alt="코인"> × '+n+'</span><br>코인 1개로 로고 아이콘 1개를 뽑을 수 있습니다.';
-    $("gachaAll").textContent=n+"개 한꺼번에 뽑기";
+    $("gachaAll").textContent=n+"개 한 번에 뽑기";
     $("gachaOne").textContent="1개만 뽑기";
     $("gachaAll").style.display="";
     $("gachaOne").style.display="";
