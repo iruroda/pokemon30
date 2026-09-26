@@ -30,7 +30,7 @@
     html.scrolling,#mpanel.scrolling{scrollbar-color:rgba(239,239,239,.28) transparent}
   }
   #wrap{max-width:520px;margin:0 auto;min-height:100dvh}
-  #mtitle{position:sticky;top:0;z-index:2;flex:none;display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;padding:16px 36px 12px 16px;background:var(--p-white)}
+  #mtitle{position:sticky;top:0;z-index:2;flex:none;display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;padding:12px 12px 8px 12px;background:var(--p-white)}
   #mtitle img{width:24px;height:24px}
   #topbar{position:sticky;top:0;z-index:10;background:var(--p-yellow);padding:10px 12px 0;border-bottom:none}
   #row1{display:flex;align-items:center;gap:8px;height:34px;margin-bottom:8px;padding-right:38px}
@@ -88,20 +88,21 @@
   .ssImg{position:absolute;top:8px;left:8%;width:84%;height:calc(100% - 16px);object-fit:contain;pointer-events:none;-webkit-user-drag:none;opacity:0}
   .ssCtrl{position:absolute;top:8px;right:8px;display:flex;gap:10px;z-index:5}
   .ssBtn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--p-gray)}
+  .ssBtn.dis{opacity:.35;cursor:default}
   .ssBtn svg{width:22px;height:22px;fill:currentColor;display:block}
   .ssStageMsg{cursor:default;display:flex;align-items:center;justify-content:center;padding:20px}
   .ssEmptyMsg{text-align:center;color:var(--p-gray);font-size:13px;line-height:1.6}
-  #pad{height:24px}
+  #pad{height:12px}
   #menu{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:20;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility 0s linear .18s}
   #menu.on{opacity:1;visibility:visible;transition:opacity .18s ease}
   #mpanel{position:fixed;top:0;right:calc(max(0px, (100vw - 520px) / 2));width:min(320px,88vw);height:100%;background:var(--p-white);padding:0;overflow-y:auto;display:flex;flex-direction:column;overscroll-behavior:contain;z-index:21;opacity:0;visibility:hidden;transform:scale(.96);transform-origin:top right;transition:opacity .15s ease,transform .15s ease,visibility 0s linear .15s}
   #mpanel.on{opacity:1;visibility:visible;transform:scale(1);transition:opacity .15s ease,transform .15s ease}
-  #mbody{padding:0 16px 28px}
-  .mgroup{margin-top:36px}
-  #mbody .mgroup:first-child{margin-top:18px}
-  /* 사이드 메뉴 헤더 아래 보유 현황: 옅은회색 박스(8px 라운드, 안쪽 6px, 줄높이 17px로 고정해 상하좌우 여백을 같게) 안에 코인 ×개수 : 로고 아이콘 획득수 / 1324 = 2:3 (위 12px, 아래 18px). 17px 아이콘/숫자는 세로 가운데, 작은 글씨는 숫자와 아래(베이스라인) 정렬 */
-  #mstats{display:flex;align-items:center;margin-top:12px;padding:6px;line-height:1;background:var(--p-gray-light);border-radius:8px;box-sizing:border-box;color:var(--p-black)}
-  #mstats + .mgroup{margin-top:18px}
+  #mbody{padding:0 12px 28px}
+  .mgroup{margin-top:24px}
+  #mbody .mgroup:first-child{margin-top:8px}
+  /* 사이드 메뉴 헤더 아래 보유 현황: 옅은회색 박스(8px 라운드, 안쪽 6px, 줄높이 17px로 고정해 상하좌우 여백을 같게) 안에 코인 ×개수 : 로고 아이콘 획득수 / 1324 = 2:3 (위 8px, 아래 12px). 17px 아이콘/숫자는 세로 가운데, 작은 글씨는 숫자와 아래(베이스라인) 정렬 */
+  #mstats{display:flex;align-items:center;margin-top:8px;padding:6px;line-height:1;background:var(--p-gray-light);border-radius:8px;box-sizing:border-box;color:var(--p-black)}
+  #mstats + .mgroup{margin-top:12px}
   #mstats .msHalf{min-width:0;height:17px;display:flex;align-items:baseline;gap:4px;font-size:13.5px;font-weight:700;white-space:nowrap}
   #mstats .msCoin{flex:2 1 0;align-items:center}
   #mstats .msLogo{flex:3 1 0}
@@ -122,8 +123,8 @@
   .chip.on{background:var(--p-yellow);border-color:var(--p-yellow);color:var(--p-black)}
   .mbig{width:100%;background:var(--p-white);border:1.5px solid rgba(0,0,0,.2);color:var(--p-black);border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;margin:14px 0 0}
   .mbig.warn{color:var(--p-red);border-color:var(--p-red)}
-  #disclaimer{font-size:7.5px;line-height:1.5;color:var(--p-gray);text-align:center;margin:10px auto 0;padding:0 16px;opacity:.6}
-  #greetmsg{display:none;margin:48px 0 0;font-size:12.5px;font-weight:600;color:var(--p-gray);text-align:left}
+  #disclaimer{font-size:7.5px;line-height:1.5;color:var(--p-gray);text-align:center;margin:12px auto 0;padding:0 12px;opacity:.6}
+  #greetmsg{display:none;margin:36px 0 0;font-size:12.5px;font-weight:600;color:var(--p-gray);text-align:left}
   #greetmsg.show{display:block}
   #greetmsg.hint{font-weight:600;color:var(--p-gray)}
   #greetmsg.show + .mrow{margin-top:8px}
@@ -142,6 +143,7 @@
   .gachaCoinIcon{width:17px;height:17px;object-fit:contain;flex:none}
   .gachaCoinIconInline{width:16px;height:16px;object-fit:contain;vertical-align:-3px;margin:0 1px}
   .modal button{margin-top:0;background:var(--p-yellow);border:none;border-radius:12px;height:36px;padding:0;box-sizing:border-box;font-size:15px;font-weight:700;color:var(--p-black);cursor:pointer;width:100%}
+  .modal button:disabled{background:var(--p-gray-light);color:var(--p-gray);cursor:default}
   .modal button.modalX{position:absolute;top:14px;right:14px;width:28px;height:28px;margin:0;padding:0;background:none;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
   .modal button.modalX span{position:absolute;width:14px;height:2px;border-radius:1px;background:var(--p-gray)}
   .modal button.modalX span:nth-child(1){transform:rotate(45deg)}
@@ -311,7 +313,7 @@
   #mdPickerBackdrop.on{display:block}
   /* 선택창: 오른쪽 위에 폴더 인덱스(탭)가 붙은 모양. 탭과 본체는 같은 반투명 배경이고,
      탭이 붙는 본체의 오른쪽 위 모서리는 둥글리지 않아 탭의 오른쪽 변과 본체 오른쪽 변이 한 줄로 이어진다. */
-  #mdPicker{display:none;position:fixed;left:12px;right:12px;bottom:calc(16px + env(safe-area-inset-bottom));margin:0 auto;max-width:496px;background:rgba(0,0,0,.55);border-radius:18px 0 18px 18px;padding:12px 10px 12px;z-index:32}
+  #mdPicker{display:none;position:fixed;left:12px;right:12px;bottom:16px;margin:0 auto;max-width:496px;background:rgba(0,0,0,.55);border-radius:18px 0 18px 18px;padding:12px 10px 12px;z-index:32}
   #mdPicker.on{display:block}
   #mdPickerFav{position:absolute;bottom:100%;right:0;width:44px;height:38px;border-radius:12px 12px 0 0;background:rgba(0,0,0,.55);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
   #mdPickerFav svg{width:20px;height:20px;display:block}
@@ -1282,6 +1284,12 @@ function ssBuild(root,id){
     }
     S.frontIdx=1-S.frontIdx;
   }
+  // 쓸모없는 순간의 버튼은 비활성화: 되감기는 기록 맨 앞일 때, 로고가 1개뿐이면 되감기·빨리감기 둘 다.
+  function updateBtns(){
+    var single=ssPoolList().length<=1;
+    btnPrev.classList.toggle("dis",single||S.histIdx<=0);
+    btnNext.classList.toggle("dis",single);
+  }
   function startTimer(){clearInterval(S.timer);S.timer=setInterval(advance,SS_INTERVAL);}
   function stopTimer(){clearInterval(S.timer);S.timer=null;}
   function setPlaying(p){
@@ -1297,15 +1305,17 @@ function ssBuild(root,id){
     if(!next)return;
     pushHist(next);
     animateTo(next);
+    updateBtns();
   }
   function goPrev(){
-    if(!S.alive||S.histIdx<=0)return;
+    if(!S.alive||S.histIdx<=0||ssPoolList().length<=1)return;
     S.histIdx--;
     showInstant(S.history[S.histIdx]);
+    updateBtns();
     if(S.playing&&!document.hidden)startTimer();
   }
   function goNext(){
-    if(!S.alive)return;
+    if(!S.alive||ssPoolList().length<=1)return;
     if(S.histIdx<S.history.length-1){
       S.histIdx++;
       showInstant(S.history[S.histIdx]);
@@ -1316,9 +1326,11 @@ function ssBuild(root,id){
       pushHist(next);
       showInstant(next);
     }
+    updateBtns();
     if(S.playing&&!document.hidden)startTimer();
   }
   showInstant(first);
+  updateBtns();
   btnPlay.innerHTML=S.playing?SS_ICON_PLAY:SS_ICON_PAUSE;
   stage.addEventListener("click",function(e){
     if(e.target.closest(".ssCtrl"))return;
@@ -1934,7 +1946,7 @@ function gachaCommit(){
   localStorage.setItem("p30imgfound",JSON.stringify(Array.from(p30ImgFound)));
   pushToServer();
 }
-function runGachaUnit(wrap,ball,ballWhite,shadow,result,resultWhite,dropDelay,pick){
+function runGachaUnit(wrap,ball,ballWhite,shadow,result,resultWhite,dropDelay,pick,onOpen){
   var wiggleTimer=null,dropTimer=null,opened=false;
   var wrapBase=wrap.className,shadowBase=shadow.className;
   // 뽑을 로고를 몬스터볼이 만들어지는 시점에 미리 정해두고, 화면에 보이지 않는
@@ -1982,6 +1994,7 @@ function runGachaUnit(wrap,ball,ballWhite,shadow,result,resultWhite,dropDelay,pi
     if(opened)return;
     if(wrap.classList.contains("opening")||wrap.classList.contains("condensing"))return;
     opened=true;
+    if(onOpen)onOpen();
     clearTimeout(wiggleTimer);wiggleTimer=null;
     if(!wrap.classList.contains("settled"))setWrapCls("settled");
     wrap.classList.add("condensing");
@@ -2046,6 +2059,10 @@ function startGachaAll(){
   while(coin30>=1){var pk=gachaDrawOne();if(!pk)break;picks.push(pk);}
   var n=picks.length;
   if(!n){updateGachaDescForCoins();return;}
+  // 몬스터볼을 하나씩 직접 열든 "모두 열기"로 열든, 전부 열리면 "모두 열기" 버튼을 비활성화한다.
+  var openedCnt=0;
+  $("gachaOpenAll").disabled=false;
+  function onUnitOpen(){openedCnt++;if(openedCnt>=n)$("gachaOpenAll").disabled=true;}
   gachaCommit();
   $("gachaDesc").style.display="none";
   $("gachaAll").style.display="none";
@@ -2065,7 +2082,7 @@ function startGachaAll(){
     stage.appendChild(shadow);stage.appendChild(wrap);stage.appendChild(result);stage.appendChild(resultWhite);
     grid.appendChild(stage);
     var delay=Math.floor(i/3)*160+Math.random()*90;
-    gachaGridUnits.push(runGachaUnit(wrap,ball,ballWhite,shadow,result,resultWhite,delay,picks[i]));
+    gachaGridUnits.push(runGachaUnit(wrap,ball,ballWhite,shadow,result,resultWhite,delay,picks[i],onUnitOpen));
   }
   grid.style.display=n?"grid":"none";
   // 애니메이션 끄기 상태에서는 결과가 바로 공개되므로(직접 열 필요 없음) "모두 열기" 버튼을 보이지 않는다.
@@ -2085,7 +2102,8 @@ function updateGachaDescForCoins(){
     $("gachaDesc").innerHTML='<span class="gachaCoinLine"><img class="gachaCoinIcon" src="coin.png" alt="코인">×'+n+'</span>코인 1개로 로고 아이콘 1개를<br>뽑을 수 있습니다.';
     $("gachaAll").textContent=n+"개 한꺼번에 뽑기";
     $("gachaOne").textContent="1개만 뽑기";
-    $("gachaAll").style.display="";
+    // 코인이 1개면 "1개 한꺼번에 뽑기"는 "1개만 뽑기"와 같은 동작이라 숨긴다.
+    $("gachaAll").style.display=n>=2?"":"none";
     $("gachaOne").style.display="";
     $("gachaOk").style.display="none";
   }
