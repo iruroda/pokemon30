@@ -1777,9 +1777,18 @@ function syncFromServer(){
     var _earnRaw=(typeof d.coin30Earned==="number")?d.coin30Earned:d.coin30earned;
     coin30earned=(typeof _earnRaw==="number"&&isFinite(_earnRaw)&&_earnRaw>=0)?Math.floor(_earnRaw):0;
     var _coinBefore=coin30;
+    // 규칙 검사: 획득한 로고 수는 누적 획득 코인보다 많을 수 없다(로고 1개 = 코인 1개).
+    // 예전 버전(기본값이 "전부 보유")이 남긴 잘못된 기록이면 보유 로고/즐겨찾기/마이 디자인을 비우고 서버에도 반영한다.
+    var _invalidFound=p30ImgFound.size>Math.min(coin30earned,COIN30_MAX);
+    if(_invalidFound){
+      p30ImgFound=new Set();p30Favs=new Set();cfg.myDesign=[];
+      localStorage.setItem("p30imgfound","[]");localStorage.setItem("p30favs","[]");
+      localStorage.removeItem("p30gachacel");
+      saveCfg();
+    }
     enforceCoinCap();
     cacheCoin30();
-    if(coin30!==_coinBefore)pushToServer(); // 규칙에 맞게 보정된 코인 개수를 서버에도 반영
+    if(coin30!==_coinBefore||_invalidFound)pushToServer(); // 규칙에 맞게 보정된 코인 개수를 서버에도 반영
     var cfgDirty=false;
     if(cfg.sil&&!stats.sil){cfg.sil=false;document.body.classList.remove("shadow");cfgDirty=true;}
     if(cfg.typ&&!stats.typ){cfg.typ=false;cfgDirty=true;}
