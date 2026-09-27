@@ -30,10 +30,10 @@
     html.scrolling,#mpanel.scrolling{scrollbar-color:rgba(239,239,239,.28) transparent}
   }
   #wrap{max-width:520px;margin:0 auto;min-height:100dvh}
-  #mtitle{position:sticky;top:0;z-index:2;flex:none;display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;padding:12px 12px 8px 12px;background:var(--p-white)}
+  #mtitle{position:sticky;top:0;z-index:2;flex:none;display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;padding:12px 0 8px 0;background:var(--p-white)}
   #mtitle img{width:24px;height:24px}
-  #topbar{position:sticky;top:0;z-index:10;background:var(--p-yellow);padding:10px 12px 0;border-bottom:none}
-  #row1{display:flex;align-items:center;gap:8px;height:34px;margin-bottom:8px;padding-right:38px}
+  #topbar{position:sticky;top:0;z-index:10;background:var(--p-yellow);padding:10px 12px 8px;border-bottom:none}
+  #row1{display:flex;align-items:center;gap:8px;height:34px;margin-bottom:0;padding-right:38px}
   #progresswrap{flex:1}
   #ptextrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
   #ptext{font-size:12px;color:var(--p-gray);white-space:nowrap;flex:none}
@@ -95,9 +95,9 @@
   #pad{height:12px}
   #menu{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:20;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility 0s linear .18s}
   #menu.on{opacity:1;visibility:visible;transition:opacity .18s ease}
-  #mpanel{position:fixed;top:0;right:calc(max(0px, (100vw - 520px) / 2));width:min(320px,88vw);height:100%;background:var(--p-white);padding:0;overflow-y:auto;display:flex;flex-direction:column;overscroll-behavior:contain;z-index:21;opacity:0;visibility:hidden;transform:scale(.96);transform-origin:top right;transition:opacity .15s ease,transform .15s ease,visibility 0s linear .15s}
+  #mpanel{position:fixed;top:0;right:calc(max(0px, (100vw - 520px) / 2));width:min(320px,88vw);height:100%;background:var(--p-white);padding:0 16px;overflow-y:auto;display:flex;flex-direction:column;overscroll-behavior:contain;z-index:21;opacity:0;visibility:hidden;transform:scale(.96);transform-origin:top right;transition:opacity .15s ease,transform .15s ease,visibility 0s linear .15s}
   #mpanel.on{opacity:1;visibility:visible;transform:scale(1);transition:opacity .15s ease,transform .15s ease}
-  #mbody{padding:0 12px 28px}
+  #mbody{padding:0 0 28px}
   .mgroup{margin-top:24px}
   #mbody .mgroup:first-child{margin-top:8px}
   /* 사이드 메뉴 헤더 아래 보유 현황: 옅은회색 박스(8px 라운드, 안쪽 6px, 줄높이 17px로 고정해 상하좌우 여백을 같게) 안에 코인 ×개수 : 로고 아이콘 획득수 / 1324 = 2:3 (위 8px, 아래 12px). 17px 아이콘/숫자는 세로 가운데, 작은 글씨는 숫자와 아래(베이스라인) 정렬 */
@@ -233,7 +233,10 @@
   #toolicons .ticon svg,#toolicons .ticon img{width:26px;height:26px;display:block}
   #searchBar{display:grid;grid-template-rows:0fr;overflow:hidden;transition:grid-template-rows .3s ease}
   #wrap.searchOpen #searchBar{grid-template-rows:1fr}
-  #searchInputWrap{overflow:hidden;min-height:0;margin:0 0 8px;background:var(--p-white);border-radius:12px;box-sizing:border-box;transform:translateY(-14px);opacity:0;transition:transform .3s ease,opacity .3s ease}
+  /* 검색창 드로워: 접혀 있을 때 여백이 헤더에 남지 않도록, 상단 8px 여백은 잘리는 래퍼(#searchBarClip) 안쪽에 둔다.
+     헤더 하단 여백 8px은 #topbar padding-bottom이 항상 담당. */
+  #searchBarClip{overflow:hidden;min-height:0}
+  #searchInputWrap{overflow:hidden;min-height:0;margin:8px 0 0;background:var(--p-white);border-radius:12px;box-sizing:border-box;transform:translateY(-14px);opacity:0;transition:transform .3s ease,opacity .3s ease}
   #wrap.searchOpen #searchInputWrap{transform:translateY(0);opacity:1}
   #searchInputRow{position:relative}
   #searchBar input{width:100%;box-sizing:border-box;background:transparent;border:none;border-radius:12px;color:var(--p-black);font-size:14px;padding:10px 36px 10px 36px;outline:none;height:34px}
@@ -348,10 +351,10 @@
       <input id="answer" type="search" name="pokemon-answer" placeholder="포켓몬 이름 입력" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       <button id="answerClearBtn" type="button" aria-label="입력 지우기"><span></span><span></span></button>
     </div>
-    <div id="searchBar"><div id="searchInputWrap">
+    <div id="searchBar"><div id="searchBarClip"><div id="searchInputWrap">
       <div id="searchInputRow"><span id="searchIcon" aria-hidden="true"><svg viewBox="0 0 14 14"><circle cx="5.8" cy="5.8" r="4.8"/><line x1="9.4" y1="9.4" x2="13" y2="13"/></svg></span><input id="searchInput" type="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"><button id="searchClearBtn" type="button" aria-label="검색어 지우기"><span></span><span></span></button></div>
       <div id="searchResultsRow"></div>
-    </div></div>
+    </div></div></div>
   </div>
   <div id="sections"></div>
   <div id="disclaimer">본 사이트는 팬이 만든 비공식 사이트로, 닌텐도, 게임프리크, 주식회사 포켓몬과는 어떠한 관계도 없습니다. Pokemon은 닌텐도 / Creatures Inc. / Game Freak Inc.의 상표입니다. 모든 게임 콘텐츠, 이미지, 상표는 각 권리자에게 귀속됩니다.</div>
@@ -1777,18 +1780,9 @@ function syncFromServer(){
     var _earnRaw=(typeof d.coin30Earned==="number")?d.coin30Earned:d.coin30earned;
     coin30earned=(typeof _earnRaw==="number"&&isFinite(_earnRaw)&&_earnRaw>=0)?Math.floor(_earnRaw):0;
     var _coinBefore=coin30;
-    // 규칙 검사: 획득한 로고 수는 누적 획득 코인보다 많을 수 없다(로고 1개 = 코인 1개).
-    // 예전 버전(기본값이 "전부 보유")이 남긴 잘못된 기록이면 보유 로고/즐겨찾기/마이 디자인을 비우고 서버에도 반영한다.
-    var _invalidFound=p30ImgFound.size>Math.min(coin30earned,COIN30_MAX);
-    if(_invalidFound){
-      p30ImgFound=new Set();p30Favs=new Set();cfg.myDesign=[];
-      localStorage.setItem("p30imgfound","[]");localStorage.setItem("p30favs","[]");
-      localStorage.removeItem("p30gachacel");
-      saveCfg();
-    }
     enforceCoinCap();
     cacheCoin30();
-    if(coin30!==_coinBefore||_invalidFound)pushToServer(); // 규칙에 맞게 보정된 코인 개수를 서버에도 반영
+    if(coin30!==_coinBefore)pushToServer(); // 규칙에 맞게 보정된 코인 개수를 서버에도 반영
     var cfgDirty=false;
     if(cfg.sil&&!stats.sil){cfg.sil=false;document.body.classList.remove("shadow");cfgDirty=true;}
     if(cfg.typ&&!stats.typ){cfg.typ=false;cfgDirty=true;}
@@ -2110,7 +2104,7 @@ function updateGachaDescForCoins(){
   }else{
     $("gachaDesc").innerHTML='<span class="gachaCoinLine"><img class="gachaCoinIcon" src="coin.png" alt="코인">×'+n+'</span>코인 1개로 로고 아이콘 1개를<br>뽑을 수 있습니다.';
     $("gachaAll").textContent=n+"개 한꺼번에 뽑기";
-    $("gachaOne").textContent="1개만 뽑기";
+    $("gachaOne").textContent=n>=2?"1개만 뽑기":"뽑기"; // 코인이 1개뿐이면 그냥 "뽑기"
     // 코인이 1개면 "1개 한꺼번에 뽑기"는 "1개만 뽑기"와 같은 동작이라 숨긴다.
     $("gachaAll").style.display=n>=2?"":"none";
     $("gachaOne").style.display="";
@@ -2120,7 +2114,8 @@ function updateGachaDescForCoins(){
 $("gachaBtn").onclick=function(){
   $("gachaModal").style.display="flex";
   updateGachaDescForCoins();
-  if(coin30>0&&cfg.gachaAlwaysAll)startGachaAll();
+  // 항상 한꺼번에 뽑기: 코인이 2개 이상이면 한꺼번에, 1개뿐이면 1개 뽑기 화면으로 바로 들어간다.
+  if(cfg.gachaAlwaysAll&&coin30>0){if(coin30>=2)startGachaAll();else startGachaOne();}
 };
 $("gachaClose").onclick=closeGachaModal;
 $("gachaModal").onclick=function(e){if(e.target===$("gachaModal"))closeGachaModal()};
