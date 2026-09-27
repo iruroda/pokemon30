@@ -30,7 +30,7 @@
     html.scrolling,#mpanel.scrolling{scrollbar-color:rgba(239,239,239,.28) transparent}
   }
   #wrap{max-width:520px;margin:0 auto;min-height:100dvh}
-  #mtitle{position:sticky;top:0;z-index:2;flex:none;display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;padding:12px 0 8px 0;background:var(--p-white)}
+  #mtitle{position:sticky;top:0;z-index:2;flex:none;display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;padding:16px 0 8px 0;background:var(--p-white)}
   #mtitle img{width:24px;height:24px}
   #topbar{position:sticky;top:0;z-index:10;background:var(--p-yellow);padding:10px 12px 8px;border-bottom:none}
   #row1{display:flex;align-items:center;gap:8px;height:34px;margin-bottom:0;padding-right:38px}
@@ -97,7 +97,7 @@
   #menu.on{opacity:1;visibility:visible;transition:opacity .18s ease}
   #mpanel{position:fixed;top:0;right:calc(max(0px, (100vw - 520px) / 2));width:min(320px,88vw);height:100%;background:var(--p-white);padding:0 16px;overflow-y:auto;display:flex;flex-direction:column;overscroll-behavior:contain;z-index:21;opacity:0;visibility:hidden;transform:scale(.96);transform-origin:top right;transition:opacity .15s ease,transform .15s ease,visibility 0s linear .15s}
   #mpanel.on{opacity:1;visibility:visible;transform:scale(1);transition:opacity .15s ease,transform .15s ease}
-  #mbody{padding:0 0 28px}
+  #mbody{padding:0 0 16px}
   .mgroup{margin-top:24px}
   #mbody .mgroup:first-child{margin-top:8px}
   /* 사이드 메뉴 헤더 아래 보유 현황: 옅은회색 박스(8px 라운드, 안쪽 6px, 줄높이 17px로 고정해 상하좌우 여백을 같게) 안에 코인 ×개수 : 로고 아이콘 획득수 / 1324 = 2:3 (위 8px, 아래 12px). 17px 아이콘/숫자는 세로 가운데, 작은 글씨는 숫자와 아래(베이스라인) 정렬 */
