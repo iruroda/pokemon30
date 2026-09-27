@@ -1454,17 +1454,18 @@ function scrollToCell(cell){
 // 클릭+드래그를 스크롤로 변환해준다(터치/펜은 브라우저 기본 동작을 그대로 씀).
 function attachHDragScroll(el){
   if(!el)return;
-  var dragging=false,startX=0,startScroll=0,moved=false;
+  var dragging=false,startX=0,startScroll=0,moved=false,pid=null;
   el.addEventListener("pointerdown",function(e){
     if(e.pointerType!=="mouse")return;
-    dragging=true;moved=false;startX=e.clientX;startScroll=el.scrollLeft;
+    dragging=true;moved=false;startX=e.clientX;startScroll=el.scrollLeft;pid=e.pointerId;
     el.classList.add("hdrag");
-    try{el.setPointerCapture(e.pointerId)}catch(err){}
+    // 포인터 캡처는 실제로 끌기 시작한 뒤에 건다. 누르자마자 캡처하면 click 대상이 아이콘이 아니라
+    // 목록 전체로 바뀌어서, 마우스로 아이콘을 클릭해도 선택되지 않았음(마이 디자인 선택창/검색 결과).
   });
   el.addEventListener("pointermove",function(e){
     if(!dragging)return;
     var dx=e.clientX-startX;
-    if(Math.abs(dx)>3)moved=true;
+    if(!moved&&Math.abs(dx)>3){moved=true;try{el.setPointerCapture(pid)}catch(err){}}
     el.scrollLeft=startScroll-dx;
   });
   function endDrag(e){
@@ -1890,6 +1891,7 @@ var gachaOneUnit=null,gachaGridUnits=[];
 function closeGachaModal(){
   $("gachaModal").style.display="none";
   resetGachaStage();
+  gachaReserved.clear(); // 안 연 몬스터볼은 코인을 쓰지 않았으므로 정해둔 결과만 버린다
   if(gachaDirty){
     // 뽑은 결과는 뽑는 즉시 저장해두고, 메인 화면은 팝업을 닫을 때 한 번만 다시 그린다.
     gachaDirty=false;
@@ -1930,18 +1932,40 @@ function resetGachaStage(){
 // 저장은 호출하는 쪽에서 한 번에 한다(여러 개를 한꺼번에 뽑을 때 저장/동기화를 한 번만 하려고).
 var PIKACHU_KEY=2501;
 var gachaDirty=false;
-function gachaDrawOne(){
-  if(coin30<1)return null;
-  var pick=null;
-  if(p30ImgFound.size===0)pick=mdMetaByKey(PIKACHU_KEY);
-  if(!pick){
-    var rest=IMG30META.filter(function(m){return !p30ImgFound.has(m.key)});
-    if(!rest.length)return null;
-    pick=rest[Math.floor(Math.random()*rest.length)];
+// 획득 시점 = 몬스터볼을 "여는" 순간(애니메이션 끄기면 결과가 바로 보이는 순간).
+// 몬스터볼이 나타날 때는 결과만 미리 정해두고(gachaReserve, 코인·보유 목록은 그대로),
+// 열 때 gachaAcquire로 코인 1개 차감 + 로고 획득 + 저장한다. 안 연 몬스터볼은 코인을 쓰지 않은 것.
+var gachaReserved=new Set(); // 이번 팝업에서 정해두었지만 아직 안 연 로고(서로 겹치지 않게)
+function gachaRandomFree(){
+  var rest=IMG30META.filter(function(m){return !p30ImgFound.has(m.key)&&!gachaReserved.has(m.key)});
+  return rest.length?rest[Math.floor(Math.random()*rest.length)]:null;
+}
+function gachaReserve(n){
+  var picks=[];
+  var avail=Math.min(Math.max(0,Math.floor(coin30||0)),COIN30_MAX-p30ImgFound.size);
+  for(var i=0;i<n&&i<avail;i++){
+    var pk=null;
+    if(p30ImgFound.size===0&&!gachaReserved.has(PIKACHU_KEY))pk=mdMetaByKey(PIKACHU_KEY);
+    if(!pk)pk=gachaRandomFree();
+    if(!pk)break;
+    gachaReserved.add(pk.key);picks.push(pk);
   }
+  return picks;
+}
+// 여는 순간 실제 획득. 첫 획득은 무조건 피카츄(한꺼번에 뽑기에서 피카츄가 아닌 볼을 먼저 열어도),
+// 정해둔 로고가 그 사이 이미 보유 상태가 됐으면 겹치지 않는 다른 로고로 바꾼다. 반환값이 최종 결과.
+function gachaAcquire(pick){
+  if(coin30<1)return null;
+  gachaReserved.delete(pick.key);
+  if(p30ImgFound.size===0&&pick.key!==PIKACHU_KEY){
+    gachaReserved.delete(PIKACHU_KEY);
+    pick=mdMetaByKey(PIKACHU_KEY)||pick;
+  }
+  if(p30ImgFound.has(pick.key)){pick=gachaRandomFree();if(!pick)return null;}
   coin30-=1;
   p30ImgFound.add(pick.key);
   gachaDirty=true;
+  gachaCommit();
   return pick;
 }
 function gachaCommit(){
@@ -1996,6 +2020,9 @@ function runGachaUnit(wrap,ball,ballWhite,shadow,result,resultWhite,dropDelay,pi
   function openNow(){
     if(opened)return;
     if(wrap.classList.contains("opening")||wrap.classList.contains("condensing"))return;
+    var got=gachaAcquire(pick);
+    if(!got)return; // 코인이 없는 등 획득할 수 없으면 열지 않음
+    pick=got;
     opened=true;
     if(onOpen)onOpen();
     clearTimeout(wiggleTimer);wiggleTimer=null;
@@ -2020,7 +2047,9 @@ function runGachaUnit(wrap,ball,ballWhite,shadow,result,resultWhite,dropDelay,pi
     },500);
   }
   if(!cfg.gachaAnim){
-    // 애니메이션 끄기: 연출 없이 바로 결과 공개(흰색 반짝임도 생략)
+    // 애니메이션 끄기: 연출 없이 바로 결과 공개(흰색 반짝임도 생략) → 이 순간이 획득 시점
+    var got0=gachaAcquire(pick);
+    if(got0)pick=got0;
     opened=true;
     setWrapCls("settled opening");
     setShadowCls("");
@@ -2046,9 +2075,8 @@ function runGachaUnit(wrap,ball,ballWhite,shadow,result,resultWhite,dropDelay,pi
   };
 }
 function startGachaOne(){
-  var pick=gachaDrawOne();
+  var pick=gachaReserve(1)[0];
   if(!pick){updateGachaDescForCoins();return;}
-  gachaCommit();
   $("gachaDesc").style.display="none";
   $("gachaAll").style.display="none";
   $("gachaOne").style.display="none";
@@ -2058,15 +2086,13 @@ function startGachaOne(){
 function startGachaAll(){
   // 보유 코인 개수만큼(남은 로고 아이콘 수를 넘지 않게) 한꺼번에 뽑는다.
   enforceCoinCap();
-  var picks=[];
-  while(coin30>=1){var pk=gachaDrawOne();if(!pk)break;picks.push(pk);}
+  var picks=gachaReserve(Math.floor(coin30||0));
   var n=picks.length;
   if(!n){updateGachaDescForCoins();return;}
   // 몬스터볼을 하나씩 직접 열든 "모두 열기"로 열든, 전부 열리면 "모두 열기" 버튼을 비활성화한다.
   var openedCnt=0;
   $("gachaOpenAll").disabled=false;
   function onUnitOpen(){openedCnt++;if(openedCnt>=n)$("gachaOpenAll").disabled=true;}
-  gachaCommit();
   $("gachaDesc").style.display="none";
   $("gachaAll").style.display="none";
   $("gachaOne").style.display="none";
